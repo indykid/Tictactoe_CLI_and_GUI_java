@@ -1,6 +1,10 @@
 package kg.jarkyn;
 
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 public class BoardTest {
@@ -10,17 +14,20 @@ public class BoardTest {
     }
 
     @Test
-    public void emptyAtTheStartByDefault() {
-        assertTrue(new Board().isEmpty());
+    public void knowsAvailablePositionsWhenNoMovesMade() {
+        Board board = new Board();
+        ArrayList<Integer> expectedAvailable = new ArrayList(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8));
+
+        assertEquals(expectedAvailable, board.available);
     }
 
     @Test
-    public void canHaveMovesFromTheStart() {
+    public void knowsAvailablePositionsWhenMovesWereMade() {
+        ArrayList<Integer> expectedAvailable = new ArrayList(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
         String[] moves = new String[9];
         moves[0] = "x";
 
-        assertFalse(new Board(moves).isEmpty());
-
+        assertEquals(expectedAvailable, new Board(moves).available);
     }
 
     @Test
@@ -46,5 +53,29 @@ public class BoardTest {
         moves[0] = "x";
 
         assertEquals(new Board(moves), newBoard);
+    }
+
+    @Test
+    public void knowsIfMoveIsValid() {
+        Board board = new Board();
+
+        assertTrue(board.isValidMove(0));
+    }
+
+    @Test
+    public void knowsOccupiedPositionIsNotValidMove() {
+        String[] moves = {"x",  null, null,
+                          null, null, null,
+                          null, null, null};
+        Board board = new Board(moves);
+
+        assertFalse(board.isValidMove(0));
+    }
+
+    @Test
+    public void knowsMoveOutsideTheBoardIsNotValid() {
+        Board board = new Board();
+
+        assertFalse(board.isValidMove(10));
     }
 }
