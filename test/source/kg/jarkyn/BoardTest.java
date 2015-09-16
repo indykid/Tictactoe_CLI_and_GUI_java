@@ -149,4 +149,21 @@ public class BoardTest {
 
         assertEquals("x", board.winnerMark());
     }
+
+    @Test
+    public void knowsIfItIsWon() {
+        String[] moves = {"x", "x", "x",
+                null, "o", "o",
+                null, null, null};
+        Board board = new Board(moves);
+
+        assertTrue(board.isWon());
+    }
+
+    @Test
+    public void knowsIfItIsNotWon() {
+        Board board = new Board();
+
+        assertFalse(board.isWon());
+    }
 }

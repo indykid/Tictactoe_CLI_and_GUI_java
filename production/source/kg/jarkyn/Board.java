@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Board {
+    public int size;
+    public ArrayList<Integer> available;
+
+    private String[] moves;
     private static final int DEFAULT_SIZE = 3;
     private static final int[][] WINNING_POSITIONS = new int[][]{
         {0, 1, 2},
@@ -16,10 +20,6 @@ public class Board {
         {2, 4, 6}
     };
 
-    public int size;
-    public String[] moves;
-    public ArrayList<Integer> available;
-
     public Board() {
         this(new String[9]);
     }
@@ -29,6 +29,7 @@ public class Board {
         this.moves = moves;
         this.available = setAvailable();
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -43,6 +44,10 @@ public class Board {
     @Override
     public int hashCode() {
         return Arrays.hashCode(moves);
+    }
+
+    public String[] getMoves() {
+        return moves;
     }
 
     public Board addMove(int position, String mark) {
@@ -101,5 +106,9 @@ public class Board {
 
     public String winnerMark() {
         return moves[winLine()[0]];
+    }
+
+    public boolean isWon() {
+        return winLine().length == size;
     }
 }
