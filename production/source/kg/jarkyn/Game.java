@@ -28,13 +28,9 @@ public class Game {
         return isDrawn() || isWon();
     }
 
-    public void addMove(int position, String mark) {
-        this.board = board.addMove(position, mark);
-    }
-
     public void playTurn() {
         ui.displayBoard(board);
-        addMove(ui.getMove(currentPlayer.mark), currentPlayer.mark);
+        addMove(ui.getMove(currentPlayer.mark));
         swapPlayers();
     }
 
@@ -51,6 +47,10 @@ public class Game {
 
     private boolean isDrawn() {
         return board.isFull() && !isWon();
+    }
+
+    private void addMove(int position) {
+        this.board = board.addMove(position, currentPlayer.mark);
     }
 
     private void swapPlayers() {
