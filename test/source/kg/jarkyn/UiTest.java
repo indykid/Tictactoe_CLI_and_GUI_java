@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class UiTest {
 
@@ -66,5 +67,35 @@ public class UiTest {
         int move = ui.getMove("x");
 
         assertEquals(4, move);
+    }
+
+    @Test
+    public void doesNotAcceptNonNumericMove() {
+        ByteArrayInputStream input = new ByteArrayInputStream("a\n5".getBytes());
+        Ui ui = new Ui(new Cli(output, input));
+
+        int move = ui.getMove("x");
+
+        assertEquals(4, move);
+    }
+
+    @Test
+    public void doesNotAcceptBlankInputAsMove() {
+        ByteArrayInputStream input = new ByteArrayInputStream("\n5".getBytes());
+        Ui ui = new Ui(new Cli(output, input));
+
+        int move = ui.getMove("x");
+
+        assertEquals(4, move);
+    }
+
+    @Test
+    public void notifiesOnInvalidMove() {
+        ByteArrayInputStream input = new ByteArrayInputStream("a\n5".getBytes());
+        Ui ui = new Ui(new Cli(output, input));
+
+        ui.getMove("x");
+
+        assertTrue(output.toString().contains("Invalid input, please try again"));
     }
 }

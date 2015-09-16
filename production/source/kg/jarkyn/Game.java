@@ -30,8 +30,17 @@ public class Game {
 
     public void playTurn() {
         ui.displayBoard(board);
-        addMove(ui.getMove(currentPlayer.mark));
+        addMove(validPosition());
         swapPlayers();
+    }
+
+    private int validPosition() {
+        int move = ui.getMove(currentPlayer.mark);
+        while (!board.isValidMove(move)) {
+            ui.notifyOfInvalidInput();
+            move = ui.getMove(currentPlayer.mark);
+        }
+        return move;
     }
 
     public void play() {

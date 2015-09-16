@@ -1,7 +1,6 @@
 package kg.jarkyn;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -130,11 +129,79 @@ public class GameTest {
         Game game = new Game(board, playerX, playerO, ui);
 
         game.play();
-        System.out.println(output.toString());
 
         assertTrue(output.toString().contains("Welcome to Ticatactoe!\n"             +
                                               "This version requires two players.\n" +
                                               "First player is assigned mark X,\n"   +
                                               "second player is assigned mark O\n"));
+    }
+
+    @Test
+    public void doesNotPlayIntoOccupiedPosition() {
+        Board board = new Board();
+        ByteArrayInputStream input = new ByteArrayInputStream("1\n1\n2".getBytes());
+        Ui ui = new Ui(new Cli(output, input));
+        Game game = new Game(board, playerX, playerO, ui);
+
+        game.playTurn();
+        game.playTurn();
+
+        assertEquals("x", game.getBoard().markAt(0));
+        assertEquals("o", game.getBoard().markAt(1));
+    }
+
+    @Test
+    public void doesNotPlayIntoNonExistingPosition() {
+        Board board = new Board();
+        ByteArrayInputStream input = new ByteArrayInputStream("10\n1\n2".getBytes());
+        Ui ui = new Ui(new Cli(output, input));
+        Game game = new Game(board, playerX, playerO, ui);
+
+        game.playTurn();
+        game.playTurn();
+
+        assertEquals("x", game.getBoard().markAt(0));
+        assertEquals("o", game.getBoard().markAt(1));
+    }
+
+    @Test
+    public void doesNotPlayIntoInvalidPosition() {
+        Board board = new Board();
+        ByteArrayInputStream input = new ByteArrayInputStream("a\n1\n2".getBytes());
+        Ui ui = new Ui(new Cli(output, input));
+        Game game = new Game(board, playerX, playerO, ui);
+
+        game.playTurn();
+        game.playTurn();
+
+        assertEquals("x", game.getBoard().markAt(0));
+        assertEquals("o", game.getBoard().markAt(1));
+    }
+
+    @Test
+    public void notifiesOfInvalidInputForNonNumericMove() {
+        Board board = new Board();
+        ByteArrayInputStream input = new ByteArrayInputStream("a\n5".getBytes());
+        Ui ui = new Ui(new Cli(output, input));
+        Game game = new Game(board, playerX, playerO, ui);
+
+        game.playTurn();
+
+        assertTrue(output.toString().contains("Invalid input, please try again"));
+    }
+
+    @Test
+    public void notifiesOfInvalidMove() {
+        Board board = new Board();
+        ByteArrayInputStream input = new ByteArrayInputStream("1\n1\n2".getBytes());
+        Ui ui = new Ui(new Cli(output, input));
+        Game game = new Game(board, playerX, playerO, ui);
+
+        game.playTurn();
+        game.playTurn();
+
+        System.out.println(output.toString());
+
+        assertTrue(output.toString().contains("Invalid input, please try again"));
     }
 }

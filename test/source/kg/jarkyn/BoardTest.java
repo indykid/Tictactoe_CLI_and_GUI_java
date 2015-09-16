@@ -153,8 +153,8 @@ public class BoardTest {
     @Test
     public void knowsIfItIsWon() {
         String[] moves = {"x", "x", "x",
-                null, "o", "o",
-                null, null, null};
+                          null, "o", "o",
+                          null, null, null};
         Board board = new Board(moves);
 
         assertTrue(board.isWon());

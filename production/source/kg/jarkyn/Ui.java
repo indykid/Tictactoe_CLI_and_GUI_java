@@ -44,6 +44,21 @@ public class Ui {
 
     public int getMove(String mark) {
         cli.show(String.format("Player %s, please select your move", mark));
-        return Integer.parseInt(cli.getInput()) - 1;
+        return parseMove() - 1;
+    }
+
+    public void notifyOfInvalidInput() {
+        cli.show("Invalid input, please try again");
+    }
+
+    private int parseMove() {
+        int move;
+        try {
+            move = Integer.parseInt(cli.getInput());
+        } catch (NumberFormatException e) {
+            notifyOfInvalidInput();
+            move = parseMove();
+        }
+        return move;
     }
 }
