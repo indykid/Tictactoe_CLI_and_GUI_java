@@ -6,8 +6,8 @@ import static org.junit.Assert.*;
 public class PlayerTest {
     @Test
     public void hasMark() {
-        Player playerX = new Player("x");
+        Player playerX = new Player(Mark.X);
 
-        assertEquals("x", playerX.mark);
+        assertEquals(Mark.X, playerX.mark);
     }
 }

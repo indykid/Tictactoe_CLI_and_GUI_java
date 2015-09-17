@@ -7,7 +7,7 @@ public class Board {
     public int size;
     public ArrayList<Integer> available;
 
-    private String[] moves;
+    private Mark[] moves;
     private static final int DEFAULT_SIZE = 3;
     private static final int[][] WINNING_POSITIONS = new int[][]{
         {0, 1, 2},
@@ -21,10 +21,10 @@ public class Board {
     };
 
     public Board() {
-        this(new String[9]);
+        this(new Mark[9]);
     }
 
-    public Board(String[] moves) {
+    public Board(Mark[] moves) {
         this.size = DEFAULT_SIZE;
         this.moves = moves;
         this.available = setAvailable();
@@ -46,17 +46,17 @@ public class Board {
         return Arrays.hashCode(moves);
     }
 
-    public String[] getMoves() {
+    public Mark[] getMoves() {
         return moves;
     }
 
-    public Board addMove(int position, String mark) {
-        String[] newMoves = moves.clone();
+    public Board addMove(int position, Mark mark) {
+        Mark[] newMoves = moves.clone();
         newMoves[position] = mark;
         return new Board(newMoves);
     }
 
-    public String markAt(int position) {
+    public Mark markAt(int position) {
         return moves[position];
     }
 
@@ -104,7 +104,7 @@ public class Board {
         return true;
     }
 
-    public String winnerMark() {
+    public Mark winnerMark() {
         return moves[winLine()[0]];
     }
 

@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+
+import static kg.jarkyn.Mark.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -34,14 +36,14 @@ public class UiTest {
     public void displaysBoard() {
         ByteArrayInputStream input = new ByteArrayInputStream("irrelevant".getBytes());
         Ui ui = new Ui(new Cli(output, input));
-        String[] moves = {"x", null, null,
+        Mark[] moves = {X, null, null,
                           null, null, null,
                           null, null, null};
         Board board = new Board(moves);
 
         ui.displayBoard(board);
 
-        assertEquals("  x |  2 |  3 \n" +
+        assertEquals("  X |  2 |  3 \n" +
                      "--------------\n" +
                      "  4 |  5 |  6 \n" +
                      "--------------\n" +
@@ -54,9 +56,9 @@ public class UiTest {
         ByteArrayInputStream input = new ByteArrayInputStream("0".getBytes());
         Ui ui = new Ui(new Cli(output, input));
 
-        ui.getMove("x");
+        ui.getMove(X);
 
-        assertEquals("Player x, please select your move\n", output.toString());
+        assertEquals("Player X, please select your move\n", output.toString());
     }
 
     @Test
@@ -64,7 +66,7 @@ public class UiTest {
         ByteArrayInputStream input = new ByteArrayInputStream("5".getBytes());
         Ui ui = new Ui(new Cli(output, input));
 
-        int move = ui.getMove("x");
+        int move = ui.getMove(X);
 
         assertEquals(4, move);
     }
@@ -74,7 +76,7 @@ public class UiTest {
         ByteArrayInputStream input = new ByteArrayInputStream("a\n5".getBytes());
         Ui ui = new Ui(new Cli(output, input));
 
-        int move = ui.getMove("x");
+        int move = ui.getMove(X);
 
         assertEquals(4, move);
     }
@@ -84,7 +86,7 @@ public class UiTest {
         ByteArrayInputStream input = new ByteArrayInputStream("\n5".getBytes());
         Ui ui = new Ui(new Cli(output, input));
 
-        int move = ui.getMove("x");
+        int move = ui.getMove(X);
 
         assertEquals(4, move);
     }
@@ -94,7 +96,7 @@ public class UiTest {
         ByteArrayInputStream input = new ByteArrayInputStream("a\n5".getBytes());
         Ui ui = new Ui(new Cli(output, input));
 
-        ui.getMove("x");
+        int move = ui.getMove(X);
 
         assertTrue(output.toString().contains("Invalid input, please try again"));
     }

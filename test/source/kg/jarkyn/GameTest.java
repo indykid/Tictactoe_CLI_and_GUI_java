@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
+import static kg.jarkyn.Mark.*;
 import static org.junit.Assert.*;
 
 public class GameTest {
@@ -15,8 +16,8 @@ public class GameTest {
 
     @Before
     public void setUp() {
-        playerX = new Player("x");
-        playerO = new Player("o");
+        playerX = new Player(X);
+        playerO = new Player(O);
         output = new ByteArrayOutputStream();
     }
 
@@ -32,9 +33,9 @@ public class GameTest {
 
     @Test
     public void knowsItIsOverWhenDrawn() {
-        String[] moves = {"x", "o", "x",
-                          "x", "x", "o",
-                          "o", "x", "o"};
+        Mark[] moves = {X, O, X,
+                          X, X, O,
+                          O, X, O};
         Board board = new Board(moves);
         ByteArrayInputStream input = new ByteArrayInputStream("irrelevant".getBytes());
         Ui ui = new Ui(new Cli(output, input));
@@ -45,9 +46,9 @@ public class GameTest {
 
     @Test
     public void knowsItIsOverWhenWon() {
-        String[] moves = {"x", "o", "x",
-                          "x", "x", "o",
-                          "o", "o", "x"};
+        Mark[] moves = {X, O, X,
+                          X, X, O,
+                          O, O, X};
         Board board = new Board(moves);
         ByteArrayInputStream input = new ByteArrayInputStream("irrelevant".getBytes());
         Ui ui = new Ui(new Cli(output, input));
@@ -81,7 +82,7 @@ public class GameTest {
 
         game.playTurn();
 
-        assertEquals("x", game.getBoard().markAt(0));
+        assertEquals(X, game.getBoard().markAt(0));
     }
 
     @Test
@@ -146,8 +147,8 @@ public class GameTest {
         game.playTurn();
         game.playTurn();
 
-        assertEquals("x", game.getBoard().markAt(0));
-        assertEquals("o", game.getBoard().markAt(1));
+        assertEquals(X, game.getBoard().markAt(0));
+        assertEquals(O, game.getBoard().markAt(1));
     }
 
     @Test
@@ -160,8 +161,8 @@ public class GameTest {
         game.playTurn();
         game.playTurn();
 
-        assertEquals("x", game.getBoard().markAt(0));
-        assertEquals("o", game.getBoard().markAt(1));
+        assertEquals(X, game.getBoard().markAt(0));
+        assertEquals(O, game.getBoard().markAt(1));
     }
 
     @Test
@@ -174,8 +175,8 @@ public class GameTest {
         game.playTurn();
         game.playTurn();
 
-        assertEquals("x", game.getBoard().markAt(0));
-        assertEquals("o", game.getBoard().markAt(1));
+        assertEquals(X, game.getBoard().markAt(0));
+        assertEquals(O, game.getBoard().markAt(1));
     }
 
     @Test

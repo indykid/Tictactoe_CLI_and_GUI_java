@@ -5,9 +5,11 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static kg.jarkyn.Mark.*;
 import static org.junit.Assert.*;
 
 public class BoardTest {
+
     @Test
     public void hasDefaultSize() {
         assertEquals(3, new Board().size);
@@ -24,33 +26,33 @@ public class BoardTest {
     @Test
     public void knowsAvailablePositionsWhenMovesWereMade() {
         ArrayList<Integer> expectedAvailable = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
-        String[] moves = new String[9];
-        moves[0] = "x";
+        Mark[] moves = new Mark[9];
+        moves[0] = X;
 
         assertEquals(expectedAvailable, new Board(moves).available);
     }
 
     @Test
     public void knowsMarkForGivenPosition() {
-        String[] moves = new String[9];
-        moves[0] = "x";
+        Mark[] moves = new Mark[9];
+        moves[0] = X;
 
-        assertEquals("x", new Board(moves).markAt(0));
+        assertEquals(X, new Board(moves).markAt(0));
     }
 
     @Test
     public void twoBoardsAreEqualIfHaveSameMoves() {
-        String[] moves = new String[9];
-        moves[0] = "x";
+        Mark[] moves = new Mark[9];
+        moves[0] = X;
 
-        assertEquals(new Board(moves), new Board().addMove(0, "x"));
+        assertEquals(new Board(moves), new Board().addMove(0, X));
     }
 
     @Test
     public void addingMoveReturnsNewBoardWithTheMoveAdded() {
-        Board newBoard = new Board().addMove(0, "x");
-        String[] moves = new String[9];
-        moves[0] = "x";
+        Board newBoard = new Board().addMove(0, X);
+        Mark[] moves = new Mark[9];
+        moves[0] = X;
 
         assertEquals(new Board(moves), newBoard);
     }
@@ -64,7 +66,7 @@ public class BoardTest {
 
     @Test
     public void knowsOccupiedPositionIsNotValidMove() {
-        String[] moves = {"x",  null, null,
+        Mark[] moves = {X,  null, null,
                           null, null, null,
                           null, null, null};
         Board board = new Board(moves);
@@ -88,9 +90,9 @@ public class BoardTest {
 
     @Test
     public void knowsWhenFull() {
-        String[] moves = {"x", "o", "x",
-                          "x", "x", "o",
-                          "o", "o", "x"};
+        Mark[] moves = {X, O, X,
+                          X, X, O,
+                          O, O, X};
         Board board = new Board(moves);
 
         assertTrue(board.isFull());
@@ -98,8 +100,8 @@ public class BoardTest {
 
     @Test
     public void returnsWinningRow() {
-        String[] moves = {"x", "x", "x",
-                          null, "o", "o",
+        Mark[] moves = {X, X, X,
+                          null, O, O,
                           null, null, null};
         Board board = new Board(moves);
         int[] expectedWinLine = {0, 1, 2};
@@ -109,9 +111,9 @@ public class BoardTest {
 
     @Test
     public void returnsWinningColumn() {
-        String[] moves = {"x", null, null,
-                          "x", "o", "o",
-                          "x", null, null};
+        Mark[] moves = {X, null, null,
+                          X, O, O,
+                          X, null, null};
         Board board = new Board(moves);
         int[] expectedWinLine = {0, 3, 6};
 
@@ -120,9 +122,9 @@ public class BoardTest {
 
     @Test
     public void returnsWinningDiagonal() {
-        String[] moves = {"x", "o", "o",
-                          null, "x", null,
-                          null, null, "x"};
+        Mark[] moves = {X, O, O,
+                          null, X, null,
+                          null, null, X};
         Board board = new Board(moves);
         int[] expectedWinLine = {0, 4, 8};
 
@@ -131,9 +133,9 @@ public class BoardTest {
 
     @Test
     public void returnsNoWinningLine() {
-        String[] moves = {"x", "o", "o",
-                          "o", "x", "x",
-                          "o", "x", "o"};
+        Mark[] moves = {X, O, O,
+                          O, X, X,
+                          O, X, O};
         Board board = new Board(moves);
         int[] expectedWinLine = new int[0];
 
@@ -142,18 +144,18 @@ public class BoardTest {
 
     @Test
     public void returnsWinnerMark() {
-        String[] moves = {"x", "x", "x",
-                          null, "o", "o",
+        Mark[] moves = {X, X, X,
+                          null, O, O,
                           null, null, null};
         Board board = new Board(moves);
 
-        assertEquals("x", board.winnerMark());
+        assertEquals(X, board.winnerMark());
     }
 
     @Test
     public void knowsIfItIsWon() {
-        String[] moves = {"x", "x", "x",
-                          null, "o", "o",
+        Mark[] moves = {X, X, X,
+                          null, O, O,
                           null, null, null};
         Board board = new Board(moves);
 

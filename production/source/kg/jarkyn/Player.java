@@ -1,9 +1,9 @@
 package kg.jarkyn;
 
 public class Player {
-    public final String mark;
+    public final Mark mark;
 
-    public Player(String mark) {
+    public Player(Mark mark) {
         this.mark = mark;
     }
 }

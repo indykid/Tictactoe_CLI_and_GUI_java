@@ -15,11 +15,11 @@ public class Ui {
     }
 
     public void displayBoard(Board board) {
-        String[] moves = board.getMoves();
+        Mark[] moves = board.getMoves();
         String[] readableMoves = new String[moves.length];
         for (int index = 0; index < moves.length; index++) {
            if (moves[index] != null) {
-               readableMoves[index] = moves[index];
+               readableMoves[index] = moves[index].toString();
            } else {
                readableMoves[index] = "" + (index + 1);
            }
@@ -42,7 +42,7 @@ public class Ui {
         cli.show(result);
     }
 
-    public int getMove(String mark) {
+    public int getMove(Mark mark) {
         cli.show(String.format("Player %s, please select your move", mark));
         return parseMove() - 1;
     }
