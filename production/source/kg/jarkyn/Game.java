@@ -6,7 +6,8 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        Game game = new Game(new Board(), new Player(Mark.X), new Player(Mark.O), new Ui(new Cli(System.out, System.in)));
+        Game game = new Game(new Board(), new Player(Mark.X), new Player(Mark.O), new Ui(new Cli(System.in, System
+                .out)));
         game.play();
     }
 

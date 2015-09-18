@@ -6,7 +6,7 @@ public class Cli {
     private OutputStream output;
     private BufferedReader inputReader;
 
-    public Cli(OutputStream output, InputStream input) {
+    public Cli(InputStream input, OutputStream output) {
         this.inputReader = new BufferedReader(new InputStreamReader(input));
         this.output = output;
     }

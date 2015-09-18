@@ -19,10 +19,17 @@ public class UiTest {
         output = new ByteArrayOutputStream();
     }
 
+    private ByteArrayInputStream inputStream(String userInput) {
+        return new ByteArrayInputStream(userInput.getBytes());
+    }
+
+    private Ui setupUi(String userInput) {
+        return new Ui(new Cli(inputStream(userInput), output));
+    }
+
     @Test
     public void greets() {
-        ByteArrayInputStream input = new ByteArrayInputStream("irrelevant".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
+        Ui ui = setupUi("irrelevant");
 
         ui.greet();
 
@@ -34,12 +41,8 @@ public class UiTest {
 
     @Test
     public void displaysBoard() {
-        ByteArrayInputStream input = new ByteArrayInputStream("irrelevant".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Mark[] moves = {X, null, null,
-                          null, null, null,
-                          null, null, null};
-        Board board = new Board(moves);
+        Ui ui = setupUi("irrelevant");
+        Board board = new Board().addMove(0, X);
 
         ui.displayBoard(board);
 
@@ -53,8 +56,7 @@ public class UiTest {
 
     @Test
     public void asksUserForMove() {
-        ByteArrayInputStream input = new ByteArrayInputStream("0".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
+        Ui ui = setupUi("1");
 
         ui.getMove(X);
 
@@ -63,40 +65,36 @@ public class UiTest {
 
     @Test
     public void getsMove() {
-        ByteArrayInputStream input = new ByteArrayInputStream("5".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
+        Ui ui = setupUi("1");
 
         int move = ui.getMove(X);
 
-        assertEquals(4, move);
+        assertEquals(0, move);
     }
 
     @Test
     public void doesNotAcceptNonNumericMove() {
-        ByteArrayInputStream input = new ByteArrayInputStream("a\n5".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
+        Ui ui = setupUi("a\n1");
 
         int move = ui.getMove(X);
 
-        assertEquals(4, move);
+        assertEquals(0, move);
     }
 
     @Test
     public void doesNotAcceptBlankInputAsMove() {
-        ByteArrayInputStream input = new ByteArrayInputStream("\n5".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
+        Ui ui = setupUi("\n1");
 
         int move = ui.getMove(X);
 
-        assertEquals(4, move);
+        assertEquals(0, move);
     }
 
     @Test
     public void notifiesOnInvalidMove() {
-        ByteArrayInputStream input = new ByteArrayInputStream("a\n5".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
+        Ui ui = setupUi("a\n1");
 
-        int move = ui.getMove(X);
+        ui.getMove(X);
 
         assertTrue(output.toString().contains("Invalid input, please try again"));
     }

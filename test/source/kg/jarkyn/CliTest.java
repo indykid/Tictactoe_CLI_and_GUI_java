@@ -17,10 +17,18 @@ public class CliTest {
         output = new ByteArrayOutputStream();
     }
 
+    private Cli setupCli(String inputString) {
+        return new Cli(inputStream(inputString), output);
+    }
+
+    private ByteArrayInputStream inputStream(String inputString) {
+        return new ByteArrayInputStream(inputString.getBytes());
+    }
+
     @Test
     public void printsToTheOutput() {
-        ByteArrayInputStream input = new ByteArrayInputStream("irrelevant".getBytes());
-        Cli cli = new Cli(output, input);
+        Cli cli = setupCli("irrelevant");
+
         cli.show("output");
 
         assertEquals("output\n", output.toString());
@@ -28,8 +36,8 @@ public class CliTest {
 
     @Test
     public void getsInput() {
-        ByteArrayInputStream input = new ByteArrayInputStream("input".getBytes());
-        Cli cli = new Cli(output, input);
+        Cli cli = setupCli("input");
+
         String userInput = cli.getInput();
 
         assertEquals("input", userInput);

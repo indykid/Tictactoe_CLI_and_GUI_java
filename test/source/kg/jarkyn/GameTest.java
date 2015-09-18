@@ -18,7 +18,7 @@ public class GameTest {
     }
 
     private Game setupGame(Board board, String input) {
-        Ui ui = new Ui(new Cli(output, inputStream(input)));
+        Ui ui = new Ui(new Cli(inputStream(input), output));
         return new Game(board, new Player(X), new Player(O), ui);
     }
 
