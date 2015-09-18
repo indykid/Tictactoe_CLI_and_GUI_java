@@ -24,6 +24,13 @@ public class Game {
         this.currentPlayer = playerX;
     }
 
+    public void play() {
+        ui.greet();
+        while (!isOver()) {
+            playTurn();
+        }
+    }
+
     public boolean isOver() {
         return isDrawn() || isWon();
     }
@@ -32,22 +39,6 @@ public class Game {
         ui.displayBoard(board);
         addMove(validPosition());
         swapPlayers();
-    }
-
-    private int validPosition() {
-        int move = ui.getMove(currentPlayer.mark);
-        while (!board.isValidMove(move)) {
-            ui.notifyOfInvalidInput();
-            move = ui.getMove(currentPlayer.mark);
-        }
-        return move;
-    }
-
-    public void play() {
-        ui.greet();
-        while (!isOver()) {
-            playTurn();
-        }
     }
 
     private boolean isWon() {
@@ -60,6 +51,15 @@ public class Game {
 
     private void addMove(int position) {
         this.board = board.addMove(position, currentPlayer.mark);
+    }
+
+    private int validPosition() {
+        int move = ui.getMove(currentPlayer.mark);
+        while (!board.isValidMove(move)) {
+            ui.notifyOfInvalidInput();
+            move = ui.getMove(currentPlayer.mark);
+        }
+        return move;
     }
 
     private void swapPlayers() {

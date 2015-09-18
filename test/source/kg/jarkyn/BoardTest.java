@@ -26,35 +26,16 @@ public class BoardTest {
     @Test
     public void knowsAvailablePositionsWhenMovesWereMade() {
         ArrayList<Integer> expectedAvailable = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
-        Mark[] moves = new Mark[9];
-        moves[0] = X;
+        Board board = new Board().addMove(0, X);
 
-        assertEquals(expectedAvailable, new Board(moves).available);
+        assertEquals(expectedAvailable, board.available);
     }
 
     @Test
     public void knowsMarkForGivenPosition() {
-        Mark[] moves = new Mark[9];
-        moves[0] = X;
+        Board board = new Board().addMove(0, X);
 
-        assertEquals(X, new Board(moves).markAt(0));
-    }
-
-    @Test
-    public void twoBoardsAreEqualIfHaveSameMoves() {
-        Mark[] moves = new Mark[9];
-        moves[0] = X;
-
-        assertEquals(new Board(moves), new Board().addMove(0, X));
-    }
-
-    @Test
-    public void addingMoveReturnsNewBoardWithTheMoveAdded() {
-        Board newBoard = new Board().addMove(0, X);
-        Mark[] moves = new Mark[9];
-        moves[0] = X;
-
-        assertEquals(new Board(moves), newBoard);
+        assertEquals(X, board.markAt(0));
     }
 
     @Test
@@ -66,10 +47,7 @@ public class BoardTest {
 
     @Test
     public void knowsOccupiedPositionIsNotValidMove() {
-        Mark[] moves = {X,  null, null,
-                          null, null, null,
-                          null, null, null};
-        Board board = new Board(moves);
+        Board board = new Board().addMove(0, X);
 
         assertFalse(board.isValidMove(0));
     }
@@ -91,8 +69,8 @@ public class BoardTest {
     @Test
     public void knowsWhenFull() {
         Mark[] moves = {X, O, X,
-                          X, X, O,
-                          O, O, X};
+                        X, X, O,
+                        O, O, X};
         Board board = new Board(moves);
 
         assertTrue(board.isFull());
@@ -100,9 +78,9 @@ public class BoardTest {
 
     @Test
     public void returnsWinningRow() {
-        Mark[] moves = {X, X, X,
-                          null, O, O,
-                          null, null, null};
+        Mark[] moves = { X,    X,    X,
+                        null,  O,    O,
+                        null, null, null};
         Board board = new Board(moves);
         int[] expectedWinLine = {0, 1, 2};
 
@@ -112,8 +90,8 @@ public class BoardTest {
     @Test
     public void returnsWinningColumn() {
         Mark[] moves = {X, null, null,
-                          X, O, O,
-                          X, null, null};
+                        X,  O,    O,
+                        X, null, null};
         Board board = new Board(moves);
         int[] expectedWinLine = {0, 3, 6};
 
@@ -122,9 +100,9 @@ public class BoardTest {
 
     @Test
     public void returnsWinningDiagonal() {
-        Mark[] moves = {X, O, O,
-                          null, X, null,
-                          null, null, X};
+        Mark[] moves = {  X,   O,    O,
+                        null,  X,  null,
+                        null, null,  X  };
         Board board = new Board(moves);
         int[] expectedWinLine = {0, 4, 8};
 
@@ -134,8 +112,8 @@ public class BoardTest {
     @Test
     public void returnsNoWinningLine() {
         Mark[] moves = {X, O, O,
-                          O, X, X,
-                          O, X, O};
+                        O, X, X,
+                        O, X, O};
         Board board = new Board(moves);
         int[] expectedWinLine = new int[0];
 
@@ -144,9 +122,9 @@ public class BoardTest {
 
     @Test
     public void returnsWinnerMark() {
-        Mark[] moves = {X, X, X,
-                          null, O, O,
-                          null, null, null};
+        Mark[] moves = { X,    X,    X,
+                        null,  O,    O,
+                        null, null, null};
         Board board = new Board(moves);
 
         assertEquals(X, board.winnerMark());
@@ -154,9 +132,9 @@ public class BoardTest {
 
     @Test
     public void knowsIfItIsWon() {
-        Mark[] moves = {X, X, X,
-                          null, O, O,
-                          null, null, null};
+        Mark[] moves = { X,    X,    X,
+                        null,  O,    O,
+                        null, null, null};
         Board board = new Board(moves);
 
         assertTrue(board.isWon());

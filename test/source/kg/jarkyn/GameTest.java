@@ -10,23 +10,25 @@ import static kg.jarkyn.Mark.*;
 import static org.junit.Assert.*;
 
 public class GameTest {
-    private Player playerX;
-    private Player playerO;
     private ByteArrayOutputStream output;
 
     @Before
     public void setUp() {
-        playerX = new Player(X);
-        playerO = new Player(O);
         output = new ByteArrayOutputStream();
+    }
+
+    private Game setupGame(Board board, String input) {
+        Ui ui = new Ui(new Cli(output, inputStream(input)));
+        return new Game(board, new Player(X), new Player(O), ui);
+    }
+
+    private ByteArrayInputStream inputStream(String input) {
+        return new ByteArrayInputStream(input.getBytes());
     }
 
     @Test
     public void knowsItIsNotOverAtTheStart() {
-        Board board = new Board();
-        ByteArrayInputStream input = new ByteArrayInputStream("irrelevant".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Game game = new Game(board, playerX, playerO, ui);
+        Game game = setupGame(new Board(), "irrelevant");
 
         assertFalse(game.isOver());
     }
@@ -34,12 +36,9 @@ public class GameTest {
     @Test
     public void knowsItIsOverWhenDrawn() {
         Mark[] moves = {X, O, X,
-                          X, X, O,
-                          O, X, O};
-        Board board = new Board(moves);
-        ByteArrayInputStream input = new ByteArrayInputStream("irrelevant".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Game game = new Game(board, playerX, playerO, ui);
+                        X, X, O,
+                        O, X, O};
+        Game game = setupGame(new Board(moves), "irrelevant");
 
         assertTrue(game.isOver());
     }
@@ -47,22 +46,16 @@ public class GameTest {
     @Test
     public void knowsItIsOverWhenWon() {
         Mark[] moves = {X, O, X,
-                          X, X, O,
-                          O, O, X};
-        Board board = new Board(moves);
-        ByteArrayInputStream input = new ByteArrayInputStream("irrelevant".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Game game = new Game(board, playerX, playerO, ui);
+                        X, X, O,
+                        O, O, X};
+        Game game = setupGame(new Board(moves), "irrelevant");
 
         assertTrue(game.isOver());
     }
 
     @Test
     public void displaysBoard() {
-        Board board = new Board();
-        ByteArrayInputStream input = new ByteArrayInputStream("1".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Game game = new Game(board, playerX, playerO, ui);
+        Game game = setupGame(new Board(), "1");
 
         game.playTurn();
 
@@ -75,10 +68,7 @@ public class GameTest {
 
     @Test
     public void addsMoveToTheBoard() {
-        Board board = new Board();
-        ByteArrayInputStream input = new ByteArrayInputStream("1".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Game game = new Game(board, playerX, playerO, ui);
+        Game game = setupGame(new Board(), "1");
 
         game.playTurn();
 
@@ -87,10 +77,7 @@ public class GameTest {
 
     @Test
     public void swapsPlayers() {
-        Board board = new Board();
-        ByteArrayInputStream input = new ByteArrayInputStream("1\n2".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Game game = new Game(board, playerX, playerO, ui);
+        Game game = setupGame(new Board(), "1\n2");
 
         game.playTurn();
         game.playTurn();
@@ -100,10 +87,7 @@ public class GameTest {
 
     @Test
     public void playsTillWon() {
-        Board board = new Board();
-        ByteArrayInputStream input = new ByteArrayInputStream("1\n4\n2\n5\n3".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Game game = new Game(board, playerX, playerO, ui);
+        Game game = setupGame(new Board(), "1\n4\n2\n5\n3");
 
         game.play();
 
@@ -112,10 +96,7 @@ public class GameTest {
 
     @Test
     public void playsTillDrawn() {
-        Board board = new Board();
-        ByteArrayInputStream input = new ByteArrayInputStream("1\n2\n3\n5\n4\n6\n8\n7\n9".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Game game = new Game(board, playerX, playerO, ui);
+        Game game = setupGame(new Board(), "1\n2\n3\n5\n4\n6\n8\n7\n9");
 
         game.play();
 
@@ -124,10 +105,7 @@ public class GameTest {
 
     @Test
     public void greets() {
-        Board board = new Board();
-        ByteArrayInputStream input = new ByteArrayInputStream("1\n4\n2\n5\n3".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Game game = new Game(board, playerX, playerO, ui);
+        Game game = setupGame(new Board(), ("1\n4\n2\n5\n3"));
 
         game.play();
 
@@ -139,10 +117,7 @@ public class GameTest {
 
     @Test
     public void doesNotPlayIntoOccupiedPosition() {
-        Board board = new Board();
-        ByteArrayInputStream input = new ByteArrayInputStream("1\n1\n2".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Game game = new Game(board, playerX, playerO, ui);
+        Game game = setupGame(new Board(), ("1\n1\n2"));
 
         game.playTurn();
         game.playTurn();
@@ -153,10 +128,7 @@ public class GameTest {
 
     @Test
     public void doesNotPlayIntoNonExistingPosition() {
-        Board board = new Board();
-        ByteArrayInputStream input = new ByteArrayInputStream("10\n1\n2".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Game game = new Game(board, playerX, playerO, ui);
+        Game game = setupGame(new Board(), "10\n1\n2") ;
 
         game.playTurn();
         game.playTurn();
@@ -167,10 +139,7 @@ public class GameTest {
 
     @Test
     public void doesNotPlayIntoInvalidPosition() {
-        Board board = new Board();
-        ByteArrayInputStream input = new ByteArrayInputStream("a\n1\n2".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Game game = new Game(board, playerX, playerO, ui);
+        Game game = setupGame(new Board(), "a\n1\n2");
 
         game.playTurn();
         game.playTurn();
@@ -181,10 +150,7 @@ public class GameTest {
 
     @Test
     public void notifiesOfInvalidInputForNonNumericMove() {
-        Board board = new Board();
-        ByteArrayInputStream input = new ByteArrayInputStream("a\n5".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Game game = new Game(board, playerX, playerO, ui);
+        Game game = setupGame(new Board(), "a\n5");
 
         game.playTurn();
 
@@ -193,15 +159,10 @@ public class GameTest {
 
     @Test
     public void notifiesOfInvalidMove() {
-        Board board = new Board();
-        ByteArrayInputStream input = new ByteArrayInputStream("1\n1\n2".getBytes());
-        Ui ui = new Ui(new Cli(output, input));
-        Game game = new Game(board, playerX, playerO, ui);
+        Game game = setupGame(new Board(), "1\n1\n2");
 
         game.playTurn();
         game.playTurn();
-
-        System.out.println(output.toString());
 
         assertTrue(output.toString().contains("Invalid input, please try again"));
     }
