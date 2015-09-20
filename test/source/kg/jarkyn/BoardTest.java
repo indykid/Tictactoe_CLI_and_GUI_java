@@ -79,8 +79,8 @@ public class BoardTest {
     @Test
     public void returnsWinningRow() {
         Mark[] moves = { X,    X,    X,
-                        null,  O,    O,
-                        null, null, null};
+                        NONE,  O,    O,
+                        NONE, NONE, NONE};
         Board board = new Board(moves);
         int[] expectedWinLine = {0, 1, 2};
 
@@ -89,9 +89,9 @@ public class BoardTest {
 
     @Test
     public void returnsWinningColumn() {
-        Mark[] moves = {X, null, null,
+        Mark[] moves = {X, NONE, NONE,
                         X,  O,    O,
-                        X, null, null};
+                        X, NONE, NONE};
         Board board = new Board(moves);
         int[] expectedWinLine = {0, 3, 6};
 
@@ -100,9 +100,9 @@ public class BoardTest {
 
     @Test
     public void returnsWinningDiagonal() {
-        Mark[] moves = {  X,   O,    O,
-                        null,  X,  null,
-                        null, null,  X  };
+        Mark[] moves = {X,    O,    O,
+                        NONE, X,    NONE,
+                        NONE, NONE, X   };
         Board board = new Board(moves);
         int[] expectedWinLine = {0, 4, 8};
 
@@ -110,12 +110,14 @@ public class BoardTest {
     }
 
     @Test
-    public void returnsNoWinningLine() {
+    public void returnsNonWinLine() {
         Mark[] moves = {X, O, O,
                         O, X, X,
                         O, X, O};
         Board board = new Board(moves);
-        int[] expectedWinLine = new int[0];
+        int[] expectedWinLine = new int[board.size];
+        System.out.println(expectedWinLine);
+        Arrays.fill(expectedWinLine, -1);
 
         assertArrayEquals(expectedWinLine, board.winLine());
     }
@@ -123,27 +125,30 @@ public class BoardTest {
     @Test
     public void returnsWinnerMark() {
         Mark[] moves = { X,    X,    X,
-                        null,  O,    O,
-                        null, null, null};
+                        NONE,  O,    O,
+                        NONE, NONE, NONE};
         Board board = new Board(moves);
 
         assertEquals(X, board.winnerMark());
     }
 
     @Test
-    public void knowsIfItIsWon() {
-        Mark[] moves = { X,    X,    X,
-                        null,  O,    O,
-                        null, null, null};
+    public void winIsFinalState() {
+        Mark[] moves = {X,    X,    X,
+                        NONE, O,    O,
+                        NONE, NONE, NONE};
         Board board = new Board(moves);
 
-        assertTrue(board.isWon());
+        assertTrue(board.isFinalState());
     }
 
     @Test
-    public void knowsIfItIsNotWon() {
-        Board board = new Board();
+    public void drawIsFinalState() {
+        Mark[] moves = {X, O, O,
+                        O, X, X,
+                        O, X, O};
+        Board board = new Board(moves);
 
-        assertFalse(board.isWon());
+        assertTrue(board.isFinalState());
     }
 }

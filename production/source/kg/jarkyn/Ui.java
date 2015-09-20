@@ -18,7 +18,7 @@ public class Ui {
         Mark[] moves = board.getMoves();
         String[] readableMoves = new String[moves.length];
         for (int index = 0; index < moves.length; index++) {
-           if (moves[index] != null) {
+           if (moves[index] != Mark.NONE) {
                readableMoves[index] = moves[index].toString();
            } else {
                readableMoves[index] = "" + (index + 1);

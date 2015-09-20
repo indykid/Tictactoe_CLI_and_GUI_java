@@ -20,8 +20,15 @@ public class Board {
         {2, 4, 6}
     };
 
+    private static Mark[] setMoves() {
+        int length = (int)Math.pow(DEFAULT_SIZE, 2);
+        Mark[] moves  = new Mark[length];
+        Arrays.fill(moves, Mark.NONE);
+        return moves;
+    }
+
     public Board() {
-        this(new Mark[9]);
+        this(setMoves());
     }
 
     public Board(Mark[] moves) {
@@ -63,6 +70,32 @@ public class Board {
     public boolean isValidMove(int position) {
         return available.contains(position);
     }
+    public boolean isFull() {
+        return available.size() == 0;
+    }
+
+    public int[] winLine() {
+        for (int[] line : WINNING_POSITIONS) {
+            if (isOccupied(line[0]) && isSameMark(line)) {
+                return line;
+            }
+        }
+        int[]line = new int[size];
+        Arrays.fill(line, -1);
+        return line;
+    }
+
+    public Mark winnerMark() {
+        if (winLine()[0] == -1) {
+            return Mark.NONE;
+        } else {
+            return moves[winLine()[0]];
+        }
+    }
+
+    public boolean isFinalState() {
+        return isWon() || isDrawn();
+    }
 
     private ArrayList<Integer> setAvailable() {
         ArrayList<Integer> available = new ArrayList<>();
@@ -75,24 +108,12 @@ public class Board {
     }
 
     private boolean isEmptyPosition(int position) {
-        return markAt(position) == null;
+        return markAt(position) == Mark.NONE;
     }
 
-    public boolean isFull() {
-        return available.size() == 0;
-    }
-
-    public int[] winLine() {
-        for (int[] line : WINNING_POSITIONS) {
-            if (isOccupied(line[0]) && isSameMark(line)) {
-                return line;
-            }
-        }
-        return new int[0];
-    }
 
     private boolean isOccupied(int position) {
-        return moves[position] != null;
+        return moves[position] != Mark.NONE;
     }
 
     private boolean isSameMark(int[] line) {
@@ -104,11 +125,11 @@ public class Board {
         return true;
     }
 
-    public Mark winnerMark() {
-        return moves[winLine()[0]];
+    private boolean isWon() {
+        return winnerMark() != Mark.NONE;
     }
 
-    public boolean isWon() {
-        return winLine().length == size;
+    private boolean isDrawn() {
+        return isFull() && !isWon();
     }
 }

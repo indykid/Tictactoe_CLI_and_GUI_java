@@ -33,21 +33,13 @@ public class Game {
     }
 
     public boolean isOver() {
-        return isDrawn() || isWon();
+        return board.isFinalState();
     }
 
     public void playTurn() {
         ui.displayBoard(board);
         addMove(validPosition());
         swapPlayers();
-    }
-
-    private boolean isWon() {
-        return board.isWon();
-    }
-
-    private boolean isDrawn() {
-        return board.isFull() && !isWon();
     }
 
     private void addMove(int position) {
