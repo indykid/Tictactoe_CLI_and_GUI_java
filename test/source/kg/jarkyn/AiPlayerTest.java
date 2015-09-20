@@ -14,7 +14,7 @@ public class AiPlayerTest {
                         O, NONE, NONE};
         Board board = new Board(moves);
 
-        assertEquals(10, ai.scoreFinalBoard(board));
+        assertEquals(10, ai.score(board, ai.mark));
     }
 
     @Test
@@ -25,7 +25,7 @@ public class AiPlayerTest {
                         X,  NONE, NONE};
         Board board = new Board(moves);
 
-        assertEquals(-10, ai.scoreFinalBoard(board));
+        assertEquals(-10, ai.score(board, ai.mark));
     }
 
     @Test
@@ -36,6 +36,72 @@ public class AiPlayerTest {
                         X, X, O};
         Board board = new Board(moves);
 
-        assertEquals(0, ai.scoreFinalBoard(board));
+        assertEquals(0, ai.score(board, ai.mark));
+    }
+
+    @Test
+    public void nearWinHasWinScore() {
+        AiPlayer ai = new AiPlayer(X);
+        Mark[] moves = {X, X, NONE,
+                        O, O, X,
+                        O, X, O};
+        Board board = new Board(moves);
+
+        assertEquals(10, ai.score(board, ai.mark));
+    }
+
+    @Test
+    public void nearLossHasLossScore() {
+        AiPlayer ai = new AiPlayer(X);
+        Mark[] moves = {X, X,    O,
+                        X, X,    NONE,
+                        O, NONE, O};
+        Board board = new Board(moves);
+
+        assertEquals(-10, ai.score(board, ai.mark.opponent()));
+    }
+
+    @Test
+    public void nearDrawHasDrawScore() {
+        AiPlayer ai = new AiPlayer(X);
+        Mark[] moves = {X, O, NONE,
+                        O, O, X,
+                        X, X, O};
+        Board board = new Board(moves);
+
+        assertEquals(0, ai.score(board, ai.mark));
+    }
+
+    @Test
+    public void scoresIntermediateLosingState() {
+        AiPlayer ai = new AiPlayer(X);
+        Mark[] moves = {X, O, NONE,
+                        X, O, X,
+                        NONE, NONE, NONE,};
+        Board board = new Board(moves);
+
+        assertEquals(-10, ai.score(board, ai.mark.opponent()));
+    }
+
+    @Test
+    public void scoresIntermediateWinState() {
+        AiPlayer ai = new AiPlayer(X);
+        Mark[] moves = {X, NONE, NONE,
+                        O, NONE, NONE,
+                        NONE, NONE, NONE,};
+        Board board = new Board(moves);
+
+        assertEquals(10, ai.score(board, ai.mark));
+    }
+
+    @Test
+    public void scoresIntermediateDrawState() {
+        AiPlayer ai = new AiPlayer(X);
+        Mark[] moves = {X,    NONE, NONE,
+                        NONE, O,    NONE,
+                        NONE, NONE, NONE};
+        Board board = new Board(moves);
+
+        assertEquals(0, ai.score(board, ai.mark));
     }
 }
