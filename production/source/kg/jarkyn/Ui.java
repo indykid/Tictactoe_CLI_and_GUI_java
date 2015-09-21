@@ -1,17 +1,20 @@
 package kg.jarkyn;
 
 public class Ui {
+    public static final String GREETING = "Welcome to Tictactoe!";
+    public static final String INVALID_OPTION = "Invalid input, please try again";
     private Cli cli;
+    public static final String GAME_OPTIONS = "Please select your opponent:\n" +
+            "1 - computer plays first (X)\n" +
+            "2 - computer plays second (O)\n" +
+            "3 - play against your friend (first to go plays X)";
 
     public Ui(Cli cli){
         this.cli = cli;
     }
 
     public void greet() {
-        cli.show("Welcome to Ticatactoe!\n"             +
-                 "This version requires two players.\n" +
-                 "First player is assigned mark X,\n"   +
-                 "second player is assigned mark O");
+        cli.show(GREETING);
     }
 
     public void displayBoard(Board board) {
@@ -43,22 +46,28 @@ public class Ui {
     }
 
     public int getMove(Mark mark) {
-        cli.show(String.format("Player %s, please select your move", mark));
-        return parseMove() - 1;
+        return getValidInput(promptForMove(mark)) - 1;
+    }
+
+    public int selectGame() {
+        return getValidInput(GAME_OPTIONS);
     }
 
     public void notifyOfInvalidInput() {
-        cli.show("Invalid input, please try again");
+        cli.show(INVALID_OPTION);
     }
 
-    private int parseMove() {
-        int move;
+    private String promptForMove(Mark mark) {
+        return String.format("Player %s, please select your move", mark);
+    }
+
+    private int getValidInput(String message) {
+        cli.show(message);
         try {
-            move = Integer.parseInt(cli.getInput());
+            return Integer.parseInt(cli.getInput());
         } catch (NumberFormatException e) {
-            notifyOfInvalidInput();
-            move = parseMove();
+            cli.show(INVALID_OPTION);
+            return getValidInput(message);
         }
-        return move;
     }
 }

@@ -33,10 +33,38 @@ public class UiTest {
 
         ui.greet();
 
-        assertEquals("Welcome to Ticatactoe!\n"             +
-                     "This version requires two players.\n" +
-                     "First player is assigned mark X,\n"   +
-                     "second player is assigned mark O\n", output.toString());
+        assertEquals(Ui.GREETING + "\n", output.toString());
+    }
+
+    @Test
+    public void promptsGameSelection() {
+        Ui ui = setupUi("1");
+
+        ui.selectGame();
+
+        assertEquals(Ui.GAME_OPTIONS + "\n", output.toString());
+    }
+
+    @Test
+    public void receivesGameOption() {
+        Ui ui = setupUi("1");
+
+        int option = ui.selectGame();
+
+        assertEquals(1, option);
+    }
+
+    @Test
+    public void notifiesOfInvalidGameOption() {
+        Ui ui = setupUi("invalid\n1");
+        ui.selectGame();
+        assertTrue(output.toString().contains(Ui.INVALID_OPTION + "\n"));
+    }
+
+    @Test
+    public void getsInputUntilValid() {
+        Ui ui = setupUi("invalid\n1");
+        assertEquals(1, ui.selectGame());
     }
 
     @Test
@@ -57,37 +85,26 @@ public class UiTest {
     @Test
     public void asksUserForMove() {
         Ui ui = setupUi("1");
-
         ui.getMove(X);
-
         assertEquals("Player X, please select your move\n", output.toString());
     }
 
     @Test
     public void getsMove() {
         Ui ui = setupUi("1");
-
-        int move = ui.getMove(X);
-
-        assertEquals(0, move);
+        assertEquals(0, ui.getMove(X));
     }
 
     @Test
     public void doesNotAcceptNonNumericMove() {
         Ui ui = setupUi("a\n1");
-
-        int move = ui.getMove(X);
-
-        assertEquals(0, move);
+        assertEquals(0, ui.getMove(X));
     }
 
     @Test
     public void doesNotAcceptBlankInputAsMove() {
         Ui ui = setupUi("\n1");
-
-        int move = ui.getMove(X);
-
-        assertEquals(0, move);
+        assertEquals(0, ui.getMove(X));
     }
 
     @Test

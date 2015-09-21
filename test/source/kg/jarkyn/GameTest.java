@@ -109,10 +109,7 @@ public class GameTest {
 
         game.play();
 
-        assertTrue(output.toString().contains("Welcome to Ticatactoe!\n"             +
-                                              "This version requires two players.\n" +
-                                              "First player is assigned mark X,\n"   +
-                                              "second player is assigned mark O\n"));
+        assertTrue(output.toString().contains("Welcome to Tictactoe!\n"));
     }
 
     @Test
