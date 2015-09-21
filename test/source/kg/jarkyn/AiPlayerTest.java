@@ -104,4 +104,37 @@ public class AiPlayerTest {
 
         assertEquals(0, ai.score(board, ai.mark));
     }
+
+    @Test
+    public void takesWinningPosition() {
+        AiPlayer ai = new AiPlayer(X);
+        Mark[] moves = {X, X, NONE,
+                        O, O, NONE,
+                        NONE, NONE, NONE,};
+        Board board = new Board(moves);
+
+        assertEquals(2, ai.pickPosition(board));
+    }
+
+    @Test
+    public void blocksAsX() {
+        AiPlayer ai = new AiPlayer(X);
+        Mark[] moves = {NONE, NONE, NONE,
+                        NONE, O,    NONE,
+                        O,    X,    X};
+        Board board = new Board(moves);
+
+        assertEquals(2, ai.pickPosition(board));
+    }
+
+    @Test
+    public void blocksAsO() {
+        AiPlayer ai = new AiPlayer(O);
+        Mark[] moves = {NONE, NONE, NONE,
+                        NONE, X,    NONE,
+                        X, NONE,    O};
+        Board board = new Board(moves);
+
+        assertEquals(2, ai.pickPosition(board));
+    }
 }

@@ -1,7 +1,8 @@
 package kg.jarkyn;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
+
+import static java.util.stream.Collectors.toList;
 
 public class AiPlayer {
 
@@ -11,7 +12,41 @@ public class AiPlayer {
         this.mark = mark;
     }
 
-    public int scoreFinalBoard(Board board) {
+    public int pickPosition(Board board) {
+        HashMap<Integer, Integer> scoredPositions = new HashMap<>();
+        for (int position : availablePositions(board)) {
+            Board possibleBoard = board.addMove(position, mark);
+            int score = score(possibleBoard, mark.opponent());
+
+            scoredPositions.put(position, score);
+        }
+
+        int bestScore = Integer.MIN_VALUE;
+        int bestPosition = -1;
+        for (Map.Entry<Integer, Integer> entry : scoredPositions.entrySet()) {
+            if (entry.getValue().compareTo(bestScore) > 0) {
+                bestScore = entry.getValue();
+                bestPosition = entry.getKey();
+            }
+        }
+        return bestPosition;
+    }
+
+    public int score(Board board, Mark currentMark) {
+        if (board.isFinalState()) {
+            return scoreFinalBoard(board);
+        }
+
+        List<Integer> scores =
+                availablePositions(board)
+                .stream()
+                .map(position -> score(board.addMove(position, currentMark), currentMark.opponent()))
+                .collect(toList());
+
+        return currentMark == mark ? Collections.max(scores) : Collections.min(scores);
+    }
+
+    private int scoreFinalBoard(Board board) {
         Mark winnerMark = board.winnerMark();
         int score = 0;
         if (winnerMark == mark) {
@@ -22,35 +57,7 @@ public class AiPlayer {
         return score;
     }
 
-    public int score(Board board, Mark currentMark) {
-        if (board.isFinalState()) {
-            return scoreFinalBoard(board);
-        }
-
-        ArrayList<Integer> scores = new ArrayList<>();
-        for (Board possibleBoard : possibleBoards(board, currentMark)) {
-            scores.add(score(possibleBoard, nextMark(currentMark)));
-        }
-
-        int score;
-        if (currentMark == mark) {
-            score = Collections.max(scores);
-        } else {
-            score = Collections.min(scores);
-        }
-
-        return score;
-    }
-
-    private ArrayList<Board> possibleBoards(Board board, Mark mark) {
-        ArrayList<Board> possibleBoards = new ArrayList<>();
-        for (int position :  board.available) {
-            possibleBoards.add(board.addMove(position, mark));
-        }
-        return possibleBoards;
-    }
-
-    private Mark nextMark(Mark currentMark) {
-        return currentMark.opponent();
+    private ArrayList<Integer> availablePositions(Board board) {
+        return board.available;
     }
 }
