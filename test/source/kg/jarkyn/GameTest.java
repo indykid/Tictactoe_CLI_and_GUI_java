@@ -11,7 +11,7 @@ public class GameTest {
 
     private Game setupGame(Board board, String input) {
         ui = new UiDouble(input);
-        return new Game(board, new HumanPlayer(X), new HumanPlayer(O), ui);
+        return new Game(board, new HumanPlayer(X, ui), new HumanPlayer(O, ui), ui);
     }
 
     @Test

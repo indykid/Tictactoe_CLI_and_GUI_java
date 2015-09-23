@@ -6,9 +6,8 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        Game game = new Game(new Board(), new HumanPlayer(Mark.X), new HumanPlayer(Mark.O), new CommandLineUi(new
-                CommandLine(System.in, System
-                .out)));
+        Ui ui = new CommandLineUi(new CommandLine(System.in, System.out));
+        Game game = new Game(new Board(), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui), ui);
         game.play();
     }
 

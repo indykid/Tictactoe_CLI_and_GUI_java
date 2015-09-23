@@ -63,4 +63,8 @@ public class UiDouble implements Ui {
     public int selectGame() {
         return 0;
     }
+
+    public boolean moveRequested() {
+        return moveRequestCount != 0;
+    }
 }

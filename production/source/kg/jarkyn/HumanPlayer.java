@@ -2,12 +2,15 @@ package kg.jarkyn;
 
 public class HumanPlayer extends Player {
 
-    public HumanPlayer(Mark mark) {
+    private final Ui ui;
+
+    public HumanPlayer(Mark mark, Ui ui) {
         super(mark);
+        this.ui = ui;
     }
 
     @Override
     public int pickPosition(Board board) {
-        return -1;
+        return ui.getMove(mark);
     }
 }
