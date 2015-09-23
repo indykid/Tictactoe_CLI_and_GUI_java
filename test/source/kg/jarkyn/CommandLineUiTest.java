@@ -10,7 +10,7 @@ import static kg.jarkyn.Mark.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class UiTest {
+public class CommandLineUiTest {
 
     private ByteArrayOutputStream output;
 
@@ -23,31 +23,31 @@ public class UiTest {
         return new ByteArrayInputStream(userInput.getBytes());
     }
 
-    private Ui setupUi(String userInput) {
-        return new Ui(new Cli(inputStream(userInput), output));
+    private CommandLineUi setupUi(String userInput) {
+        return new CommandLineUi(new CommandLine(inputStream(userInput), output));
     }
 
     @Test
     public void greets() {
-        Ui ui = setupUi("irrelevant");
+        CommandLineUi ui = setupUi("irrelevant");
 
         ui.greet();
 
-        assertEquals(Ui.GREETING + "\n", output.toString());
+        assertEquals(CommandLineUi.GREETING + "\n", output.toString());
     }
 
     @Test
     public void promptsGameSelection() {
-        Ui ui = setupUi("1");
+        CommandLineUi ui = setupUi("1");
 
         ui.selectGame();
 
-        assertEquals(Ui.GAME_OPTIONS + "\n", output.toString());
+        assertEquals(CommandLineUi.GAME_OPTIONS + "\n", output.toString());
     }
 
     @Test
     public void receivesGameOption() {
-        Ui ui = setupUi("1");
+        CommandLineUi ui = setupUi("1");
 
         int option = ui.selectGame();
 
@@ -56,20 +56,20 @@ public class UiTest {
 
     @Test
     public void notifiesOfInvalidGameOption() {
-        Ui ui = setupUi("invalid\n1");
+        CommandLineUi ui = setupUi("invalid\n1");
         ui.selectGame();
-        assertTrue(output.toString().contains(Ui.INVALID_OPTION + "\n"));
+        assertTrue(output.toString().contains(CommandLineUi.INVALID_OPTION + "\n"));
     }
 
     @Test
     public void getsInputUntilValid() {
-        Ui ui = setupUi("invalid\n1");
+        CommandLineUi ui = setupUi("invalid\n1");
         assertEquals(1, ui.selectGame());
     }
 
     @Test
     public void displaysBoard() {
-        Ui ui = setupUi("irrelevant");
+        CommandLineUi ui = setupUi("irrelevant");
         Board board = new Board().addMove(0, X);
 
         ui.displayBoard(board);
@@ -84,32 +84,32 @@ public class UiTest {
 
     @Test
     public void asksUserForMove() {
-        Ui ui = setupUi("1");
+        CommandLineUi ui = setupUi("1");
         ui.getMove(X);
         assertEquals("Player X, please select your move\n", output.toString());
     }
 
     @Test
     public void getsMove() {
-        Ui ui = setupUi("1");
+        CommandLineUi ui = setupUi("1");
         assertEquals(0, ui.getMove(X));
     }
 
     @Test
     public void doesNotAcceptNonNumericMove() {
-        Ui ui = setupUi("a\n1");
+        CommandLineUi ui = setupUi("a\n1");
         assertEquals(0, ui.getMove(X));
     }
 
     @Test
     public void doesNotAcceptBlankInputAsMove() {
-        Ui ui = setupUi("\n1");
+        CommandLineUi ui = setupUi("\n1");
         assertEquals(0, ui.getMove(X));
     }
 
     @Test
     public void notifiesOnInvalidMove() {
-        Ui ui = setupUi("a\n1");
+        CommandLineUi ui = setupUi("a\n1");
 
         ui.getMove(X);
 

@@ -1,40 +1,28 @@
 package kg.jarkyn;
 
-import org.junit.Before;
 import org.junit.Test;
+import kg.jarkyn.doubles.UiDouble;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-
-import static kg.jarkyn.Mark.*;
 import static org.junit.Assert.*;
+import static kg.jarkyn.Mark.*;
 
 public class GameTest {
-    private ByteArrayOutputStream output;
-
-    @Before
-    public void setUp() {
-        output = new ByteArrayOutputStream();
-    }
+    private UiDouble ui;
 
     private Game setupGame(Board board, String input) {
-        Ui ui = new Ui(new Cli(inputStream(input), output));
-        return new Game(board, new Player(X), new Player(O), ui);
-    }
-
-    private ByteArrayInputStream inputStream(String input) {
-        return new ByteArrayInputStream(input.getBytes());
+        ui = new UiDouble(input);
+        return new Game(board, new HumanPlayer(X), new HumanPlayer(O), ui);
     }
 
     @Test
-    public void knowsItIsNotOverAtTheStart() {
+    public void itIsNotOverAtTheStart() {
         Game game = setupGame(new Board(), "irrelevant");
 
         assertFalse(game.isOver());
     }
 
     @Test
-    public void knowsItIsOverWhenDrawn() {
+    public void itIsOverWhenDrawn() {
         Mark[] moves = {X, O, X,
                         X, X, O,
                         O, X, O};
@@ -44,7 +32,7 @@ public class GameTest {
     }
 
     @Test
-    public void knowsItIsOverWhenWon() {
+    public void itIsOverWhenWon() {
         Mark[] moves = {X, O, X,
                         X, X, O,
                         O, O, X};
@@ -54,16 +42,21 @@ public class GameTest {
     }
 
     @Test
+    public void greets() {
+        Game game = setupGame(new Board(), ("1\n4\n2\n5\n3"));
+
+        game.play();
+
+        assertTrue(ui.greetingWasDisplayed());
+    }
+
+    @Test
     public void displaysBoard() {
         Game game = setupGame(new Board(), "1");
 
         game.playTurn();
 
-        assertTrue(output.toString().contains("  1 |  2 |  3 \n" +
-                                              "--------------\n" +
-                                              "  4 |  5 |  6 \n" +
-                                              "--------------\n" +
-                                              "  7 |  8 |  9 \n"));
+        assertTrue(ui.boardWasDisplayed());
     }
 
     @Test
@@ -101,15 +94,6 @@ public class GameTest {
         game.play();
 
         assertTrue(game.isOver());
-    }
-
-    @Test
-    public void greets() {
-        Game game = setupGame(new Board(), ("1\n4\n2\n5\n3"));
-
-        game.play();
-
-        assertTrue(output.toString().contains("Welcome to Tictactoe!\n"));
     }
 
     @Test
@@ -151,16 +135,16 @@ public class GameTest {
 
         game.playTurn();
 
-        assertTrue(output.toString().contains("Invalid input, please try again"));
+        assertTrue(ui.notifiedOfInvalidInput());
     }
 
     @Test
-    public void notifiesOfInvalidMove() {
+    public void notifiesOfInvalidMoveIntoOccupiedPosition() {
         Game game = setupGame(new Board(), "1\n1\n2");
 
         game.playTurn();
         game.playTurn();
 
-        assertTrue(output.toString().contains("Invalid input, please try again"));
+        assertTrue(ui.notifiedOfInvalidInput());
     }
 }

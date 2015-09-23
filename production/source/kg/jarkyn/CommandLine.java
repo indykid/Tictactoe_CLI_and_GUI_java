@@ -2,11 +2,11 @@ package kg.jarkyn;
 
 import java.io.*;
 
-public class Cli {
+public class CommandLine {
     private OutputStream output;
     private BufferedReader inputReader;
 
-    public Cli(InputStream input, OutputStream output) {
+    public CommandLine(InputStream input, OutputStream output) {
         this.inputReader = new BufferedReader(new InputStreamReader(input));
         this.output = output;
     }

@@ -8,7 +8,7 @@ import java.io.ByteArrayOutputStream;
 
 import static org.junit.Assert.assertEquals;
 
-public class CliTest {
+public class CommandLineTest {
 
     private ByteArrayOutputStream output;
 
@@ -17,8 +17,8 @@ public class CliTest {
         output = new ByteArrayOutputStream();
     }
 
-    private Cli setupCli(String inputString) {
-        return new Cli(inputStream(inputString), output);
+    private CommandLine setupCommandLine(String inputString) {
+        return new CommandLine(inputStream(inputString), output);
     }
 
     private ByteArrayInputStream inputStream(String inputString) {
@@ -27,18 +27,18 @@ public class CliTest {
 
     @Test
     public void printsToTheOutput() {
-        Cli cli = setupCli("irrelevant");
+        CommandLine commandLine = setupCommandLine("irrelevant");
 
-        cli.show("output");
+        commandLine.show("output");
 
         assertEquals("output\n", output.toString());
     }
 
     @Test
     public void getsInput() {
-        Cli cli = setupCli("input");
+        CommandLine commandLine = setupCommandLine("input");
 
-        String userInput = cli.getInput();
+        String userInput = commandLine.getInput();
 
         assertEquals("input", userInput);
     }

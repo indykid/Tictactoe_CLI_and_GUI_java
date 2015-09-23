@@ -6,7 +6,8 @@ public class Game {
     }
 
     public static void main(String[] args) {
-        Game game = new Game(new Board(), new Player(Mark.X), new Player(Mark.O), new Ui(new Cli(System.in, System
+        Game game = new Game(new Board(), new HumanPlayer(Mark.X), new HumanPlayer(Mark.O), new CommandLineUi(new
+                CommandLine(System.in, System
                 .out)));
         game.play();
     }
@@ -43,14 +44,14 @@ public class Game {
     }
 
     private void addMove(int position) {
-        this.board = board.addMove(position, currentPlayer.mark);
+        this.board = board.addMove(position, currentPlayer.getMark());
     }
 
     private int validPosition() {
-        int move = ui.getMove(currentPlayer.mark);
+        int move = ui.getMove(currentPlayer.getMark());
         while (!board.isValidMove(move)) {
             ui.notifyOfInvalidInput();
-            move = ui.getMove(currentPlayer.mark);
+            move = ui.getMove(currentPlayer.getMark());
         }
         return move;
     }

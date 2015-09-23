@@ -4,25 +4,24 @@ import java.util.*;
 
 import static java.util.stream.Collectors.toList;
 
-public class AiPlayer {
-
-    public final Mark mark;
+public class AiPlayer extends Player {
 
     public AiPlayer(Mark mark) {
-        this.mark = mark;
+        super(mark);
     }
 
+    @Override
     public int pickPosition(Board board) {
         HashMap<Integer, Integer> scoredPositions = new HashMap<>();
         for (int position : availablePositions(board)) {
-            Board possibleBoard = board.addMove(position, mark);
-            int score = score(possibleBoard, mark.opponent());
+            Board possibleBoard = board.addMove(position, getMark());
+            int score = score(possibleBoard, getMark().opponent());
 
             scoredPositions.put(position, score);
         }
 
         int bestScore = Integer.MIN_VALUE;
-        int bestPosition = -1;
+        int bestPosition = Integer.MIN_VALUE;
         for (Map.Entry<Integer, Integer> entry : scoredPositions.entrySet()) {
             if (entry.getValue().compareTo(bestScore) > 0) {
                 bestScore = entry.getValue();
@@ -43,15 +42,15 @@ public class AiPlayer {
                 .map(position -> score(board.addMove(position, currentMark), currentMark.opponent()))
                 .collect(toList());
 
-        return currentMark == mark ? Collections.max(scores) : Collections.min(scores);
+        return currentMark == getMark() ? Collections.max(scores) : Collections.min(scores);
     }
 
     private int scoreFinalBoard(Board board) {
         Mark winnerMark = board.winnerMark();
         int score = 0;
-        if (winnerMark == mark) {
+        if (winnerMark == getMark()) {
             score = 10;
-        } else if (winnerMark == mark.opponent()) {
+        } else if (winnerMark == getMark().opponent()) {
             score = -10;
         }
         return score;
