@@ -38,21 +38,12 @@ public class Game {
 
     public void playTurn() {
         ui.displayBoard(board);
-        addMove(validPosition());
+        addMove(currentPlayer.pickPosition(board));
         swapPlayers();
     }
 
     private void addMove(int position) {
         this.board = board.addMove(position, currentPlayer.getMark());
-    }
-
-    private int validPosition() {
-        int move = ui.getMove(currentPlayer.getMark());
-        while (!board.isValidMove(move)) {
-            ui.notifyOfInvalidInput();
-            move = ui.getMove(currentPlayer.getMark());
-        }
-        return move;
     }
 
     private void swapPlayers() {

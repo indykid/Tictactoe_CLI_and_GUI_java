@@ -4,12 +4,17 @@ import kg.jarkyn.Board;
 import kg.jarkyn.Mark;
 import kg.jarkyn.Ui;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class UiDouble implements Ui {
     private String[] inputs;
-    private int moveRequestCount;
+    private int     moveRequestCount;
     private boolean greetingWasDisplayed;
     private boolean boardWasDisplayed;
     private boolean notifiedOfInvalidInput;
+    private boolean gameSelectionDisplayed;
+    private int     gameType;
 
     public UiDouble(String input) {
         this.inputs                 = input.split("\n");
@@ -17,6 +22,8 @@ public class UiDouble implements Ui {
         this.greetingWasDisplayed   = false;
         this.boardWasDisplayed      = false;
         this.notifiedOfInvalidInput = false;
+        this.gameSelectionDisplayed = false;
+        this.gameType               = 0;
     }
 
     @Override
@@ -38,16 +45,11 @@ public class UiDouble implements Ui {
     }
 
     @Override
-    public int getMove(Mark mark) {
+    public int getMove(Mark mark, List<Integer> validMoves) {
         String input = inputs[moveRequestCount];
         moveRequestCount++;
 
-        try {
-            return Integer.parseInt(input) - 1;
-        } catch (NumberFormatException e) {
-            notifyOfInvalidInput();
-            return getMove(mark);
-        }
+        return validate(input, mark, validMoves);
     }
 
     @Override
@@ -60,11 +62,35 @@ public class UiDouble implements Ui {
     }
 
     @Override
-    public int selectGame() {
+    public int selectGame(List<Integer> gameOptions) {
+        gameSelectionDisplayed = true;
         return 0;
     }
 
-    public boolean moveRequested() {
-        return moveRequestCount != 0;
+    public boolean gameSelectionDisplayed() {
+        return gameSelectionDisplayed;
+    }
+
+    public boolean receivedGameType() {
+        return gameType != 0;
+    }
+
+    private int validate(String input, Mark mark, List<Integer> validMoves) {
+        try {
+            int numericInput = Integer.parseInt(input);
+            if (offset(validMoves).contains(numericInput)) {
+                return numericInput - 1;
+            } else {
+                notifyOfInvalidInput();
+                return getMove(mark, validMoves);
+            }
+        } catch (NumberFormatException e) {
+            notifyOfInvalidInput();
+            return getMove(mark, validMoves);
+        }
+    }
+
+    private List<Integer> offset(List<Integer> available) {
+        return available.stream().map(move -> move + 1).collect(Collectors.toList());
     }
 }

@@ -3,6 +3,8 @@ package kg.jarkyn;
 import org.junit.Test;
 import kg.jarkyn.doubles.UiDouble;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 import static kg.jarkyn.Mark.*;
 
@@ -102,6 +104,8 @@ public class GameTest {
 
         game.playTurn();
         game.playTurn();
+
+
 
         assertEquals(X, game.getBoard().markAt(0));
         assertEquals(O, game.getBoard().markAt(1));

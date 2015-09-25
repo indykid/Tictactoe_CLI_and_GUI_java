@@ -11,6 +11,6 @@ public class HumanPlayer extends Player {
 
     @Override
     public int pickPosition(Board board) {
-        return ui.getMove(mark);
+        return ui.getMove(mark, board.available);
     }
 }

@@ -5,6 +5,8 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
+import java.util.List;
 
 import static kg.jarkyn.Mark.*;
 import static org.junit.Assert.assertEquals;
@@ -13,10 +15,14 @@ import static org.junit.Assert.assertTrue;
 public class CommandLineUiTest {
 
     private ByteArrayOutputStream output;
+    private List<Integer> gameOptions;
+    private List<Integer> validMoves;
 
     @Before
     public void setUp() {
         output = new ByteArrayOutputStream();
+        gameOptions = Arrays.asList(1, 2, 3);
+        validMoves = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8);
     }
 
     private ByteArrayInputStream inputStream(String userInput) {
@@ -40,7 +46,7 @@ public class CommandLineUiTest {
     public void promptsGameSelection() {
         CommandLineUi ui = setupUi("1");
 
-        ui.selectGame();
+        ui.selectGame(gameOptions);
 
         assertEquals(CommandLineUi.GAME_OPTIONS + "\n", output.toString());
     }
@@ -49,7 +55,7 @@ public class CommandLineUiTest {
     public void receivesGameOption() {
         CommandLineUi ui = setupUi("1");
 
-        int option = ui.selectGame();
+        int option = ui.selectGame(gameOptions);
 
         assertEquals(1, option);
     }
@@ -57,14 +63,15 @@ public class CommandLineUiTest {
     @Test
     public void notifiesOfInvalidGameOption() {
         CommandLineUi ui = setupUi("invalid\n1");
-        ui.selectGame();
+        ui.selectGame(gameOptions);
+
         assertTrue(output.toString().contains(CommandLineUi.INVALID_OPTION + "\n"));
     }
 
     @Test
     public void getsInputUntilValid() {
         CommandLineUi ui = setupUi("invalid\n1");
-        assertEquals(1, ui.selectGame());
+        assertEquals(1, ui.selectGame(gameOptions));
     }
 
     @Test
@@ -85,33 +92,37 @@ public class CommandLineUiTest {
     @Test
     public void asksUserForMove() {
         CommandLineUi ui = setupUi("1");
-        ui.getMove(X);
+        ui.getMove(X, validMoves);
+
         assertEquals("Player X, please select your move\n", output.toString());
     }
 
     @Test
     public void getsMove() {
         CommandLineUi ui = setupUi("1");
-        assertEquals(0, ui.getMove(X));
+
+        assertEquals(0, ui.getMove(X, validMoves));
     }
 
     @Test
     public void doesNotAcceptNonNumericMove() {
         CommandLineUi ui = setupUi("a\n1");
-        assertEquals(0, ui.getMove(X));
+
+        assertEquals(0, ui.getMove(X, validMoves));
     }
 
     @Test
     public void doesNotAcceptBlankInputAsMove() {
         CommandLineUi ui = setupUi("\n1");
-        assertEquals(0, ui.getMove(X));
+
+        assertEquals(0, ui.getMove(X, validMoves));
     }
 
     @Test
     public void notifiesOnInvalidMove() {
         CommandLineUi ui = setupUi("a\n1");
 
-        ui.getMove(X);
+        ui.getMove(X, validMoves);
 
         assertTrue(output.toString().contains("Invalid input, please try again"));
     }
