@@ -14,7 +14,6 @@ public class UiDouble implements Ui {
     private boolean boardWasDisplayed;
     private boolean notifiedOfInvalidInput;
     private boolean gameSelectionDisplayed;
-    private int     gameType;
 
     public UiDouble(String input) {
         this.inputs                 = input.split("\n");
@@ -23,7 +22,6 @@ public class UiDouble implements Ui {
         this.boardWasDisplayed      = false;
         this.notifiedOfInvalidInput = false;
         this.gameSelectionDisplayed = false;
-        this.gameType               = 0;
     }
 
     @Override
@@ -46,8 +44,7 @@ public class UiDouble implements Ui {
 
     @Override
     public int getMove(Mark mark, List<Integer> validMoves) {
-        String input = inputs[moveRequestCount];
-        moveRequestCount++;
+        String input = getInput();
 
         return validate(input, mark, validMoves);
     }
@@ -64,15 +61,17 @@ public class UiDouble implements Ui {
     @Override
     public int selectGame(List<Integer> gameOptions) {
         gameSelectionDisplayed = true;
-        return 0;
+        return 1;
     }
 
     public boolean gameSelectionDisplayed() {
         return gameSelectionDisplayed;
     }
 
-    public boolean receivedGameType() {
-        return gameType != 0;
+    private String getInput() {
+        String input = inputs[moveRequestCount];
+        moveRequestCount++;
+        return input;
     }
 
     private int validate(String input, Mark mark, List<Integer> validMoves) {
