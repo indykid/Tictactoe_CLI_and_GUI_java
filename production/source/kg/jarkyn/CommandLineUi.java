@@ -7,8 +7,8 @@ public class CommandLineUi implements Ui {
     private CommandLine commandLine;
     public static final String GREETING = "Welcome to Tictactoe!";
     public static final String INVALID_OPTION = "Invalid input, please try again";
-    public static final String GAME_OPTIONS = "Please select your opponent:\n" +
-                                              "1 - computer plays first (X)\n" +
+    public static final String GAME_OPTIONS = "Please select your opponent:\n"  +
+                                              "1 - computer plays first (X)\n"  +
                                               "2 - computer plays second (O)\n" +
                                               "3 - play against your friend (first to go plays X)";
 
@@ -84,7 +84,7 @@ public class CommandLineUi implements Ui {
             if (validOptions.contains(input)) {
                 return input;
             } else {
-               notifyOfInvalidInput();
+                notifyOfInvalidInput();
                 return getValidInput(message, validOptions);
             }
         } catch (NumberFormatException e) {
