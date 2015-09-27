@@ -61,7 +61,7 @@ public class UiDouble implements Ui {
     @Override
     public int selectGame(List<Integer> gameOptions) {
         gameSelectionDisplayed = true;
-        return 1;
+        return Integer.parseInt(getInput());
     }
 
     public boolean gameSelectionDisplayed() {
