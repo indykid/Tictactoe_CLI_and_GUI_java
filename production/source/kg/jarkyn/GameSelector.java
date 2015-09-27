@@ -12,14 +12,27 @@ public class GameSelector {
         this.ui = ui;
     }
 
-    public void makeGame() {
+    public Game makeGame() {
         ui.greet();
         this.gameType = ui.selectGame(Arrays.asList(1, 2, 3));
+        setPlayers();
+        return new Game(new Board(), playerX, playerO, ui);
+    }
+
+    private void setPlayers() {
         switch (gameType) {
             case 1:
                 setPlayerX(new AiPlayer(Mark.X));
                 setPlayerO(new HumanPlayer(Mark.O, ui));
-
+                break;
+            case 2:
+                setPlayerX(new HumanPlayer(Mark.X, ui));
+                setPlayerO(new AiPlayer(Mark.O));
+                break;
+            case 3:
+                setPlayerX(new HumanPlayer(Mark.X, ui));
+                setPlayerO(new HumanPlayer(Mark.O, ui));
+                break;
         }
     }
 

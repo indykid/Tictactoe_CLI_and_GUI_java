@@ -38,7 +38,7 @@ public class GameSelectorTest {
     }
 
     @Test
-    public void givenOptionOneCreatesAiAsXPlayerAndHumanAsOPlayer() {
+    public void givenOptionOneSetsAiAsXPlayerAndHumanAsOPlayer() {
         UiDouble ui = new UiDouble("1");
         GameSelector gameSelector = new GameSelector(ui);
 
@@ -46,5 +46,37 @@ public class GameSelectorTest {
 
         assertTrue(gameSelector.getPlayerX() instanceof AiPlayer);
         assertTrue(gameSelector.getPlayerO() instanceof HumanPlayer);
+    }
+
+    @Test
+    public void givenOptionTwoSetsHumanAsXPlayerAndAiAsOPlayer() {
+        UiDouble ui = new UiDouble("2");
+        GameSelector gameSelector = new GameSelector(ui);
+
+        gameSelector.makeGame();
+
+        assertTrue(gameSelector.getPlayerX() instanceof HumanPlayer);
+        assertTrue(gameSelector.getPlayerO() instanceof AiPlayer);
+    }
+
+    @Test
+    public void givenOptionThreeSetsHumanOnlyPlayers() {
+        UiDouble ui = new UiDouble("3");
+        GameSelector gameSelector = new GameSelector(ui);
+
+        gameSelector.makeGame();
+
+        assertTrue(gameSelector.getPlayerX() instanceof HumanPlayer);
+        assertTrue(gameSelector.getPlayerO() instanceof HumanPlayer);
+    }
+
+    @Test
+    public void returnsGame() {
+        UiDouble ui = new UiDouble("3");
+        GameSelector gameSelector = new GameSelector(ui);
+
+        Game game = gameSelector.makeGame();
+
+        assertTrue(game != null);
     }
 }
