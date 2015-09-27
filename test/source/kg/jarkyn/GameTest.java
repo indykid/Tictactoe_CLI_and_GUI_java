@@ -44,15 +44,6 @@ public class GameTest {
     }
 
     @Test
-    public void greets() {
-        Game game = setupGame(new Board(), ("1\n4\n2\n5\n3"));
-
-        game.play();
-
-        assertTrue(ui.greetingWasDisplayed());
-    }
-
-    @Test
     public void displaysBoard() {
         Game game = setupGame(new Board(), "1");
 

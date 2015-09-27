@@ -26,7 +26,6 @@ public class Game {
     }
 
     public void play() {
-        ui.greet();
         while (!isOver()) {
             playTurn();
         }
