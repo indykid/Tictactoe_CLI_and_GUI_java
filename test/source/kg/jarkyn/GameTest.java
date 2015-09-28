@@ -3,8 +3,6 @@ package kg.jarkyn;
 import org.junit.Test;
 import kg.jarkyn.doubles.UiDouble;
 
-import java.util.Arrays;
-
 import static org.junit.Assert.*;
 import static kg.jarkyn.Mark.*;
 
@@ -141,5 +139,50 @@ public class GameTest {
         game.playTurn();
 
         assertTrue(ui.notifiedOfInvalidInput());
+    }
+
+    @Test
+    public void announcesGameOverAtTheEnd() {
+        Game game = setupGame(new Board(), "1\n2\n3\n5\n4\n6\n8\n7\n9");
+
+        game.play();
+
+        assertTrue(ui.gameOverAnnounced());
+    }
+
+    @Test
+    public void announcesWinner() {
+        Game game = setupGame(new Board(), "1\n4\n2\n5\n3");
+
+        game.play();
+
+        assertTrue(ui.winnerAnnounced());
+    }
+
+    @Test
+    public void announcesDraw() {
+        Game game = setupGame(new Board(), "1\n2\n3\n5\n4\n6\n8\n7\n9");
+
+        game.play();
+
+        assertTrue(ui.drawAnnounced());
+    }
+
+    @Test
+    public void doesNotAnnouncesWinnerWhenDrawn() {
+        Game game = setupGame(new Board(), "1\n2\n3\n5\n4\n6\n8\n7\n9");
+
+        game.play();
+
+        assertFalse(ui.winnerAnnounced());
+    }
+
+    @Test
+    public void doesNotAnnounceDrawWenWinnerIsPresent() {
+        Game game = setupGame(new Board(), "1\n4\n2\n5\n3");
+
+        game.play();
+
+        assertFalse(ui.drawAnnounced());
     }
 }

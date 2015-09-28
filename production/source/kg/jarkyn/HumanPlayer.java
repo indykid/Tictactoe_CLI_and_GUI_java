@@ -1,7 +1,6 @@
 package kg.jarkyn;
 
 public class HumanPlayer extends Player {
-
     private final Ui ui;
 
     public HumanPlayer(Mark mark, Ui ui) {

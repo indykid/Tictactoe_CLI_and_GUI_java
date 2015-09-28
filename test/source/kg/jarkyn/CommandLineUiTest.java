@@ -15,8 +15,8 @@ import static org.junit.Assert.assertTrue;
 public class CommandLineUiTest {
 
     private ByteArrayOutputStream output;
-    private List<Integer> gameOptions;
-    private List<Integer> validMoves;
+    private List<Integer>         gameOptions;
+    private List<Integer>         validMoves;
 
     @Before
     public void setUp() {
@@ -125,5 +125,30 @@ public class CommandLineUiTest {
         ui.getMove(X, validMoves);
 
         assertTrue(output.toString().contains("Invalid input, please try again"));
+    }
+
+    @Test
+    public void announcesGameOver() {
+        CommandLineUi ui = setupUi("irrelevant");
+        ui.announceGameOver();
+
+    }
+
+    @Test
+    public void announcesGivenWinner() {
+        CommandLineUi ui = setupUi("irrelevant");
+
+        ui.announceWinner(X);
+
+        assertEquals("Player X has won this game\n", output.toString());
+    }
+
+    @Test
+    public void announcesDraw() {
+        CommandLineUi ui = setupUi("irrelevant");
+
+        ui.announceDraw();
+
+        assertEquals("It's a draw\n", output.toString());
     }
 }
