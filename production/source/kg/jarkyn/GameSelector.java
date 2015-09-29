@@ -1,7 +1,5 @@
 package kg.jarkyn;
 
-import java.util.Arrays;
-
 public class GameSelector {
     private final Ui ui;
     private Player playerX;

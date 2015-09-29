@@ -18,4 +18,5 @@ public interface Ui {
     void announceWinner(Mark mark);
 
     void announceDraw();
+
 }

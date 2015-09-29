@@ -116,7 +116,6 @@ public class BoardTest {
                         O, X, O};
         Board board = new Board(moves);
         int[] expectedWinLine = new int[board.size];
-        System.out.println(expectedWinLine);
         Arrays.fill(expectedWinLine, -1);
 
         assertArrayEquals(expectedWinLine, board.winLine());

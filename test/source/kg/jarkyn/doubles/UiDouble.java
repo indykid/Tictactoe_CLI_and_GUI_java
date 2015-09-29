@@ -110,7 +110,7 @@ public class UiDouble implements Ui {
     private int validateMove(String input, Mark mark, List<Integer> validMoves) {
         try {
             int numericInput = Integer.parseInt(input);
-            if (offset(validMoves).contains(numericInput)) {
+            if (validMoves.contains(numericInput - 1)) {
                 return numericInput - 1;
             } else {
                 notifyOfInvalidInput();
@@ -120,9 +120,5 @@ public class UiDouble implements Ui {
             notifyOfInvalidInput();
             return getMove(mark, validMoves);
         }
-    }
-
-    private List<Integer> offset(List<Integer> available) {
-        return available.stream().map(move -> move + 1).collect(Collectors.toList());
     }
 }

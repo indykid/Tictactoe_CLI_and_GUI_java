@@ -35,13 +35,17 @@ public class Game {
     }
 
     public void playTurn() {
-        ui.displayBoard(board);
+        displayBoard();
         addMove(currentPlayer.pickPosition(board));
         swapPlayers();
     }
 
     public Board getBoard() {
         return board;
+    }
+
+    private void displayBoard() {
+        ui.displayBoard(board);
     }
 
     private void addMove(int position) {

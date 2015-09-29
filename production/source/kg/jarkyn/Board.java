@@ -38,21 +38,6 @@ public class Board {
     }
 
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Board board = (Board) o;
-
-        return Arrays.equals(moves, board.moves);
-    }
-
-    @Override
-    public int hashCode() {
-        return Arrays.hashCode(moves);
-    }
-
     public Mark[] getMoves() {
         return moves;
     }
