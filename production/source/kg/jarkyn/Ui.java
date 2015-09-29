@@ -5,7 +5,7 @@ import java.util.List;
 public interface Ui {
     void greet();
 
-    int selectGame(List<Integer> validOptions);
+    int selectGame();
 
     void displayBoard(Board board);
 

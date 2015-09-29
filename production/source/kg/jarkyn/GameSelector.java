@@ -14,9 +14,13 @@ public class GameSelector {
 
     public Game makeGame() {
         ui.greet();
-        this.gameType = ui.selectGame(Arrays.asList(1, 2, 3));
+        selectGame();
         setPlayers();
         return new Game(new Board(), playerX, playerO, ui);
+    }
+
+    private void selectGame() {
+        this.gameType = ui.selectGame();
     }
 
     private void setPlayers() {

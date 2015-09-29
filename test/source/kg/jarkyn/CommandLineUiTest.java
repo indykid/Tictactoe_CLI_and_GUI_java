@@ -15,13 +15,11 @@ import static org.junit.Assert.assertTrue;
 public class CommandLineUiTest {
 
     private ByteArrayOutputStream output;
-    private List<Integer>         gameOptions;
     private List<Integer>         validMoves;
 
     @Before
     public void setUp() {
         output = new ByteArrayOutputStream();
-        gameOptions = Arrays.asList(1, 2, 3);
         validMoves = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8);
     }
 
@@ -46,24 +44,24 @@ public class CommandLineUiTest {
     public void promptsGameSelection() {
         CommandLineUi ui = setupUi("1");
 
-        ui.selectGame(gameOptions);
+        ui.selectGame();
 
-        assertEquals(CommandLineUi.GAME_OPTIONS + "\n", output.toString());
+        assertEquals(CommandLineUi.GAME_SELECTION_MESSAGE + "\n", output.toString());
     }
 
     @Test
     public void receivesGameOption() {
         CommandLineUi ui = setupUi("1");
 
-        int option = ui.selectGame(gameOptions);
+        int option = ui.selectGame();
 
         assertEquals(1, option);
     }
 
     @Test
-    public void notifiesOfInvalidGameOption() {
+    public void notifiesOfInvalidGameSelectionOption() {
         CommandLineUi ui = setupUi("invalid\n1");
-        ui.selectGame(gameOptions);
+        ui.selectGame();
 
         assertTrue(output.toString().contains(CommandLineUi.INVALID_OPTION + "\n"));
     }
@@ -71,7 +69,7 @@ public class CommandLineUiTest {
     @Test
     public void getsInputUntilValid() {
         CommandLineUi ui = setupUi("invalid\n1");
-        assertEquals(1, ui.selectGame(gameOptions));
+        assertEquals(1, ui.selectGame());
     }
 
     @Test
@@ -119,12 +117,21 @@ public class CommandLineUiTest {
     }
 
     @Test
-    public void notifiesOnInvalidMove() {
+    public void notifiesOnNonNumericInputForMove() {
         CommandLineUi ui = setupUi("a\n1");
 
         ui.getMove(X, validMoves);
 
-        assertTrue(output.toString().contains("Invalid input, please try again"));
+        assertTrue(output.toString().contains(CommandLineUi.INVALID_OPTION));
+    }
+
+    @Test
+    public void notifiesOnInvalidMove() {
+        CommandLineUi ui = setupUi("10\n1");
+
+        ui.getMove(X, validMoves);
+
+        assertTrue(output.toString().contains(CommandLineUi.INVALID_OPTION));
     }
 
     @Test
@@ -132,6 +139,7 @@ public class CommandLineUiTest {
         CommandLineUi ui = setupUi("irrelevant");
         ui.announceGameOver();
 
+        assertTrue(output.toString().contains(CommandLineUi.GAME_OVER));
     }
 
     @Test
@@ -149,6 +157,6 @@ public class CommandLineUiTest {
 
         ui.announceDraw();
 
-        assertEquals("It's a draw\n", output.toString());
+        assertEquals(CommandLineUi.DRAW_STATUS + "\n", output.toString());
     }
 }

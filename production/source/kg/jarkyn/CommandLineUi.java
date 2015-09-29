@@ -1,18 +1,24 @@
 package kg.jarkyn;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class CommandLineUi implements Ui {
     public  static final String GREETING       = "Welcome to Tictactoe!";
     public  static final String INVALID_OPTION = "Invalid input, please try again";
-    private static final String DRAW_STATUS    = "It's a draw";
-    private static final String GAME_OVER = "Game over";
-    public  static final String GAME_OPTIONS   = "Please select your opponent:\n"  +
-                                                 "1 - computer plays first (X)\n"  +
-                                                 "2 - computer plays second (O)\n" +
-                                                 "3 - play against your friend "   +
-                                                 "(first to go plays X)";
+    public  static final String DRAW_STATUS    = "It's a draw";
+    public  static final String GAME_OVER      = "Game over";
+
+    public  static final LinkedHashMap<Integer, String> GAME_OPTIONS   = new LinkedHashMap<>();
+        static
+        {
+            GAME_OPTIONS.put(1, " - computer plays first");
+            GAME_OPTIONS.put(2, " - computer plays second");
+            GAME_OPTIONS.put(3, " - play against your friend (first to go plays X");
+        }
+    public  static final String GAME_SELECTION_MESSAGE = gameSelectionMessage();
     private CommandLine commandLine;
 
     public CommandLineUi(CommandLine commandLine){
@@ -25,8 +31,12 @@ public class CommandLineUi implements Ui {
     }
 
     @Override
-    public int selectGame(List<Integer> validOptions) {
-        return getValidInput(GAME_OPTIONS, validOptions);
+    public int selectGame() {
+        return getValidInput(gameSelectionMessage(), validGameOptions());
+    }
+
+    private List<Integer> validGameOptions() {
+        return new ArrayList<>(GAME_OPTIONS.keySet());
     }
 
     @Override
@@ -73,6 +83,16 @@ public class CommandLineUi implements Ui {
     @Override
     public void announceGameOver() {
         commandLine.show(GAME_OVER);
+    }
+
+    private static String gameSelectionMessage() {
+        ArrayList<String> gameSelectionEntries = new ArrayList<>();
+        gameSelectionEntries.add("Please select your opponent:");
+        gameSelectionEntries.addAll(GAME_OPTIONS.entrySet()
+                .stream()
+                .map(entry -> entry.getKey().toString() + entry.getValue())
+                .collect(Collectors.toList()));
+        return String.join("\n", gameSelectionEntries);
     }
 
     private int getValidInput(String message, List<Integer> validOptions) {
