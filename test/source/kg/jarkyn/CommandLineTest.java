@@ -1,10 +1,14 @@
 package kg.jarkyn;
 
+import kg.jarkyn.doubles.FailingInputStreamDouble;
+import kg.jarkyn.doubles.FailingOutputStreamDouble;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import static org.junit.Assert.assertEquals;
 
@@ -41,5 +45,21 @@ public class CommandLineTest {
         String userInput = commandLine.getInput();
 
         assertEquals("input", userInput);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void throwsRuntimeExceptionOnOutputWrite() {
+        OutputStream output = new FailingOutputStreamDouble();
+        CommandLine commandLine = new CommandLine(inputStream("irrelevant"), output);
+
+        commandLine.show("");
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void throwsRuntimeExceptionOnInputRead() {
+        InputStream input = new FailingInputStreamDouble();
+        CommandLine commandLine = new CommandLine(input, output);
+
+        commandLine.getInput();
     }
 }

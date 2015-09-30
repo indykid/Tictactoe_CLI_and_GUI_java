@@ -13,9 +13,7 @@ public class CommandLineUi implements Ui {
     private static final String NEW_LINE       = "\n";
     private static final LinkedHashMap<Integer, String>
                                 GAME_OPTIONS   = new LinkedHashMap<>();
-
-    static
-            {
+    static {
                 GAME_OPTIONS.put(1, " - computer plays first");
                 GAME_OPTIONS.put(2, " - computer plays second");
                 GAME_OPTIONS.put(3, " - play against your friend (first to go plays X)");
@@ -44,8 +42,7 @@ public class CommandLineUi implements Ui {
 
     @Override
     public void displayBoard(Board board) {
-        Mark[] moves = board.getMoves();
-        String[] readableMoves = readableMoves(moves);
+        String[] readableMoves = readableMoves(board.getMoves());
 
         String result = String.format("  %s |  %s |  %s \n" +
                                       "--------------\n"    +
