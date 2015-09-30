@@ -9,16 +9,19 @@ public class CommandLineUi implements Ui {
     public  static final String GREETING       = "Welcome to Tictactoe!";
     public  static final String INVALID_OPTION = "Invalid input, please try again";
     public  static final String DRAW_STATUS    = "It's a draw";
-    public  static final String GAME_OVER      = "Game over";
+    public  static final String GAME_OVER      = "GAME OVER";
+    private static final String NEW_LINE       = "\n";
+    private static final LinkedHashMap<Integer, String>
+                                GAME_OPTIONS   = new LinkedHashMap<>();
 
-    public  static final LinkedHashMap<Integer, String> GAME_OPTIONS   = new LinkedHashMap<>();
-        static
-        {
-            GAME_OPTIONS.put(1, " - computer plays first");
-            GAME_OPTIONS.put(2, " - computer plays second");
-            GAME_OPTIONS.put(3, " - play against your friend (first to go plays X");
-        }
+    static
+            {
+                GAME_OPTIONS.put(1, " - computer plays first");
+                GAME_OPTIONS.put(2, " - computer plays second");
+                GAME_OPTIONS.put(3, " - play against your friend (first to go plays X)");
+            }
     public  static final String GAME_SELECTION_MESSAGE = gameSelectionMessage();
+
     private CommandLine commandLine;
 
     public CommandLineUi(CommandLine commandLine){
@@ -27,16 +30,16 @@ public class CommandLineUi implements Ui {
 
     @Override
     public void greet() {
-        commandLine.show(GREETING);
+        show(GREETING);
+    }
+
+    private void show(String message) {
+        commandLine.show(message + NEW_LINE);
     }
 
     @Override
     public int selectGame() {
         return getValidInput(gameSelectionMessage(), validGameOptions());
-    }
-
-    private List<Integer> validGameOptions() {
-        return new ArrayList<>(GAME_OPTIONS.keySet());
     }
 
     @Override
@@ -57,7 +60,7 @@ public class CommandLineUi implements Ui {
                                                              readableMoves[6],
                                                              readableMoves[7],
                                                              readableMoves[8]);
-        commandLine.show(result);
+        show(result);
     }
 
     @Override
@@ -67,22 +70,22 @@ public class CommandLineUi implements Ui {
 
     @Override
     public void notifyOfInvalidInput() {
-        commandLine.show(INVALID_OPTION);
+        show(INVALID_OPTION);
     }
 
     @Override
     public void announceWinner(Mark mark) {
-       commandLine.show(String.format("Player %s has won this game", mark));
+        show(String.format("Player %s has won this game", mark));
     }
 
     @Override
     public void announceDraw() {
-        commandLine.show(DRAW_STATUS);
+        show(DRAW_STATUS);
     }
 
     @Override
     public void announceGameOver() {
-        commandLine.show(GAME_OVER);
+        show(GAME_OVER);
     }
 
     private static String gameSelectionMessage() {
@@ -95,8 +98,12 @@ public class CommandLineUi implements Ui {
         return String.join("\n", gameSelectionEntries);
     }
 
+    private List<Integer> validGameOptions() {
+        return new ArrayList<>(GAME_OPTIONS.keySet());
+    }
+
     private int getValidInput(String message, List<Integer> validOptions) {
-        commandLine.show(message);
+        show(message);
         try {
             int input = Integer.parseInt(commandLine.getInput());
             if (validOptions.contains(input)) {
@@ -124,7 +131,7 @@ public class CommandLineUi implements Ui {
     }
 
     private String promptForMove(Mark mark) {
-        return String.format("Player %s, please select your move", mark);
+        return String.format("Player %s, please select your move:", mark);
     }
 
     private List<Integer> offset(List<Integer> available) {

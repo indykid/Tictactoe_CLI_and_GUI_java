@@ -1,5 +1,7 @@
 package kg.jarkyn;
 
+import java.io.IOException;
+
 public class Game {
     private final Player playerX;
     private final Player playerO;

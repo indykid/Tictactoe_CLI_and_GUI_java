@@ -13,7 +13,7 @@ public class CommandLine {
 
     public void show(String message) {
         try {
-            output.write((message + "\n").getBytes());
+            output.write((message).getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -20,13 +20,6 @@ public class Board {
         {2, 4, 6}
     };
 
-    private static Mark[] setMoves() {
-        int length = (int)Math.pow(DEFAULT_SIZE, 2);
-        Mark[] moves  = new Mark[length];
-        Arrays.fill(moves, Mark.NONE);
-        return moves;
-    }
-
     public Board() {
         this(setMoves());
     }
@@ -36,7 +29,6 @@ public class Board {
         this.moves = moves;
         this.available = setAvailable();
     }
-
 
     public Mark[] getMoves() {
         return moves;
@@ -51,6 +43,7 @@ public class Board {
     public Mark markAt(int position) {
         return moves[position];
     }
+
 
     public boolean isValidMove(int position) {
         return available.contains(position);
@@ -80,6 +73,13 @@ public class Board {
 
     public boolean isFinalState() {
         return isWon() || isDrawn();
+    }
+
+    private static Mark[] setMoves() {
+        int length = (int)Math.pow(DEFAULT_SIZE, 2);
+        Mark[] moves  = new Mark[length];
+        Arrays.fill(moves, Mark.NONE);
+        return moves;
     }
 
     private ArrayList<Integer> setAvailable() {

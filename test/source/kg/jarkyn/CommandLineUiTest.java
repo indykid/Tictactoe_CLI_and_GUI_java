@@ -37,7 +37,7 @@ public class CommandLineUiTest {
 
         ui.greet();
 
-        assertEquals(CommandLineUi.GREETING + "\n", output.toString());
+        assertTrue(output.toString().contains(CommandLineUi.GREETING));
     }
 
     @Test
@@ -46,7 +46,7 @@ public class CommandLineUiTest {
 
         ui.selectGame();
 
-        assertEquals(CommandLineUi.GAME_SELECTION_MESSAGE + "\n", output.toString());
+        assertTrue(output.toString().contains(CommandLineUi.GAME_SELECTION_MESSAGE));
     }
 
     @Test
@@ -63,7 +63,7 @@ public class CommandLineUiTest {
         CommandLineUi ui = setupUi("invalid\n1");
         ui.selectGame();
 
-        assertTrue(output.toString().contains(CommandLineUi.INVALID_OPTION + "\n"));
+        assertTrue(output.toString().contains(CommandLineUi.INVALID_OPTION));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class CommandLineUiTest {
         CommandLineUi ui = setupUi("1");
         ui.getMove(X, validMoves);
 
-        assertEquals("Player X, please select your move\n", output.toString());
+        assertTrue(output.toString().contains("Player X, please select your move:"));
     }
 
     @Test
@@ -148,7 +148,7 @@ public class CommandLineUiTest {
 
         ui.announceWinner(X);
 
-        assertEquals("Player X has won this game\n", output.toString());
+        assertTrue(output.toString().contains("Player X has won this game"));
     }
 
     @Test
@@ -157,6 +157,6 @@ public class CommandLineUiTest {
 
         ui.announceDraw();
 
-        assertEquals(CommandLineUi.DRAW_STATUS + "\n", output.toString());
+        assertTrue(output.toString().contains(CommandLineUi.DRAW_STATUS));
     }
 }

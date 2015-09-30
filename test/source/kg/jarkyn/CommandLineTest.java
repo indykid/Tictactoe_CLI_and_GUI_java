@@ -31,7 +31,7 @@ public class CommandLineTest {
 
         commandLine.show("output");
 
-        assertEquals("output\n", output.toString());
+        assertEquals("output", output.toString());
     }
 
     @Test
