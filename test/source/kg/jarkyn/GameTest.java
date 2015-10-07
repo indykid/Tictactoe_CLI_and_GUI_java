@@ -94,8 +94,6 @@ public class GameTest {
         game.playTurn();
         game.playTurn();
 
-
-
         assertEquals(X, game.getBoard().markAt(0));
         assertEquals(O, game.getBoard().markAt(1));
     }

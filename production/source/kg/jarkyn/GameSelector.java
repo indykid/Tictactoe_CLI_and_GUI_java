@@ -22,19 +22,15 @@ public class GameSelector {
     }
 
     private void setPlayers() {
-        switch (gameType) {
-            case 1:
-                setPlayerX(new AiPlayer(Mark.X));
-                setPlayerO(new HumanPlayer(Mark.O, ui));
-                break;
-            case 2:
-                setPlayerX(new HumanPlayer(Mark.X, ui));
-                setPlayerO(new AiPlayer(Mark.O));
-                break;
-            case 3:
-                setPlayerX(new HumanPlayer(Mark.X, ui));
-                setPlayerO(new HumanPlayer(Mark.O, ui));
-                break;
+        if (gameType == GameOption.AI_FIRST.value) {
+            setPlayerX(new AiPlayer(Mark.X));
+            setPlayerO(new HumanPlayer(Mark.O, ui));
+        } else if (gameType == GameOption.AI_SECOND.value) {
+            setPlayerX(new HumanPlayer(Mark.X, ui));
+            setPlayerO(new AiPlayer(Mark.O));
+        } else if (gameType == GameOption.HUMAN_ONLY.value) {
+            setPlayerX(new HumanPlayer(Mark.X, ui));
+            setPlayerO(new HumanPlayer(Mark.O, ui));
         }
     }
 

@@ -34,7 +34,7 @@ public class GameSelectorTest {
 
         gameSelector.makeGame();
 
-        assertEquals(2, gameSelector.getGameType());
+        assertEquals(GameOption.AI_SECOND.value, gameSelector.getGameType());
     }
 
     @Test

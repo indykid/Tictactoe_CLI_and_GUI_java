@@ -100,18 +100,22 @@ public class CommandLineUi implements Ui {
     }
 
     private int getValidInput(String message, List<Integer> validOptions) {
-        show(message);
-        try {
-            int input = Integer.parseInt(commandLine.getInput());
-            if (validOptions.contains(input)) {
-                return input;
-            } else {
-                notifyOfInvalidInput();
-                return getValidInput(message, validOptions);
-            }
-        } catch (NumberFormatException e) {
+        int input = readInt(message);
+        if (validOptions.contains(input)) {
+            return input;
+        } else {
             notifyOfInvalidInput();
             return getValidInput(message, validOptions);
+        }
+    }
+
+    private int readInt(String prompt) {
+        show(prompt);
+        try {
+            return Integer.parseInt(commandLine.getInput());
+        } catch (NumberFormatException e) {
+            notifyOfInvalidInput();
+            return readInt(prompt);
         }
     }
 
