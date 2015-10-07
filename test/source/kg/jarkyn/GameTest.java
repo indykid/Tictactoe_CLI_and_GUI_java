@@ -1,11 +1,11 @@
 package kg.jarkyn;
 
-import org.junit.Ignore;
-import org.junit.Test;
 import kg.jarkyn.doubles.UiDouble;
+import org.junit.Test;
 
+import static kg.jarkyn.Mark.O;
+import static kg.jarkyn.Mark.X;
 import static org.junit.Assert.*;
-import static kg.jarkyn.Mark.*;
 
 public class GameTest {
     private UiDouble ui;
@@ -87,38 +87,6 @@ public class GameTest {
         game.play();
 
         assertTrue(game.isOver());
-    }
-
-    @Test
-    public void doesNotPlayIntoOccupiedPosition() {
-        Game game = setupGame(new Board(), new int[]{1, 1, 2});
-
-        game.playTurn();
-        game.playTurn();
-
-        assertEquals(X, game.getBoard().markAt(0));
-        assertEquals(O, game.getBoard().markAt(1));
-    }
-
-    @Test
-    public void doesNotPlayIntoNonExistingPosition() {
-        Game game = setupGame(new Board(), new int[]{10, 1, 2}) ;
-
-        game.playTurn();
-        game.playTurn();
-
-        assertEquals(X, game.getBoard().markAt(0));
-        assertEquals(O, game.getBoard().markAt(1));
-    }
-
-    @Test
-    public void notifiesOfInvalidMoveIntoOccupiedPosition() {
-        Game game = setupGame(new Board(), new int[]{1, 1, 2});
-
-        game.playTurn();
-        game.playTurn();
-
-        assertTrue(ui.notifiedOfInvalidInput());
     }
 
     @Test

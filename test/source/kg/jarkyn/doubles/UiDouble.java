@@ -11,7 +11,6 @@ public class UiDouble implements Ui {
     private int moveRequestCount;
     private boolean greetingWasDisplayed;
     private boolean boardWasDisplayed;
-    private boolean notifiedOfInvalidInput;
     private boolean gameSelectionDisplayed;
     private boolean gameOverAnnounced;
     private boolean winnerAnnounced;
@@ -22,7 +21,6 @@ public class UiDouble implements Ui {
         this.moveRequestCount = 0;
         this.greetingWasDisplayed = false;
         this.boardWasDisplayed = false;
-        this.notifiedOfInvalidInput = false;
         this.gameSelectionDisplayed = false;
         this.gameOverAnnounced = false;
         this.winnerAnnounced = false;
@@ -49,18 +47,11 @@ public class UiDouble implements Ui {
 
     @Override
     public int getMove(Mark mark, List<Integer> validMoves) {
-        int input = getInput();
-
-        return validateMove(input, mark, validMoves);
+        return getInput() - 1;
     }
 
     @Override
     public void notifyOfInvalidInput() {
-        notifiedOfInvalidInput = true;
-    }
-
-    public boolean notifiedOfInvalidInput() {
-        return notifiedOfInvalidInput;
     }
 
     @Override
@@ -104,14 +95,5 @@ public class UiDouble implements Ui {
         int input = inputs[moveRequestCount];
         moveRequestCount++;
         return input;
-    }
-
-    private int validateMove(int input, Mark mark, List<Integer> validMoves) {
-        if (validMoves.contains(input - 1)) {
-            return input - 1;
-        } else {
-            notifyOfInvalidInput();
-            return getMove(mark, validMoves);
-        }
     }
 }
