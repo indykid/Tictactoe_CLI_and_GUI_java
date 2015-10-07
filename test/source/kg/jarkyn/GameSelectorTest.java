@@ -9,7 +9,7 @@ import static org.junit.Assert.assertTrue;
 public class GameSelectorTest {
     @Test
     public void greets() {
-        UiDouble ui = new UiDouble("1");
+        UiDouble ui = new UiDouble(new int[]{1});
         GameSelector gameSelector = new GameSelector(ui);
 
         gameSelector.makeGame();
@@ -19,7 +19,7 @@ public class GameSelectorTest {
 
     @Test
     public void displaysGameOptions() {
-        UiDouble ui = new UiDouble("1");
+        UiDouble ui = new UiDouble(new int[]{1});
         GameSelector gameSelector = new GameSelector(ui);
 
         gameSelector.makeGame();
@@ -29,7 +29,7 @@ public class GameSelectorTest {
 
     @Test
     public void receivesGameType() {
-        UiDouble ui = new UiDouble("2");
+        UiDouble ui = new UiDouble(new int[]{2});
         GameSelector gameSelector = new GameSelector(ui);
 
         gameSelector.makeGame();
@@ -39,7 +39,7 @@ public class GameSelectorTest {
 
     @Test
     public void givenOptionOneSetsAiAsXPlayerAndHumanAsOPlayer() {
-        UiDouble ui = new UiDouble("1");
+        UiDouble ui = new UiDouble(new int[]{1});
         GameSelector gameSelector = new GameSelector(ui);
 
         gameSelector.makeGame();
@@ -50,7 +50,7 @@ public class GameSelectorTest {
 
     @Test
     public void givenOptionTwoSetsHumanAsXPlayerAndAiAsOPlayer() {
-        UiDouble ui = new UiDouble("2");
+        UiDouble ui = new UiDouble(new int[]{2});
         GameSelector gameSelector = new GameSelector(ui);
 
         gameSelector.makeGame();
@@ -61,7 +61,7 @@ public class GameSelectorTest {
 
     @Test
     public void givenOptionThreeSetsHumanOnlyPlayers() {
-        UiDouble ui = new UiDouble("3");
+        UiDouble ui = new UiDouble(new int[]{3});
         GameSelector gameSelector = new GameSelector(ui);
 
         gameSelector.makeGame();
@@ -72,7 +72,7 @@ public class GameSelectorTest {
 
     @Test
     public void returnsGame() {
-        UiDouble ui = new UiDouble("3");
+        UiDouble ui = new UiDouble(new int[]{3});
         GameSelector gameSelector = new GameSelector(ui);
 
         Game game = gameSelector.makeGame();

@@ -1,5 +1,6 @@
 package kg.jarkyn;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import kg.jarkyn.doubles.UiDouble;
 
@@ -8,15 +9,16 @@ import static kg.jarkyn.Mark.*;
 
 public class GameTest {
     private UiDouble ui;
+    private final int[] irrelevantInput = new int[]{0};
 
-    private Game setupGame(Board board, String input) {
-        ui = new UiDouble(input);
+    private Game setupGame(Board board, int[] inputs) {
+        ui = new UiDouble(inputs);
         return new Game(board, new HumanPlayer(X, ui), new HumanPlayer(O, ui), ui);
     }
 
     @Test
     public void itIsNotOverAtTheStart() {
-        Game game = setupGame(new Board(), "irrelevant");
+        Game game = setupGame(new Board(), irrelevantInput);
 
         assertFalse(game.isOver());
     }
@@ -26,7 +28,7 @@ public class GameTest {
         Mark[] moves = {X, O, X,
                         X, X, O,
                         O, X, O};
-        Game game = setupGame(new Board(moves), "irrelevant");
+        Game game = setupGame(new Board(moves), irrelevantInput);
 
         assertTrue(game.isOver());
     }
@@ -36,14 +38,14 @@ public class GameTest {
         Mark[] moves = {X, O, X,
                         X, X, O,
                         O, O, X};
-        Game game = setupGame(new Board(moves), "irrelevant");
+        Game game = setupGame(new Board(moves), irrelevantInput);
 
         assertTrue(game.isOver());
     }
 
     @Test
     public void displaysBoard() {
-        Game game = setupGame(new Board(), "1");
+        Game game = setupGame(new Board(), new int[]{1});
 
         game.playTurn();
 
@@ -52,7 +54,7 @@ public class GameTest {
 
     @Test
     public void addsMoveToTheBoard() {
-        Game game = setupGame(new Board(), "1");
+        Game game = setupGame(new Board(), new int[]{1});
 
         game.playTurn();
 
@@ -61,7 +63,7 @@ public class GameTest {
 
     @Test
     public void swapsPlayers() {
-        Game game = setupGame(new Board(), "1\n2");
+        Game game = setupGame(new Board(), new int[]{1, 2});
 
         game.playTurn();
         game.playTurn();
@@ -71,7 +73,7 @@ public class GameTest {
 
     @Test
     public void playsTillWon() {
-        Game game = setupGame(new Board(), "1\n4\n2\n5\n3");
+        Game game = setupGame(new Board(), new int[]{1, 4, 2, 5, 3});
 
         game.play();
 
@@ -80,7 +82,7 @@ public class GameTest {
 
     @Test
     public void playsTillDrawn() {
-        Game game = setupGame(new Board(), "1\n2\n3\n5\n4\n6\n8\n7\n9");
+        Game game = setupGame(new Board(), new int[]{1, 2, 3, 5, 4, 6, 8, 7, 9});
 
         game.play();
 
@@ -89,7 +91,7 @@ public class GameTest {
 
     @Test
     public void doesNotPlayIntoOccupiedPosition() {
-        Game game = setupGame(new Board(), ("1\n1\n2"));
+        Game game = setupGame(new Board(), new int[]{1, 1, 2});
 
         game.playTurn();
         game.playTurn();
@@ -100,38 +102,18 @@ public class GameTest {
 
     @Test
     public void doesNotPlayIntoNonExistingPosition() {
-        Game game = setupGame(new Board(), "10\n1\n2") ;
+        Game game = setupGame(new Board(), new int[]{10, 1, 2}) ;
 
         game.playTurn();
         game.playTurn();
 
         assertEquals(X, game.getBoard().markAt(0));
         assertEquals(O, game.getBoard().markAt(1));
-    }
-
-    @Test
-    public void doesNotPlayIntoInvalidPosition() {
-        Game game = setupGame(new Board(), "a\n1\n2");
-
-        game.playTurn();
-        game.playTurn();
-
-        assertEquals(X, game.getBoard().markAt(0));
-        assertEquals(O, game.getBoard().markAt(1));
-    }
-
-    @Test
-    public void notifiesOfInvalidInputForNonNumericMove() {
-        Game game = setupGame(new Board(), "a\n5");
-
-        game.playTurn();
-
-        assertTrue(ui.notifiedOfInvalidInput());
     }
 
     @Test
     public void notifiesOfInvalidMoveIntoOccupiedPosition() {
-        Game game = setupGame(new Board(), "1\n1\n2");
+        Game game = setupGame(new Board(), new int[]{1, 1, 2});
 
         game.playTurn();
         game.playTurn();
@@ -141,7 +123,7 @@ public class GameTest {
 
     @Test
     public void announcesGameOverAtTheEnd() {
-        Game game = setupGame(new Board(), "1\n2\n3\n5\n4\n6\n8\n7\n9");
+        Game game = setupGame(new Board(), new int[]{1, 2, 3, 5, 4, 6, 8, 7, 9});
 
         game.play();
 
@@ -150,7 +132,7 @@ public class GameTest {
 
     @Test
     public void announcesWinner() {
-        Game game = setupGame(new Board(), "1\n4\n2\n5\n3");
+        Game game = setupGame(new Board(), new int[]{1, 4, 2, 5, 3});
 
         game.play();
 
@@ -159,7 +141,7 @@ public class GameTest {
 
     @Test
     public void announcesDraw() {
-        Game game = setupGame(new Board(), "1\n2\n3\n5\n4\n6\n8\n7\n9");
+        Game game = setupGame(new Board(), new int[]{1, 2, 3, 5, 4, 6, 8, 7, 9});
 
         game.play();
 
@@ -168,7 +150,7 @@ public class GameTest {
 
     @Test
     public void doesNotAnnouncesWinnerWhenDrawn() {
-        Game game = setupGame(new Board(), "1\n2\n3\n5\n4\n6\n8\n7\n9");
+        Game game = setupGame(new Board(), new int[]{1, 2, 3, 5, 4, 6, 8, 7, 9});
 
         game.play();
 
@@ -177,7 +159,7 @@ public class GameTest {
 
     @Test
     public void doesNotAnnounceDrawWenWinnerIsPresent() {
-        Game game = setupGame(new Board(), "1\n4\n2\n5\n3");
+        Game game = setupGame(new Board(), new int[]{1, 4, 2, 5, 3});
 
         game.play();
 

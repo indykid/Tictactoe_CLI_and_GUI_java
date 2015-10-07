@@ -5,11 +5,10 @@ import kg.jarkyn.Mark;
 import kg.jarkyn.Ui;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UiDouble implements Ui {
-    private String[] inputs;
-    private int     moveRequestCount;
+    private int[] inputs;
+    private int moveRequestCount;
     private boolean greetingWasDisplayed;
     private boolean boardWasDisplayed;
     private boolean notifiedOfInvalidInput;
@@ -18,16 +17,16 @@ public class UiDouble implements Ui {
     private boolean winnerAnnounced;
     private boolean drawAnnounced;
 
-    public UiDouble(String input) {
-        this.inputs                 = input.split("\n");
-        this.moveRequestCount       = 0;
-        this.greetingWasDisplayed   = false;
-        this.boardWasDisplayed      = false;
+    public UiDouble(int[] inputs) {
+        this.inputs = inputs;
+        this.moveRequestCount = 0;
+        this.greetingWasDisplayed = false;
+        this.boardWasDisplayed = false;
         this.notifiedOfInvalidInput = false;
         this.gameSelectionDisplayed = false;
-        this.gameOverAnnounced      = false;
-        this.winnerAnnounced        = false;
-        this.drawAnnounced          = false;
+        this.gameOverAnnounced = false;
+        this.winnerAnnounced = false;
+        this.drawAnnounced = false;
     }
 
     @Override
@@ -50,7 +49,7 @@ public class UiDouble implements Ui {
 
     @Override
     public int getMove(Mark mark, List<Integer> validMoves) {
-        String input = getInput();
+        int input = getInput();
 
         return validateMove(input, mark, validMoves);
     }
@@ -67,7 +66,7 @@ public class UiDouble implements Ui {
     @Override
     public int selectGame() {
         gameSelectionDisplayed = true;
-        return Integer.parseInt(getInput());
+        return getInput();
     }
 
     public boolean gameSelectionDisplayed() {
@@ -85,7 +84,7 @@ public class UiDouble implements Ui {
 
     @Override
     public void announceWinner(Mark mark) {
-       winnerAnnounced = true;
+        winnerAnnounced = true;
     }
 
     public boolean winnerAnnounced() {
@@ -101,22 +100,16 @@ public class UiDouble implements Ui {
         return drawAnnounced;
     }
 
-    private String getInput() {
-        String input = inputs[moveRequestCount];
+    private int getInput() {
+        int input = inputs[moveRequestCount];
         moveRequestCount++;
         return input;
     }
 
-    private int validateMove(String input, Mark mark, List<Integer> validMoves) {
-        try {
-            int numericInput = Integer.parseInt(input);
-            if (validMoves.contains(numericInput - 1)) {
-                return numericInput - 1;
-            } else {
-                notifyOfInvalidInput();
-                return getMove(mark, validMoves);
-            }
-        } catch (NumberFormatException e) {
+    private int validateMove(int input, Mark mark, List<Integer> validMoves) {
+        if (validMoves.contains(input - 1)) {
+            return input - 1;
+        } else {
             notifyOfInvalidInput();
             return getMove(mark, validMoves);
         }

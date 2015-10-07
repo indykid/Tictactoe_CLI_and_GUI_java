@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class HumanPlayerTest {
     @Test
     public void picksPosition() {
-        UiDouble ui = new UiDouble("1");
+        UiDouble ui = new UiDouble(new int[]{1});
         HumanPlayer playerX = new HumanPlayer(Mark.X, ui);
         int position = playerX.pickPosition(new Board());
 
