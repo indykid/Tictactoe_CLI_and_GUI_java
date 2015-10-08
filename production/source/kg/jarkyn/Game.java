@@ -17,12 +17,6 @@ public class Game {
         this.winnerMark    = Mark.NONE;
     }
 
-    public static void main(String[] args) {
-        Ui ui = new CommandLineUi(new CommandLine(System.in, System.out));
-        Game game = new GameSelector(ui).makeGame();
-        game.play();
-    }
-
     public void play() {
         while (!isOver()) {
             playTurn();

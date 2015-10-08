@@ -11,19 +11,18 @@ public class CommandLineUi implements Ui {
     public  static final String DRAW_STATUS    = "It's a draw";
     public  static final String GAME_OVER      = "GAME OVER";
     private static final String NEW_LINE       = "\n";
-    private static final LinkedHashMap<Integer, String>
-                                GAME_OPTIONS   = new LinkedHashMap<>();
-    static {
-                GAME_OPTIONS.put(1, " - computer plays first");
-                GAME_OPTIONS.put(2, " - computer plays second");
-                GAME_OPTIONS.put(3, " - play against your friend (first to go plays X)");
-            }
     public  static final String GAME_SELECTION_MESSAGE = gameSelectionMessage();
 
     private CommandLine commandLine;
 
     public CommandLineUi(CommandLine commandLine){
         this.commandLine = commandLine;
+    }
+
+    public static void main(String[] args) {
+        Ui ui = new CommandLineUi(new CommandLine(System.in, System.out));
+        Game game = new GameSelector(ui).makeGame();
+        game.play();
     }
 
     @Override
@@ -83,7 +82,7 @@ public class CommandLineUi implements Ui {
     private static String gameSelectionMessage() {
         ArrayList<String> gameSelectionEntries = new ArrayList<>();
         gameSelectionEntries.add("Please select your opponent:");
-        gameSelectionEntries.addAll(GAME_OPTIONS.entrySet()
+        gameSelectionEntries.addAll(GameOption.OPTIONS.entrySet()
                 .stream()
                 .map(entry -> entry.getKey().toString() + entry.getValue())
                 .collect(Collectors.toList()));
@@ -91,7 +90,7 @@ public class CommandLineUi implements Ui {
     }
 
     private List<Integer> validGameOptions() {
-        return new ArrayList<>(GAME_OPTIONS.keySet());
+        return new ArrayList<>(GameOption.OPTIONS.keySet());
     }
 
     private int getValidInput(String message, List<Integer> validOptions) {
