@@ -11,7 +11,6 @@ public class GameSelector {
     }
 
     public Game makeGame() {
-        ui.greet();
         selectGame();
         setPlayers();
         return new Game(new Board(), playerX, playerO, ui);

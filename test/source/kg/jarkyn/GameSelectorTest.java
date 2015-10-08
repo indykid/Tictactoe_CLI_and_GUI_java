@@ -7,6 +7,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class GameSelectorTest {
+//    @Test
+//    public void returnsAiFirstGame() {
+//    }
+
     @Test
     public void greets() {
         UiDouble ui = new UiDouble(new int[]{1});

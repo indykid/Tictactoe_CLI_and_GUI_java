@@ -27,11 +27,6 @@ public class UiDouble implements Ui {
         this.drawAnnounced = false;
     }
 
-    @Override
-    public void greet() {
-        greetingWasDisplayed = true;
-    }
-
     public boolean greetingWasDisplayed() {
         return greetingWasDisplayed;
     }
@@ -52,6 +47,7 @@ public class UiDouble implements Ui {
 
     @Override
     public int selectGame() {
+        greetingWasDisplayed = true;
         gameSelectionDisplayed = true;
         return getInput();
     }

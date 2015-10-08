@@ -1,12 +1,12 @@
 package kg.jarkyn;
 
 public class Game {
-    private final Player playerX;
-    private final Player playerO;
-    private final Ui ui;
-    private       Board board;
-    private       Player currentPlayer;
-    private       Mark winnerMark;
+    private Player playerX;
+    private Player playerO;
+    private Ui ui;
+    private Board board;
+    private Player currentPlayer;
+    private Mark winnerMark;
 
     public Game(Board board, Player playerX, Player playerO, Ui ui) {
         this.board         = board;
@@ -15,6 +15,13 @@ public class Game {
         this.ui            = ui;
         this.currentPlayer = playerX;
         this.winnerMark    = Mark.NONE;
+    }
+
+    public Game(int gameOptionValue) {
+        setPlayers(gameOptionValue);
+        this.board = new Board();
+        this.currentPlayer = playerX;
+        this.winnerMark = Mark.NONE;
     }
 
     public void play() {
@@ -36,6 +43,19 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+
+    private void setPlayers(int gameOptionValue) {
+        if (gameOptionValue == GameOption.AI_FIRST.value) {
+            setPlayerX(new AiPlayer(Mark.X));
+            setPlayerO(new HumanPlayer(Mark.O, ui));
+        } else if (gameOptionValue == GameOption.AI_SECOND.value) {
+            setPlayerX(new HumanPlayer(Mark.X, ui));
+            setPlayerO(new AiPlayer(Mark.O));
+        } else if (gameOptionValue == GameOption.HUMAN_ONLY.value) {
+            setPlayerX(new HumanPlayer(Mark.X, ui));
+            setPlayerO(new HumanPlayer(Mark.O, ui));
+        }
     }
 
     private void displayBoard() {
@@ -68,5 +88,13 @@ public class Game {
             winnerMark = board.winnerMark();
         }
         return winnerMark;
+    }
+
+    public void setPlayerX(Player playerX) {
+        this.playerX = playerX;
+    }
+
+    public void setPlayerO(Player playerO) {
+        this.playerO = playerO;
     }
 }

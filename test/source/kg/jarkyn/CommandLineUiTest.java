@@ -33,9 +33,9 @@ public class CommandLineUiTest {
 
     @Test
     public void greets() {
-        CommandLineUi ui = setupUi("irrelevant");
+        CommandLineUi ui = setupUi("1");
 
-        ui.greet();
+        ui.selectGame();
 
         assertTrue(output.toString().contains(CommandLineUi.GREETING));
     }

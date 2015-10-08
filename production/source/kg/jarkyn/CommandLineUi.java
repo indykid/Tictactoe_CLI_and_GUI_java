@@ -21,21 +21,14 @@ public class CommandLineUi implements Ui {
 
     public static void main(String[] args) {
         Ui ui = new CommandLineUi(new CommandLine(System.in, System.out));
+
         Game game = new GameSelector(ui).makeGame();
         game.play();
     }
 
     @Override
-    public void greet() {
-        show(GREETING);
-    }
-
-    private void show(String message) {
-        commandLine.show(message + NEW_LINE);
-    }
-
-    @Override
     public int selectGame() {
+        greet();
         return getValidInput(gameSelectionMessage(), validGameOptions());
     }
 
@@ -77,6 +70,14 @@ public class CommandLineUi implements Ui {
     @Override
     public void announceGameOver() {
         show(GAME_OVER);
+    }
+
+    private void greet() {
+        show(GREETING);
+    }
+
+    private void show(String message) {
+        commandLine.show(message + NEW_LINE);
     }
 
     private static String gameSelectionMessage() {
