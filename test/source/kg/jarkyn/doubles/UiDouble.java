@@ -51,10 +51,6 @@ public class UiDouble implements Ui {
     }
 
     @Override
-    public void notifyOfInvalidInput() {
-    }
-
-    @Override
     public int selectGame() {
         gameSelectionDisplayed = true;
         return getInput();

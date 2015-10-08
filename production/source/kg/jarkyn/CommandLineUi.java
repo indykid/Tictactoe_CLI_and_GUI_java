@@ -66,11 +66,6 @@ public class CommandLineUi implements Ui {
     }
 
     @Override
-    public void notifyOfInvalidInput() {
-        show(INVALID_OPTION);
-    }
-
-    @Override
     public void announceWinner(Mark mark) {
         show(String.format("Player %s has won this game", mark));
     }
@@ -101,12 +96,11 @@ public class CommandLineUi implements Ui {
 
     private int getValidInput(String message, List<Integer> validOptions) {
         int input = readInt(message);
-        if (validOptions.contains(input)) {
-            return input;
-        } else {
+        while (!validOptions.contains(input)) {
             notifyOfInvalidInput();
-            return getValidInput(message, validOptions);
+            input = getValidInput(message, validOptions);
         }
+        return input;
     }
 
     private int readInt(String prompt) {
@@ -117,6 +111,10 @@ public class CommandLineUi implements Ui {
             notifyOfInvalidInput();
             return readInt(prompt);
         }
+    }
+
+    private void notifyOfInvalidInput() {
+        show(INVALID_OPTION);
     }
 
     private String[] readableMoves(Mark[] moves) {

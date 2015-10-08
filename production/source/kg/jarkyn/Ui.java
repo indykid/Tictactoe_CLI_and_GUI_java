@@ -11,8 +11,6 @@ public interface Ui {
 
     int getMove(Mark mark, List<Integer> availableMoves);
 
-    void notifyOfInvalidInput();
-
     void announceGameOver();
 
     void announceWinner(Mark mark);
