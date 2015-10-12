@@ -1,7 +1,6 @@
 package kg.jarkyn;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +13,8 @@ public class CommandLineUi implements Ui {
     public  static final String GAME_SELECTION_MESSAGE = gameSelectionMessage();
 
     private CommandLine commandLine;
+    private Game game;
+    private int boardUpdateCount = 0;
 
     public CommandLineUi(CommandLine commandLine){
         this.commandLine = commandLine;
@@ -22,8 +23,9 @@ public class CommandLineUi implements Ui {
     public static void main(String[] args) {
         Ui ui = new CommandLineUi(new CommandLine(System.in, System.out));
 
-        Game game = new GameSelector(ui).makeGame();
-        game.play();
+        Game game = GameSelector.makeGame(GameOption.HUMAN_ONLY);
+        ui.setGame(game);
+        ui.playGame();
     }
 
     @Override
@@ -49,16 +51,15 @@ public class CommandLineUi implements Ui {
                                                              readableMoves[6],
                                                              readableMoves[7],
                                                              readableMoves[8]);
+        boardUpdateCount++;
         show(result);
     }
 
-    @Override
-    public int getMove(Mark mark, List<Integer> available) {
-        return getValidInput(promptForMove(mark), offset(available)) - 1;
+    public int getMove(List<Integer> available) {
+        return getValidInput(promptForMove(game.currentPlayer.getMark()), offset(available)) - 1;
     }
 
-    @Override
-    public void announceWinner(Mark mark) {
+    private void announceWinner(Mark mark) {
         show(String.format("Player %s has won this game", mark));
     }
 
@@ -135,5 +136,37 @@ public class CommandLineUi implements Ui {
 
     private List<Integer> offset(List<Integer> available) {
         return available.stream().map(move -> move + 1).collect(Collectors.toList());
+    }
+
+    @Override
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    @Override
+    public void playGame() {
+        while (gameIsActive()) {
+            displayBoard(game.getBoard());
+            int position = getMove(game.getBoard().available);
+            game.playTurn(position);
+        }
+        announceGameOver();
+        announceResult();
+    }
+
+    private void announceResult() {
+        if (game.isWon()) {
+            announceWinner(game.winnerMark());
+        } else {
+            announceDraw();
+        }
+    }
+
+    public boolean gameIsActive() {
+        return !game.isOver();
+    }
+
+    public int boardUpdateCount() {
+        return boardUpdateCount;
     }
 }

@@ -1,8 +1,6 @@
 package kg.jarkyn.doubles;
 
-import kg.jarkyn.Board;
-import kg.jarkyn.Mark;
-import kg.jarkyn.Ui;
+import kg.jarkyn.*;
 
 import java.util.List;
 
@@ -40,8 +38,7 @@ public class UiDouble implements Ui {
         return boardWasDisplayed;
     }
 
-    @Override
-    public int getMove(Mark mark, List<Integer> validMoves) {
+    public int getMove(List<Integer> validMoves) {
         return getInput() - 1;
     }
 
@@ -65,7 +62,6 @@ public class UiDouble implements Ui {
         return gameOverAnnounced;
     }
 
-    @Override
     public void announceWinner(Mark mark) {
         winnerAnnounced = true;
     }
@@ -77,6 +73,16 @@ public class UiDouble implements Ui {
     @Override
     public void announceDraw() {
         drawAnnounced = true;
+    }
+
+    @Override
+    public void setGame(Game game) {
+
+    }
+
+    @Override
+    public void playGame() {
+
     }
 
     public boolean drawAnnounced() {

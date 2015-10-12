@@ -7,8 +7,6 @@ public abstract class Player {
         this.mark = mark;
     }
 
-    public abstract int pickPosition(Board board);
-
     public Mark getMark() {
         return mark;
     }

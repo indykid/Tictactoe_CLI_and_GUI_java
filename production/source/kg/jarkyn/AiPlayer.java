@@ -10,7 +10,6 @@ public class AiPlayer extends Player {
         super(mark);
     }
 
-    @Override
     public int pickPosition(Board board) {
         HashMap<Integer, Integer> scoredPositions = new HashMap<>();
         for (int position : availablePositions(board)) {

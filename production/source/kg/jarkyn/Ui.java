@@ -1,17 +1,17 @@
 package kg.jarkyn;
 
-import java.util.List;
-
 public interface Ui {
     int selectGame();
 
     void displayBoard(Board board);
 
-    int getMove(Mark mark, List<Integer> availableMoves);
+//    int getMove(List<Integer> available);
 
     void announceGameOver();
 
-    void announceWinner(Mark mark);
-
     void announceDraw();
+
+    void setGame(Game game);
+
+    void playGame();
 }
