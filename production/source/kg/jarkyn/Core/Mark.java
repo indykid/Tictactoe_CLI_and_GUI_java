@@ -1,4 +1,4 @@
-package kg.jarkyn;
+package kg.jarkyn.Core;
 
 public enum Mark {
     X, O, NONE;

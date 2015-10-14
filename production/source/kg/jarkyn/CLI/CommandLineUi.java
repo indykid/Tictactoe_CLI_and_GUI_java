@@ -1,5 +1,6 @@
-package kg.jarkyn;
+package kg.jarkyn.CLI;
 
+import kg.jarkyn.Core.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,58 +10,38 @@ public class CommandLineUi implements Ui {
     public  static final String INVALID_OPTION = "Invalid input, please try again";
     public  static final String DRAW_STATUS    = "It's a draw";
     public  static final String GAME_OVER      = "GAME OVER";
-    private static final String NEW_LINE       = "\n";
     public  static final String GAME_SELECTION_MESSAGE = gameSelectionMessage();
-
+    private static final String NEW_LINE = "\n";
     private CommandLine commandLine;
     private Game game;
-    private int boardUpdateCount = 0;
 
-    public CommandLineUi(CommandLine commandLine){
+    public CommandLineUi(CommandLine commandLine) {
         this.commandLine = commandLine;
     }
 
     public static void main(String[] args) {
         Ui ui = new CommandLineUi(new CommandLine(System.in, System.out));
+        GameOption gameOption = GameOption.parse(ui.selectGame());
 
-        Game game = GameSelector.makeGame(GameOption.HUMAN_ONLY);
-        ui.setGame(game);
+        ui.setGame(GameSelector.makeGame(gameOption, ui));
         ui.playGame();
+    }
+
+    @Override
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    @Override
+    public int getMove(List<Integer> available) {
+        displayBoard(game.getBoard());
+        return getValidInput(promptForMove(game.getCurrentPlayer().getMark()), offset(available)) - 1;
     }
 
     @Override
     public int selectGame() {
         greet();
-        return getValidInput(gameSelectionMessage(), validGameOptions());
-    }
-
-    @Override
-    public void displayBoard(Board board) {
-        String[] readableMoves = readableMoves(board.getMoves());
-
-        String result = String.format("  %s |  %s |  %s \n" +
-                                      "--------------\n"    +
-                                      "  %s |  %s |  %s \n" +
-                                      "--------------\n"    +
-                                      "  %s |  %s |  %s \n", readableMoves[0],
-                                                             readableMoves[1],
-                                                             readableMoves[2],
-                                                             readableMoves[3],
-                                                             readableMoves[4],
-                                                             readableMoves[5],
-                                                             readableMoves[6],
-                                                             readableMoves[7],
-                                                             readableMoves[8]);
-        boardUpdateCount++;
-        show(result);
-    }
-
-    public int getMove(List<Integer> available) {
-        return getValidInput(promptForMove(game.currentPlayer.getMark()), offset(available)) - 1;
-    }
-
-    private void announceWinner(Mark mark) {
-        show(String.format("Player %s has won this game", mark));
+        return getValidInput(GAME_SELECTION_MESSAGE, validGameOptions());
     }
 
     @Override
@@ -70,15 +51,46 @@ public class CommandLineUi implements Ui {
 
     @Override
     public void announceGameOver() {
+        displayBoard(game.getBoard());
         show(GAME_OVER);
     }
 
-    private void greet() {
-        show(GREETING);
+    @Override
+    public void playGame() {
+        while (gameIsActive()) {
+            game.playTurn();
+        }
+        announceGameOver();
+        announceResult();
     }
 
     private void show(String message) {
         commandLine.show(message + NEW_LINE);
+    }
+
+    private void displayBoard(Board board) {
+        String[] readableMoves = readableMoves(board.getMoves());
+
+        String result = String.format(
+                "  %s |  %s |  %s \n" +
+                "--------------\n" +
+                "  %s |  %s |  %s \n" +
+                "--------------\n" +
+                "  %s |  %s |  %s \n",
+                readableMoves[0],
+                readableMoves[1],
+                readableMoves[2],
+                readableMoves[3],
+                readableMoves[4],
+                readableMoves[5],
+                readableMoves[6],
+                readableMoves[7],
+                readableMoves[8]);
+        show(result);
+    }
+
+    private void greet() {
+        show(GREETING);
     }
 
     private static String gameSelectionMessage() {
@@ -138,20 +150,8 @@ public class CommandLineUi implements Ui {
         return available.stream().map(move -> move + 1).collect(Collectors.toList());
     }
 
-    @Override
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-    @Override
-    public void playGame() {
-        while (gameIsActive()) {
-            displayBoard(game.getBoard());
-            int position = getMove(game.getBoard().available);
-            game.playTurn(position);
-        }
-        announceGameOver();
-        announceResult();
+    private void announceWinner(Mark mark) {
+        show(String.format("Player %s has won this game", mark));
     }
 
     private void announceResult() {
@@ -164,9 +164,5 @@ public class CommandLineUi implements Ui {
 
     public boolean gameIsActive() {
         return !game.isOver();
-    }
-
-    public int boardUpdateCount() {
-        return boardUpdateCount;
     }
 }

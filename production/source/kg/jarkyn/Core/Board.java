@@ -1,4 +1,4 @@
-package kg.jarkyn;
+package kg.jarkyn.Core;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -116,5 +116,9 @@ public class Board {
 
     private boolean isDrawn() {
         return isFull() && !isWon();
+    }
+
+    public ArrayList<Integer> getAvailable() {
+        return available;
     }
 }

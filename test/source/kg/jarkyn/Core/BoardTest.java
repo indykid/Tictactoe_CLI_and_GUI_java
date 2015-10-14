@@ -1,11 +1,13 @@
-package kg.jarkyn;
+package kg.jarkyn.Core;
 
+import kg.jarkyn.Core.Board;
+import kg.jarkyn.Core.Mark;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static kg.jarkyn.Mark.*;
+import static kg.jarkyn.Core.Mark.*;
 import static org.junit.Assert.*;
 
 public class BoardTest {

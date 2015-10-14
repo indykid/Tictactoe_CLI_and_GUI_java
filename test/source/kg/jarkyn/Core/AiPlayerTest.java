@@ -1,8 +1,8 @@
-package kg.jarkyn;
+package kg.jarkyn.Core;
 
 import org.junit.Test;
 
-import static kg.jarkyn.Mark.*;
+import static kg.jarkyn.Core.Mark.*;
 import static org.junit.Assert.assertEquals;
 
 public class AiPlayerTest {

@@ -1,4 +1,4 @@
-package kg.jarkyn;
+package kg.jarkyn.CLI;
 
 import java.io.*;
 

@@ -1,5 +1,6 @@
-package kg.jarkyn;
+package kg.jarkyn.Core;
 
+import kg.jarkyn.Core.GameOption;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -18,5 +19,15 @@ public class GameOptionTest {
     @Test
     public void returnsReadableDescriptionForHumanOnlyGame() {
         assertEquals("3 - play against your friend (first to go plays X)", GameOption.HUMAN_ONLY.readableOption());
+    }
+
+    @Test
+    public void returnsDefaultAiFirstOptionWhenParsing() {
+        assertEquals(GameOption.AI_FIRST, GameOption.parse(-1));
+    }
+
+    @Test
+    public void parsesNumericOptionIntoGameOption() {
+        assertEquals(GameOption.AI_SECOND, GameOption.parse(2));
     }
 }

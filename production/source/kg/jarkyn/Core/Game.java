@@ -1,18 +1,23 @@
-package kg.jarkyn;
+package kg.jarkyn.Core;
 
-public abstract class Game {
-    protected Board board;
+public class Game {
     protected Mark winnerMark;
+    protected Board board;
     protected Player playerX;
     protected Player playerO;
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     protected Player currentPlayer;
 
     public Game(Board board, Player playerX, Player playerO) {
         this.winnerMark    = Mark.NONE;
         this.board         = board;
         this.playerX       = playerX;
-        this.currentPlayer = playerX;
         this.playerO       = playerO;
+        this.currentPlayer = playerX;
     }
 
     public boolean isOver() {
@@ -34,5 +39,16 @@ public abstract class Game {
         return winnerMark;
     }
 
-    abstract void playTurn(int position);
+    public void playTurn() {
+        addMove(currentPlayer.pickPosition(board));
+        swapPlayers();
+    }
+
+    private void addMove(int position) {
+        board = getBoard().addMove(position, currentPlayer.getMark());
+    }
+
+    private void swapPlayers() {
+        currentPlayer = currentPlayer == playerX ? playerO : playerX;
+    }
 }

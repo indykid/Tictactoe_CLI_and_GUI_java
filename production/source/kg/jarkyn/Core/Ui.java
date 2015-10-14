@@ -1,9 +1,11 @@
-package kg.jarkyn;
+package kg.jarkyn.Core;
+
+import java.util.List;
 
 public interface Ui {
     int selectGame();
 
-    void displayBoard(Board board);
+//    void displayBoard(Board board);
 
 //    int getMove(List<Integer> available);
 
@@ -11,7 +13,9 @@ public interface Ui {
 
     void announceDraw();
 
+    void playGame();
+
     void setGame(Game game);
 
-    void playGame();
+    int getMove(List<Integer> available);
 }

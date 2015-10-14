@@ -1,6 +1,9 @@
 package kg.jarkyn.doubles;
 
-import kg.jarkyn.*;
+import kg.jarkyn.Core.Board;
+import kg.jarkyn.Core.Game;
+import kg.jarkyn.Core.Mark;
+import kg.jarkyn.Core.Ui;
 
 import java.util.List;
 
@@ -29,7 +32,6 @@ public class UiDouble implements Ui {
         return greetingWasDisplayed;
     }
 
-    @Override
     public void displayBoard(Board board) {
         boardWasDisplayed = true;
     }
@@ -38,9 +40,10 @@ public class UiDouble implements Ui {
         return boardWasDisplayed;
     }
 
-    public int getMove(List<Integer> validMoves) {
-        return getInput() - 1;
-    }
+//    @Override
+//    public int getMove(List<Integer> validMoves) {
+//        return getInput() - 1;
+//    }
 
     @Override
     public int selectGame() {
@@ -78,6 +81,11 @@ public class UiDouble implements Ui {
     @Override
     public void setGame(Game game) {
 
+    }
+
+    @Override
+    public int getMove(List<Integer> available) {
+        return getInput() - 1;
     }
 
     @Override
