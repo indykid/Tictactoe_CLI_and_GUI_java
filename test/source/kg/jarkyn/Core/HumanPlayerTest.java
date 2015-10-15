@@ -1,9 +1,5 @@
 package kg.jarkyn.Core;
 
-import kg.jarkyn.Core.Board;
-import kg.jarkyn.Core.HumanPlayer;
-import kg.jarkyn.Core.Mark;
-import kg.jarkyn.Core.Ui;
 import kg.jarkyn.doubles.UiDouble;
 import org.junit.Test;
 

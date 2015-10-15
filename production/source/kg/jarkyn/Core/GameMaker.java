@@ -1,9 +1,9 @@
 package kg.jarkyn.Core;
 
-import kg.jarkyn.Core.*;
-import static kg.jarkyn.Core.Mark.*;
+import static kg.jarkyn.Core.Mark.O;
+import static kg.jarkyn.Core.Mark.X;
 
-public class GameSelector {
+public class GameMaker {
     private static Player playerX;
     private static Player playerO;
 

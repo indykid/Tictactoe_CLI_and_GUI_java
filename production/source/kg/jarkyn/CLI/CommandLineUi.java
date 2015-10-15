@@ -23,7 +23,7 @@ public class CommandLineUi implements Ui {
         Ui ui = new CommandLineUi(new CommandLine(System.in, System.out));
         GameOption gameOption = GameOption.parse(ui.selectGame());
 
-        ui.setGame(GameSelector.makeGame(gameOption, ui));
+        ui.setGame(GameMaker.makeGame(gameOption, ui));
         ui.playGame();
     }
 
