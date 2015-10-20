@@ -16,17 +16,17 @@ public class CommandLineTest {
 
     private ByteArrayOutputStream output;
 
-    @Before
-    public void setUp() {
-        output = new ByteArrayOutputStream();
+    private ByteArrayInputStream inputStream(String inputString) {
+        return new ByteArrayInputStream(inputString.getBytes());
     }
 
     private CommandLine setupCommandLine(String inputString) {
         return new CommandLine(inputStream(inputString), output);
     }
 
-    private ByteArrayInputStream inputStream(String inputString) {
-        return new ByteArrayInputStream(inputString.getBytes());
+    @Before
+    public void setUp() {
+        output = new ByteArrayOutputStream();
     }
 
     @Test

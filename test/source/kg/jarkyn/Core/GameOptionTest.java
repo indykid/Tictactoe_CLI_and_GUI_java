@@ -1,6 +1,5 @@
 package kg.jarkyn.Core;
 
-import kg.jarkyn.Core.GameOption;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

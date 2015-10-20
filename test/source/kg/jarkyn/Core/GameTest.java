@@ -1,6 +1,5 @@
 package kg.jarkyn.Core;
 
-import kg.jarkyn.Core.*;
 import kg.jarkyn.doubles.UiDouble;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +9,10 @@ import static org.junit.Assert.*;
 
 public class GameTest {
     private Ui ui;
+
+    private Game setupGame() {
+        return new Game(new Board(), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui));
+    }
 
     @Before
     public void setup() {
@@ -21,10 +24,6 @@ public class GameTest {
         Game game = setupGame();
 
         assertFalse(game.isOver());
-    }
-
-    private Game setupGame() {
-        return new Game(new Board(), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui));
     }
 
     @Test

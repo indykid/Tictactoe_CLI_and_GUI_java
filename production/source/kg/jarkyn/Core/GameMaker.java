@@ -21,19 +21,19 @@ public class GameMaker {
         return new Game(new Board(), playerX, playerO);
     }
 
-    private static HumanPlayer makeHumanPlayer(Mark mark, Ui ui) {
-        return new HumanPlayer(mark, ui);
-    }
-
-    private static AiPlayer makeAiPlayer(Mark mark) {
-        return new AiPlayer(mark);
-    }
-
     public static Player getPlayerX() {
         return playerX;
     }
 
     public static Player getPlayerO() {
         return playerO;
+    }
+
+    private static HumanPlayer makeHumanPlayer(Mark mark, Ui ui) {
+        return new HumanPlayer(mark, ui);
+    }
+
+    private static AiPlayer makeAiPlayer(Mark mark) {
+        return new AiPlayer(mark);
     }
 }

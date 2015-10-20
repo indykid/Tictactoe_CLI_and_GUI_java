@@ -5,7 +5,6 @@ import java.util.LinkedHashMap;
 public enum GameOption {
     AI_FIRST(1), AI_SECOND(2), HUMAN_ONLY(3);
 
-    public int numericOption;
     public static final LinkedHashMap<Integer, String> OPTIONS = new LinkedHashMap<>();
     static {
         OPTIONS.put(AI_FIRST.numericOption, " - computer plays first");
@@ -13,8 +12,14 @@ public enum GameOption {
         OPTIONS.put(HUMAN_ONLY.numericOption, " - play against your friend (first to go plays X)");
     }
 
+    public int numericOption;
+
     GameOption(int value) {
         this.numericOption = value;
+    }
+
+    public int getNumericOption() {
+        return numericOption;
     }
 
     public String readableOption() {
@@ -29,9 +34,5 @@ public enum GameOption {
             }
         }
         return parsed;
-    }
-
-    public int getNumericOption() {
-        return numericOption;
     }
 }

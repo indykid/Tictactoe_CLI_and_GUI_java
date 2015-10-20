@@ -57,6 +57,6 @@ public class AiPlayer extends Player {
     }
 
     private ArrayList<Integer> availablePositions(Board board) {
-        return board.available;
+        return board.getAvailable();
     }
 }

@@ -28,6 +28,15 @@ public class CommandLineUi implements Ui {
     }
 
     @Override
+    public void playGame() {
+        while (gameIsActive()) {
+            game.playTurn();
+        }
+        announceGameOver();
+        announceResult();
+    }
+
+    @Override
     public void setGame(Game game) {
         this.game = game;
     }
@@ -55,13 +64,8 @@ public class CommandLineUi implements Ui {
         show(GAME_OVER);
     }
 
-    @Override
-    public void playGame() {
-        while (gameIsActive()) {
-            game.playTurn();
-        }
-        announceGameOver();
-        announceResult();
+    private void greet() {
+        show(GREETING);
     }
 
     private void show(String message) {
@@ -87,10 +91,6 @@ public class CommandLineUi implements Ui {
                 readableMoves[7],
                 readableMoves[8]);
         show(result);
-    }
-
-    private void greet() {
-        show(GREETING);
     }
 
     private static String gameSelectionMessage() {

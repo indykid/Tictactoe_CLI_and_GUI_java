@@ -1,16 +1,11 @@
 package kg.jarkyn.Core;
 
 public class Game {
-    protected Mark winnerMark;
-    protected Board board;
-    protected Player playerX;
-    protected Player playerO;
-
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
-
-    protected Player currentPlayer;
+    private Mark winnerMark;
+    private Board board;
+    private Player playerX;
+    private Player playerO;
+    private Player currentPlayer;
 
     public Game(Board board, Player playerX, Player playerO) {
         this.winnerMark    = Mark.NONE;
@@ -24,12 +19,13 @@ public class Game {
         return board.isFinalState();
     }
 
-    public Board getBoard() {
-        return board;
-    }
-
     public boolean isWon() {
         return winnerMark() != Mark.NONE;
+    }
+
+    public void playTurn() {
+        addMove(currentPlayer.pickPosition(board));
+        swapPlayers();
     }
 
     public Mark winnerMark() {
@@ -39,9 +35,12 @@ public class Game {
         return winnerMark;
     }
 
-    public void playTurn() {
-        addMove(currentPlayer.pickPosition(board));
-        swapPlayers();
+    public Board getBoard() {
+        return board;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 
     private void addMove(int position) {

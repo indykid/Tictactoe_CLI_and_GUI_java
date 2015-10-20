@@ -6,6 +6,7 @@ import static kg.jarkyn.Core.Mark.*;
 import static org.junit.Assert.assertEquals;
 
 public class AiPlayerTest {
+
     @Test
     public void scoresWin() {
         AiPlayer ai = new AiPlayer(X);

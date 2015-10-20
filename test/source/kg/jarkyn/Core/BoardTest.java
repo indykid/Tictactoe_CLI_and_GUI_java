@@ -1,7 +1,5 @@
 package kg.jarkyn.Core;
 
-import kg.jarkyn.Core.Board;
-import kg.jarkyn.Core.Mark;
 import org.junit.Test;
 
 import java.util.ArrayList;

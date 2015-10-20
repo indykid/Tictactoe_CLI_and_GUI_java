@@ -1,7 +1,5 @@
 package kg.jarkyn.CLI;
 
-import kg.jarkyn.CLI.CommandLine;
-import kg.jarkyn.CLI.CommandLineUi;
 import kg.jarkyn.Core.Board;
 import kg.jarkyn.Core.Game;
 import kg.jarkyn.Core.HumanPlayer;
@@ -25,12 +23,6 @@ public class CommandLineUiTest {
     private List<Integer>         validMoves;
     private ByteArrayOutputStream output;
 
-    @Before
-    public void setUp() {
-        output = new ByteArrayOutputStream();
-        validMoves = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8);
-    }
-
     private Game setupGame(Ui ui) {
         return new Game(new Board(), new HumanPlayer(X, ui), new HumanPlayer(O, ui));
     }
@@ -41,6 +33,12 @@ public class CommandLineUiTest {
 
     private CommandLineUi setupUi(String userInput) {
         return new CommandLineUi(new CommandLine(inputStream(userInput), output));
+    }
+
+    @Before
+    public void setUp() {
+        output = new ByteArrayOutputStream();
+        validMoves = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8);
     }
 
     @Test

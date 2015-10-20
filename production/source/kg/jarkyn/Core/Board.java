@@ -6,7 +6,6 @@ import java.util.Arrays;
 public class Board {
     public int size;
     public ArrayList<Integer> available;
-
     private Mark[] moves;
     private static final int DEFAULT_SIZE = 3;
     private static final int[][] WINNING_POSITIONS = new int[][]{
@@ -30,8 +29,8 @@ public class Board {
         this.available = setAvailable();
     }
 
-    public Mark[] getMoves() {
-        return moves;
+    public Mark markAt(int position) {
+        return moves[position];
     }
 
     public Board addMove(int position, Mark mark) {
@@ -40,16 +39,57 @@ public class Board {
         return new Board(newMoves);
     }
 
-    public Mark markAt(int position) {
-        return moves[position];
-    }
-
-
     public boolean isValidMove(int position) {
         return available.contains(position);
     }
+
     public boolean isFull() {
         return available.size() == 0;
+    }
+
+    public boolean isFinalState() {
+        return isWon() || isDrawn();
+    }
+
+    private boolean isWon() {
+        return winnerMark() != Mark.NONE;
+    }
+
+    private boolean isDrawn() {
+        return isFull() && !isWon();
+    }
+
+    private boolean isEmptyPosition(int position) {
+        return markAt(position) == Mark.NONE;
+    }
+
+    private boolean isOccupied(int position) {
+        return markAt(position) != Mark.NONE;
+    }
+
+    public Mark[] getMoves() {
+        return moves;
+    }
+
+    public ArrayList<Integer> getAvailable() {
+        return available;
+    }
+
+    private ArrayList<Integer> setAvailable() {
+        ArrayList<Integer> available = new ArrayList<>();
+        for (int position = 0; position < moves.length; position++) {
+            if (isEmptyPosition(position)) {
+                available.add(position);
+            }
+        }
+        return available;
+    }
+
+    private static Mark[] setMoves() {
+        int length = (int)Math.pow(DEFAULT_SIZE, 2);
+        Mark[] moves  = new Mark[length];
+        Arrays.fill(moves, Mark.NONE);
+        return moves;
     }
 
     public int[] winLine() {
@@ -71,36 +111,6 @@ public class Board {
         }
     }
 
-    public boolean isFinalState() {
-        return isWon() || isDrawn();
-    }
-
-    private static Mark[] setMoves() {
-        int length = (int)Math.pow(DEFAULT_SIZE, 2);
-        Mark[] moves  = new Mark[length];
-        Arrays.fill(moves, Mark.NONE);
-        return moves;
-    }
-
-    private ArrayList<Integer> setAvailable() {
-        ArrayList<Integer> available = new ArrayList<>();
-        for (int position = 0; position < moves.length; position++) {
-            if (isEmptyPosition(position)) {
-                available.add(position);
-            }
-        }
-        return available;
-    }
-
-    private boolean isEmptyPosition(int position) {
-        return markAt(position) == Mark.NONE;
-    }
-
-
-    private boolean isOccupied(int position) {
-        return moves[position] != Mark.NONE;
-    }
-
     private boolean isSameMark(int[] line) {
         for (int index = 0; index < line.length - 1; index++) {
             if (!moves[line[index]].equals(moves[line[index + 1]])) {
@@ -108,17 +118,5 @@ public class Board {
             }
         }
         return true;
-    }
-
-    private boolean isWon() {
-        return winnerMark() != Mark.NONE;
-    }
-
-    private boolean isDrawn() {
-        return isFull() && !isWon();
-    }
-
-    public ArrayList<Integer> getAvailable() {
-        return available;
     }
 }
