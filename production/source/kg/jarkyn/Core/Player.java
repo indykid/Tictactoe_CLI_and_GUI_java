@@ -12,4 +12,6 @@ public abstract class Player {
     }
 
     public abstract int pickPosition(Board board);
+
+    public abstract boolean hasNextMove();
 }

@@ -64,6 +64,11 @@ public class CommandLineUi implements Ui {
         show(GAME_OVER);
     }
 
+    @Override
+    public boolean hasHumanMove() {
+        return true;
+    }
+
     private void greet() {
         show(GREETING);
     }

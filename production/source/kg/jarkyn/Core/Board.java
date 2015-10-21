@@ -51,45 +51,12 @@ public class Board {
         return isWon() || isDrawn();
     }
 
-    private boolean isWon() {
-        return winnerMark() != Mark.NONE;
-    }
-
-    private boolean isDrawn() {
-        return isFull() && !isWon();
-    }
-
-    private boolean isEmptyPosition(int position) {
-        return markAt(position) == Mark.NONE;
-    }
-
-    private boolean isOccupied(int position) {
-        return markAt(position) != Mark.NONE;
-    }
-
     public Mark[] getMoves() {
         return moves;
     }
 
     public ArrayList<Integer> getAvailable() {
         return available;
-    }
-
-    private ArrayList<Integer> setAvailable() {
-        ArrayList<Integer> available = new ArrayList<>();
-        for (int position = 0; position < moves.length; position++) {
-            if (isEmptyPosition(position)) {
-                available.add(position);
-            }
-        }
-        return available;
-    }
-
-    private static Mark[] setMoves() {
-        int length = (int)Math.pow(DEFAULT_SIZE, 2);
-        Mark[] moves  = new Mark[length];
-        Arrays.fill(moves, Mark.NONE);
-        return moves;
     }
 
     public int[] winLine() {
@@ -109,6 +76,43 @@ public class Board {
         } else {
             return moves[winLine()[0]];
         }
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    private boolean isWon() {
+        return winnerMark() != Mark.NONE;
+    }
+
+    private boolean isDrawn() {
+        return isFull() && !isWon();
+    }
+
+    private boolean isEmptyPosition(int position) {
+        return markAt(position) == Mark.NONE;
+    }
+
+    private boolean isOccupied(int position) {
+        return markAt(position) != Mark.NONE;
+    }
+
+    private ArrayList<Integer> setAvailable() {
+        ArrayList<Integer> available = new ArrayList<>();
+        for (int position = 0; position < moves.length; position++) {
+            if (isEmptyPosition(position)) {
+                available.add(position);
+            }
+        }
+        return available;
+    }
+
+    private static Mark[] setMoves() {
+        int length = (int)Math.pow(DEFAULT_SIZE, 2);
+        Mark[] moves  = new Mark[length];
+        Arrays.fill(moves, Mark.NONE);
+        return moves;
     }
 
     private boolean isSameMark(int[] line) {

@@ -31,6 +31,11 @@ public class AiPlayer extends Player {
         return bestPosition;
     }
 
+    @Override
+    public boolean hasNextMove() {
+        return true;
+    }
+
     public int score(Board board, Mark currentMark) {
         if (board.isFinalState()) {
             return scoreFinalBoard(board);

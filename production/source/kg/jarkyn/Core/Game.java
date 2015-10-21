@@ -24,8 +24,10 @@ public class Game {
     }
 
     public void playTurn() {
-        addMove(currentPlayer.pickPosition(board));
-        swapPlayers();
+        if (currentPlayer.hasNextMove()) {
+            addMove(currentPlayer.pickPosition(board));
+            swapPlayers();
+        }
     }
 
     public Mark winnerMark() {

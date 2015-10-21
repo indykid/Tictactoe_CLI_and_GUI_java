@@ -14,4 +14,6 @@ public interface Ui {
     int getMove(List<Integer> available);
 
     void announceGameOver();
+
+    boolean hasHumanMove();
 }

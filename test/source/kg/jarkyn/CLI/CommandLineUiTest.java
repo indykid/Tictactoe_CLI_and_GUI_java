@@ -206,7 +206,8 @@ public class CommandLineUiTest {
 
         ui.playGame();
 
-        assertTrue(output.toString().contains("  X |  X |  X \n" +
+        assertTrue(output.toString().contains(
+                "  X |  X |  X \n" +
                 "--------------\n" +
                 "  O |  O |  6 \n" +
                 "--------------\n" +
@@ -231,5 +232,12 @@ public class CommandLineUiTest {
         ui.playGame();
 
         assertFalse(output.toString().contains(CommandLineUi.DRAW_STATUS));
+    }
+
+    @Test
+    public void alwaysHasHumanMove() {
+        Ui ui = setupUi("irrelevant");
+
+        assertTrue(ui.hasHumanMove());
     }
 }

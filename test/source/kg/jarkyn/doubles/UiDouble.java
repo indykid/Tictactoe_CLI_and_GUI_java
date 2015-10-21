@@ -24,6 +24,11 @@ public class UiDouble implements Ui {
     }
 
     @Override
+    public boolean hasHumanMove() {
+        return true;
+    }
+
+    @Override
     public void announceDraw() {
     }
 

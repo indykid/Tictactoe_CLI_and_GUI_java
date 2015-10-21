@@ -12,4 +12,9 @@ public class HumanPlayer extends Player {
     public int pickPosition(Board board) {
         return ui.getMove(board.getAvailable());
     }
+
+    @Override
+    public boolean hasNextMove() {
+        return ui.hasHumanMove();
+    }
 }

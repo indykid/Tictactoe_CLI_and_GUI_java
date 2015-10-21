@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import static kg.jarkyn.Core.Mark.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class AiPlayerTest {
 
@@ -137,5 +138,12 @@ public class AiPlayerTest {
         Board board = new Board(moves);
 
         assertEquals(2, ai.pickPosition(board));
+    }
+
+    @Test
+    public void alwaysHasNextMove() {
+        AiPlayer player = new AiPlayer(X);
+
+        assertTrue(player.hasNextMove());
     }
 }

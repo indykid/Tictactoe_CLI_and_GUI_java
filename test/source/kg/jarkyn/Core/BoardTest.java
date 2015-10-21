@@ -20,7 +20,7 @@ public class BoardTest {
         Board board = new Board();
         ArrayList<Integer> expectedAvailable = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8));
 
-        assertEquals(expectedAvailable, board.available);
+        assertEquals(expectedAvailable, board.getAvailable());
     }
 
     @Test
@@ -28,7 +28,7 @@ public class BoardTest {
         ArrayList<Integer> expectedAvailable = new ArrayList<>(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8));
         Board board = new Board().addMove(0, X);
 
-        assertEquals(expectedAvailable, board.available);
+        assertEquals(expectedAvailable, board.getAvailable());
     }
 
     @Test
