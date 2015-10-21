@@ -23,6 +23,12 @@ public class Game {
         return winnerMark() != Mark.NONE;
     }
 
+    public void play() {
+        while (!isOver()) {
+            playTurn();
+        }
+    }
+
     public void playTurn() {
         if (currentPlayer.hasNextMove()) {
             addMove(currentPlayer.pickPosition(board));

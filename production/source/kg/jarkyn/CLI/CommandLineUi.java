@@ -29,9 +29,7 @@ public class CommandLineUi implements Ui {
 
     @Override
     public void playGame() {
-        while (gameIsActive()) {
-            game.playTurn();
-        }
+        game.play();
         announceGameOver();
         announceResult();
     }
@@ -165,9 +163,5 @@ public class CommandLineUi implements Ui {
         } else {
             announceDraw();
         }
-    }
-
-    public boolean gameIsActive() {
-        return !game.isOver();
     }
 }

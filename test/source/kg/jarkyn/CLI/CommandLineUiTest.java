@@ -150,26 +150,6 @@ public class CommandLineUiTest {
     }
 
     @Test
-    public void playsTillGameIsWon() {
-        CommandLineUi ui = new CommandLineUi(new CommandLine(inputStream("1\n4\n2\n5\n3"), output));
-        ui.setGame(setupGame(ui));
-
-        ui.playGame();
-
-        assertFalse(ui.gameIsActive());
-    }
-
-    @Test
-    public void playsTillDrawn() {
-        CommandLineUi ui = new CommandLineUi(new CommandLine(inputStream("1\n2\n3\n5\n4\n6\n8\n7\n9"), output));
-        ui.setGame(setupGame(ui));
-
-        ui.playGame();
-
-        assertFalse(ui.gameIsActive());
-    }
-
-    @Test
     public void announcesWinner() {
         Ui ui = setupUi("1\n4\n2\n5\n3");
         ui.setGame(setupGame(ui));

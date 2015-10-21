@@ -109,6 +109,30 @@ public class GameTest {
 
     }
 
+    @Test
+    public void playsTillWon() {
+        Ui ui = new UiDouble(new int[]{1, 4, 2, 5, 3});
+        Game game = new Game(new Board(), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui));
+
+        game.play();
+
+        assertTrue(game.isWon());
+    }
+
+    @Test
+    public void playsTillDrawn() {
+        Ui ui = new UiDouble(new int[]{1, 2, 3, 5, 4, 6, 8, 7, 9});
+        Game game = new Game(new Board(), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui));
+
+        game.play();
+
+        assertTrue(isDrawn(game));
+    }
+
+    private boolean isDrawn(Game game) {
+        return !game.isWon() && game.isOver();
+    }
+
     private class HumanPlayerWithoutMoveStub extends Player {
         public HumanPlayerWithoutMoveStub(Mark mark) {
             super(mark);

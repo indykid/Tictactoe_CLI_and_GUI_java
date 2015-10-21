@@ -19,7 +19,7 @@ public class HumanPlayerTest {
 
     @Test
     public void hasNoMoveIfUiHasNotReceivedMove() {
-        Ui ui = new UiDummyWithoutMove();
+        Ui ui = new UiDummy();
         HumanPlayer playerX = new HumanPlayer(Mark.X, ui);
 
         assertFalse(playerX.hasNextMove());
@@ -27,7 +27,7 @@ public class HumanPlayerTest {
 
     @Test
     public void hasMoveIfUiHasReceivedMove() {
-        Ui ui = new UiDummyWithMove();
+        Ui ui = new UiStubWithMove();
         HumanPlayer playerX = new HumanPlayer(Mark.X, ui);
 
         assertTrue(playerX.hasNextMove());
@@ -40,15 +40,10 @@ public class HumanPlayerTest {
         }
 
         @Override
-        public void announceDraw() {}
+        public void setGame(Game game) {}
 
         @Override
         public void playGame() {}
-
-        @Override
-        public void setGame(Game game) {
-
-        }
 
         @Override
         public int getMove(List<Integer> available) {
@@ -59,16 +54,15 @@ public class HumanPlayerTest {
         public void announceGameOver() {}
 
         @Override
+        public void announceDraw() {}
+
+        @Override
         public boolean hasHumanMove() {
             return false;
         }
     }
 
-    private class UiDummyWithoutMove extends UiDummy {
-
-    }
-
-    private class UiDummyWithMove extends UiDummy {
+    private class UiStubWithMove extends UiDummy {
         @Override
         public boolean hasHumanMove() {
             return true;
