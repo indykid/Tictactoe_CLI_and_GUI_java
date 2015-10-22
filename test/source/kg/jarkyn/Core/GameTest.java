@@ -86,27 +86,15 @@ public class GameTest {
     }
 
     @Test
-    public void doesNotPlayIfCurrentPlayerHasNoMove() {
+    public void doesNotPlayIfNoMove() {
         Player playerX = new HumanPlayerWithoutMoveStub(Mark.X);
         Game game = new Game(new Board(), playerX, new HumanPlayer(Mark.O, ui));
 
-        game.playTurn();
+        game.play();
         Board board = game.getBoard();
 
         int size = board.getSize() * board.getSize();
         assertEquals(size, board.getAvailable().size());
-    }
-
-    @Test
-    public void playsTurnIfCurrentPlayerHasMove() {
-        Player playerX = new HumanPlayerWithMoveStub(Mark.X);
-        Game game = new Game(new Board(), playerX, new HumanPlayer(Mark.O, ui));
-
-        game.playTurn();
-        Board board = game.getBoard();
-
-        assertEquals(Mark.X, board.markAt(0));
-
     }
 
     @Test
@@ -149,19 +137,4 @@ public class GameTest {
         }
     }
 
-    private class HumanPlayerWithMoveStub extends Player {
-        public HumanPlayerWithMoveStub(Mark mark) {
-            super(mark);
-        }
-
-        @Override
-        public int pickPosition(Board board) {
-            return 0;
-        }
-
-        @Override
-        public boolean hasNextMove() {
-            return true;
-        }
-    }
 }

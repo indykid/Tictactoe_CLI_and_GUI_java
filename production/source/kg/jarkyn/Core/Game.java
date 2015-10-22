@@ -24,16 +24,14 @@ public class Game {
     }
 
     public void play() {
-        while (!isOver()) {
+        while (!isOver() && currentPlayer.hasNextMove()) {
             playTurn();
         }
     }
 
     public void playTurn() {
-        if (currentPlayer.hasNextMove()) {
-            addMove(currentPlayer.pickPosition(board));
-            swapPlayers();
-        }
+        addMove(currentPlayer.pickPosition(board));
+        swapPlayers();
     }
 
     public Mark winnerMark() {
