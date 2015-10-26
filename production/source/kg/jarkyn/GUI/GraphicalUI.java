@@ -9,16 +9,15 @@ public class GraphicalUI {
 
     private Scene scene;
 
+    public GraphicalUI(Scene scene) {
+        this.scene = scene;
+    }
+
     public void displayGameSelector() {
         StackPane root = new StackPane();
         root.getChildren().add(new GameSelectionButton(GameOption.AI_FIRST));
         root.getChildren().add(new GameSelectionButton(GameOption.AI_SECOND));
         root.getChildren().add(new GameSelectionButton(GameOption.HUMAN_ONLY));
-        scene = new Scene(root);
-
-    }
-
-    public Scene getScene() {
-        return scene;
+        scene.setRoot(root);
     }
 }
