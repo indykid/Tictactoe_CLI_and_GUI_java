@@ -1,8 +1,9 @@
 package kg.jarkyn.GUI;
 
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
+import kg.jarkyn.Core.GameOption;
+import kg.jarkyn.GUI.ViewComponents.GameSelectionButton;
 
 public class GraphicalUI {
 
@@ -10,9 +11,9 @@ public class GraphicalUI {
 
     public void displayGameSelector() {
         StackPane root = new StackPane();
-        root.getChildren().add(new Button());
-        root.getChildren().add(new Button());
-        root.getChildren().add(new Button());
+        root.getChildren().add(new GameSelectionButton(GameOption.AI_FIRST));
+        root.getChildren().add(new GameSelectionButton(GameOption.AI_SECOND));
+        root.getChildren().add(new GameSelectionButton(GameOption.HUMAN_ONLY));
         scene = new Scene(root);
 
     }
