@@ -6,8 +6,11 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import kg.jarkyn.Core.AiPlayer;
 import kg.jarkyn.Core.Board;
 import kg.jarkyn.Core.GameOption;
+import kg.jarkyn.Core.Player;
+import kg.jarkyn.GUI.ViewComponents.GameSelectionButton;
 import kg.jarkyn.GUI.ViewComponents.MainPane;
 import org.junit.Test;
 
@@ -51,7 +54,20 @@ public class GraphicalUITest {
         Node cell = getChildren(scene).get(0);
         cell.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
 
-        assertTrue(ui.gamePresent());
+        assertTrue(isGamePresent(ui));
+    }
+
+    @Test
+    public void setsUpAiFirstGame() {
+        setupJFXEnvironment();
+        Scene scene = new Scene(new MainPane());
+        GraphicalUI ui = new GraphicalUI(scene);
+
+        ui.displayGameSelector();
+        Node cell = getAiFirstButton(getChildren(scene));
+        cell.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+
+        assertTrue(getCurrentPlayer(ui) instanceof AiPlayer);
     }
 
     @Test
@@ -64,6 +80,23 @@ public class GraphicalUITest {
 
         int boardSize = board.getSize() * board.getSize();
         assertEquals(boardSize, getChildren(scene).size());
+    }
+
+    private Player getCurrentPlayer(GraphicalUI ui) {
+        return ui.getGame().getCurrentPlayer();
+    }
+
+    private Node getAiFirstButton(List<Node> nodes) {
+        for (Node button : nodes) {
+            if (((GameSelectionButton) button).getGameOption() == GameOption.AI_FIRST) {
+                return button;
+            }
+        }
+        return null;
+    }
+
+    private boolean isGamePresent(GraphicalUI ui) {
+        return ui.getGame() != null;
     }
 
     private void setupJFXEnvironment() {

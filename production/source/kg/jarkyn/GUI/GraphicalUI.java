@@ -57,10 +57,6 @@ public class GraphicalUI implements Ui {
         scene.setRoot(pane);
     }
 
-    public boolean gamePresent() {
-        return game != null;
-    }
-
     @Override
     public int selectGame() {
         return 0;
@@ -94,5 +90,9 @@ public class GraphicalUI implements Ui {
     @Override
     public boolean hasHumanMove() {
         return false;
+    }
+
+    public Game getGame() {
+        return game;
     }
 }
