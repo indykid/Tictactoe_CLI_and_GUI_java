@@ -15,8 +15,10 @@ import java.util.List;
 
 public class GraphicalUI implements Ui {
 
+    private static final int NULL_MOVE = -1;
     private Scene scene;
     private Game game;
+    private int humanMove = NULL_MOVE;
 
     public GraphicalUI(Scene scene) {
         this.scene = scene;
@@ -36,13 +38,13 @@ public class GraphicalUI implements Ui {
         button.setOnMouseClicked(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
-                setupGame(event);
+                GameSelectionButton button = (GameSelectionButton) event.getSource();
+                setupGame(button);
             }
         });
     }
 
-    private void setupGame(Event event) {
-        GameSelectionButton button = (GameSelectionButton) event.getSource();
+    private void setupGame(GameSelectionButton button) {
         game = GameMaker.makeGame(button.getGameOption(), this);
     }
 
@@ -51,10 +53,26 @@ public class GraphicalUI implements Ui {
         int positionCount = board.getSize()*board.getSize();
         for (int position = 0; position < positionCount; position++) {
             GridCell cell = new GridCell(position);
+            addPlayPositionListener(cell);
             pane.getChildren().add(cell);
         }
 
         scene.setRoot(pane);
+    }
+
+    private void addPlayPositionListener(GridCell cell) {
+        cell.setOnMouseClicked(new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                GridCell cell = (GridCell) event.getSource();
+                setHumanMove(cell.getPosition());
+                playGame();
+            }
+        });
+    }
+
+    void setHumanMove(int position) {
+        humanMove = position;
     }
 
     @Override
@@ -69,17 +87,19 @@ public class GraphicalUI implements Ui {
 
     @Override
     public void playGame() {
-
+        game.play();
     }
 
     @Override
     public void setGame(Game game) {
-
+        this.game = game;
     }
 
     @Override
     public int getMove(List<Integer> available) {
-        return 0;
+        int position = humanMove;
+        humanMove = NULL_MOVE;
+        return position;
     }
 
     @Override
@@ -89,10 +109,10 @@ public class GraphicalUI implements Ui {
 
     @Override
     public boolean hasHumanMove() {
-        return false;
+        return humanMove != NULL_MOVE;
     }
 
-    public Game getGame() {
+    Game getGame() {
         return game;
     }
 }

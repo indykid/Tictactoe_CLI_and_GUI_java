@@ -5,13 +5,10 @@ import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-import kg.jarkyn.Core.AiPlayer;
-import kg.jarkyn.Core.Board;
-import kg.jarkyn.Core.GameOption;
-import kg.jarkyn.Core.Player;
+import kg.jarkyn.Core.*;
 import kg.jarkyn.GUI.ViewComponents.GameSelectionButton;
 import kg.jarkyn.GUI.ViewComponents.MainPane;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -21,11 +18,18 @@ import static org.junit.Assert.assertTrue;
 
 public class GraphicalUITest {
 
+    private Scene scene;
+    private GraphicalUI ui;
+
+    @Before
+    public void setUp() throws Exception {
+        scene = new Scene(new MainPane());
+        ui = new GraphicalUI(scene);
+    }
+
     @Test
     public void displaysGameSelector() {
         setupJFXEnvironment();
-        Scene scene = new Scene(new StackPane());
-        GraphicalUI ui = new GraphicalUI(scene);
 
         ui.displayGameSelector();
         int amountOfGameOptions = GameOption.values().length;
@@ -36,8 +40,6 @@ public class GraphicalUITest {
     @Test
     public void listenersAreSetOnGameSelectionButtons() {
         setupJFXEnvironment();
-        Scene scene = new Scene(new StackPane());
-        GraphicalUI ui = new GraphicalUI(scene);
 
         ui.displayGameSelector();
 
@@ -47,8 +49,6 @@ public class GraphicalUITest {
     @Test
     public void setsUpGameOnSelection() {
         setupJFXEnvironment();
-        Scene scene = new Scene(new MainPane());
-        GraphicalUI ui = new GraphicalUI(scene);
 
         ui.displayGameSelector();
         Node cell = getChildren(scene).get(0);
@@ -60,20 +60,16 @@ public class GraphicalUITest {
     @Test
     public void setsUpAiFirstGame() {
         setupJFXEnvironment();
-        Scene scene = new Scene(new MainPane());
-        GraphicalUI ui = new GraphicalUI(scene);
 
         ui.displayGameSelector();
-        Node cell = getAiFirstButton(getChildren(scene));
-        cell.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+        Node aiFirstButton = findGameOption(getChildren(scene), GameOption.AI_FIRST);
+        aiFirstButton.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
 
         assertTrue(getCurrentPlayer(ui) instanceof AiPlayer);
     }
 
     @Test
     public void displaysBoard() {
-        Scene scene = new Scene(new MainPane());
-        GraphicalUI ui = new GraphicalUI(scene);
         Board board = new Board();
 
         ui.displayBoard(board);
@@ -82,13 +78,33 @@ public class GraphicalUITest {
         assertEquals(boardSize, getChildren(scene).size());
     }
 
+    @Test
+    public void setsUpListenersOnBoardCells() {
+        ui.displayBoard(new Board());
+
+        assertTrue(clickListenersAreSet(getChildren(scene)));
+    }
+
+    @Test
+    public void playsClickedPosition() {
+        setupJFXEnvironment();
+        Game game = GameMaker.makeGame(GameOption.HUMAN_ONLY, ui);
+        ui.setGame(game);
+        ui.displayBoard(game.getBoard());
+
+        Node cell = getChildren(scene).get(0);
+        cell.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+
+        assertEquals(Mark.X, game.getBoard().markAt(0));//!!!!
+    }
+
     private Player getCurrentPlayer(GraphicalUI ui) {
         return ui.getGame().getCurrentPlayer();
     }
 
-    private Node getAiFirstButton(List<Node> nodes) {
+    private Node findGameOption(List<Node> nodes, GameOption option) {
         for (Node button : nodes) {
-            if (((GameSelectionButton) button).getGameOption() == GameOption.AI_FIRST) {
+            if (((GameSelectionButton) button).getGameOption() == option) {
                 return button;
             }
         }

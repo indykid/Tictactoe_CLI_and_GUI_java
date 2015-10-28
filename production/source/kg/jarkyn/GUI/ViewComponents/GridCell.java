@@ -14,4 +14,8 @@ public class GridCell extends Rectangle {
     public Mark getMark() {
         return mark;
     }
+
+    public int getPosition() {
+        return position;
+    }
 }
