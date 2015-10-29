@@ -43,8 +43,8 @@ public class GraphicalUI implements Ui {
         game = GameMaker.makeGame(button.getGameOption(), this);
     }
 
-    public void displayBoard(Board board) {
-        MainPane pane = WidgetMaker.makeBoardWidget(board, position -> {
+    public void displayBoard() {
+        MainPane pane = WidgetMaker.makeBoardWidget(game.getBoard(), position -> {
             setHumanMove(position);
             playGame();
         });
@@ -69,6 +69,7 @@ public class GraphicalUI implements Ui {
     @Override
     public void playGame() {
         game.play();
+        displayBoard();
     }
 
     @Override

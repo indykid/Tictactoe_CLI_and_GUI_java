@@ -6,10 +6,13 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import kg.jarkyn.Core.Board;
 import kg.jarkyn.Core.GameOption;
+import kg.jarkyn.Core.Mark;
+import kg.jarkyn.GUI.ViewComponents.GridCell;
 import kg.jarkyn.GUI.ViewComponents.MainPane;
 import org.junit.Test;
 
 
+import static kg.jarkyn.Core.Mark.*;
 import static org.junit.Assert.assertEquals;
 
 public class WidgetMakerTest {
@@ -36,6 +39,19 @@ public class WidgetMakerTest {
 
         int boardSize = board.getSize() * board.getSize();
         assertEquals(boardSize, pane.getChildrenUnmodifiable().size());
+    }
+
+    @Test
+    public void drawsMarksOnBoard() {
+        Mark[] moves = {  X,  NONE, NONE,
+                        NONE, NONE, NONE,
+                        NONE, NONE, NONE};
+        Board board = new Board(moves);
+
+        MainPane boardWidget = WidgetMaker.makeBoardWidget(board, new PositionListenerDummy());
+
+        String cellText = ((GridCell) boardWidget.getChildren().get(0)).getText();
+        assertEquals("X", cellText);
     }
 
     @Test

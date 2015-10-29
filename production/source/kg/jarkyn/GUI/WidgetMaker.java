@@ -25,7 +25,7 @@ public class WidgetMaker {
         MainPane pane = new MainPane();
         int positionCount = board.getSize()*board.getSize();
         for (int position = 0; position < positionCount; position++) {
-            GridCell cell = new GridCell(position);
+            GridCell cell = new GridCell(position, board.markAt(position));
             addListener(listener, cell);
             pane.getChildren().add(cell);
         }

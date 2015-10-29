@@ -1,21 +1,30 @@
 package kg.jarkyn.GUI.ViewComponents;
 
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 import kg.jarkyn.Core.Mark;
 
-public class GridCell extends Rectangle {
+public class GridCell extends StackPane {
     private final int position;
-    private Mark mark;
+    private Text text = new Text();
 
-    public GridCell(int position) {
+    public GridCell(int position, Mark mark) {
         this.position = position;
-    }
-
-    public Mark getMark() {
-        return mark;
+        setupText(mark);
     }
 
     public int getPosition() {
         return position;
+    }
+
+    public String getText() {
+        return text.getText();
+    }
+
+    private void setupText(Mark mark) {
+        if (mark != Mark.NONE) {
+            text.setText(mark.toString());
+        }
+        getChildren().add(text);
     }
 }

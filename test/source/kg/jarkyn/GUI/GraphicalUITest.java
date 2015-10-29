@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import kg.jarkyn.Core.*;
 import kg.jarkyn.GUI.ViewComponents.GameSelectionButton;
+import kg.jarkyn.GUI.ViewComponents.GridCell;
 import kg.jarkyn.GUI.ViewComponents.MainPane;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,10 +40,9 @@ public class GraphicalUITest {
     @Test
     public void setsUpGameOnSelection() {
         setupJFXEnvironment();
-
         ui.displayGameSelector();
-        Node cell = getChildren(scene).get(0);
-        cell.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+
+        getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
 
         assertTrue(isGamePresent(ui));
     }
@@ -50,9 +50,9 @@ public class GraphicalUITest {
     @Test
     public void setsUpAiFirstGame() {
         setupJFXEnvironment();
-
         ui.displayGameSelector();
-        Node aiFirstButton = findGameOption(getChildren(scene), GameOption.AI_FIRST);
+        Node aiFirstButton = findButton(scene, GameOption.AI_FIRST);
+
         aiFirstButton.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
 
         assertTrue(getCurrentPlayer(ui) instanceof AiPlayer);
@@ -63,20 +63,43 @@ public class GraphicalUITest {
         setupJFXEnvironment();
         Game game = GameMaker.makeGame(GameOption.HUMAN_ONLY, ui);
         ui.setGame(game);
-        ui.displayBoard(game.getBoard());
+        ui.displayBoard();
 
-        Node cell = getChildren(scene).get(0);
-        cell.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+        getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
 
-        assertEquals(Mark.X, game.getBoard().markAt(0));//!!!!
+        assertEquals(Mark.X, game.getBoard().markAt(0));
+    }
+
+    @Test
+    public void drawsMarkToTheClickedCell() {
+        setupJFXEnvironment();
+        ui.setGame(GameMaker.makeGame(GameOption.HUMAN_ONLY, ui));
+        ui.displayBoard();
+
+        getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+
+        assertEquals("X", ((GridCell) getFirstChild()).getText());
+    }
+
+    private void setupJFXEnvironment() {
+        new JFXPanel();
+    }
+
+    private boolean clickListenersAreSet(List<Node> elements) {
+        for (Node element : elements) {
+            if (element.onMouseClickedProperty().getValue() == null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private Player getCurrentPlayer(GraphicalUI ui) {
         return ui.getGame().getCurrentPlayer();
     }
 
-    private Node findGameOption(List<Node> nodes, GameOption option) {
-        for (Node button : nodes) {
+    private Node findButton(Scene scene, GameOption option) {
+        for (Node button : getChildren(scene)) {
             if (((GameSelectionButton) button).getGameOption() == option) {
                 return button;
             }
@@ -88,20 +111,11 @@ public class GraphicalUITest {
         return ui.getGame() != null;
     }
 
-    private void setupJFXEnvironment() {
-        new JFXPanel();
-    }
-
     private List<Node> getChildren(Scene scene) {
         return scene.getRoot().getChildrenUnmodifiable();
     }
 
-    private boolean clickListenersAreSet(List<Node> elements) {
-        for (Node element : elements) {
-            if (element.onMouseClickedProperty().getValue() == null) {
-                return false;
-            }
-        }
-        return true;
+    private Node getFirstChild() {
+        return getChildren(scene).get(0);
     }
 }
