@@ -2,13 +2,10 @@ package kg.jarkyn.GUI;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import kg.jarkyn.Core.Board;
-import kg.jarkyn.Core.Game;
-import kg.jarkyn.Core.GameMaker;
-import kg.jarkyn.Core.Ui;
+import kg.jarkyn.Core.*;
 import kg.jarkyn.GUI.ViewComponents.GameSelectionButton;
-import kg.jarkyn.GUI.ViewComponents.GridCell;
 import kg.jarkyn.GUI.ViewComponents.MainPane;
 
 import java.util.List;
@@ -25,11 +22,9 @@ public class GraphicalUI implements Ui {
     }
 
     public void displayGameSelector() {
-        MainPane pane = new MainPane();
-        List<GameSelectionButton> buttons = ViewMaker.makeGameSelectionButtons();
-        for (GameSelectionButton button : buttons) {
-            addGameSelectionListener(button);
-            pane.getChildren().add(button);
+        MainPane pane = WidgetMaker.makeGameSelectorWidget();
+        for (Node button : pane.getChildren()) {
+            addGameSelectionListener((GameSelectionButton) button);
         }
         scene.setRoot(pane);
     }
@@ -49,26 +44,12 @@ public class GraphicalUI implements Ui {
     }
 
     public void displayBoard(Board board) {
-        MainPane pane = new MainPane();
-        int positionCount = board.getSize()*board.getSize();
-        for (int position = 0; position < positionCount; position++) {
-            GridCell cell = new GridCell(position);
-            addPlayPositionListener(cell);
-            pane.getChildren().add(cell);
-        }
+        MainPane pane = WidgetMaker.makeBoardWidget(board, position -> {
+            setHumanMove(position);
+            playGame();
+        });
 
         scene.setRoot(pane);
-    }
-
-    private void addPlayPositionListener(GridCell cell) {
-        cell.setOnMouseClicked(new EventHandler<Event>() {
-            @Override
-            public void handle(Event event) {
-                GridCell cell = (GridCell) event.getSource();
-                setHumanMove(cell.getPosition());
-                playGame();
-            }
-        });
     }
 
     void setHumanMove(int position) {

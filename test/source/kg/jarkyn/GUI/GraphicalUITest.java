@@ -28,16 +28,6 @@ public class GraphicalUITest {
     }
 
     @Test
-    public void displaysGameSelector() {
-        setupJFXEnvironment();
-
-        ui.displayGameSelector();
-        int amountOfGameOptions = GameOption.values().length;
-
-        assertEquals(amountOfGameOptions, getChildren(scene).size());
-    }
-
-    @Test
     public void listenersAreSetOnGameSelectionButtons() {
         setupJFXEnvironment();
 
@@ -66,23 +56,6 @@ public class GraphicalUITest {
         aiFirstButton.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
 
         assertTrue(getCurrentPlayer(ui) instanceof AiPlayer);
-    }
-
-    @Test
-    public void displaysBoard() {
-        Board board = new Board();
-
-        ui.displayBoard(board);
-
-        int boardSize = board.getSize() * board.getSize();
-        assertEquals(boardSize, getChildren(scene).size());
-    }
-
-    @Test
-    public void setsUpListenersOnBoardCells() {
-        ui.displayBoard(new Board());
-
-        assertTrue(clickListenersAreSet(getChildren(scene)));
     }
 
     @Test
