@@ -4,6 +4,7 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import kg.jarkyn.Core.Board;
 import kg.jarkyn.Core.GameOption;
+import kg.jarkyn.Core.Mark;
 import kg.jarkyn.GUI.ViewComponents.GameSelectionButton;
 import kg.jarkyn.GUI.ViewComponents.GridCell;
 import kg.jarkyn.GUI.ViewComponents.MainPane;
@@ -26,7 +27,9 @@ public class WidgetMaker {
         int positionCount = board.getSize()*board.getSize();
         for (int position = 0; position < positionCount; position++) {
             GridCell cell = new GridCell(position, board.markAt(position));
-            addListener(listener, cell);
+            if (board.markAt(position) == Mark.NONE) {
+                addListener(listener, cell);
+            }
             pane.getChildren().add(cell);
         }
         return pane;

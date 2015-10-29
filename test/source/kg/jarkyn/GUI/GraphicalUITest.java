@@ -15,6 +15,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class GraphicalUITest {
@@ -79,6 +80,30 @@ public class GraphicalUITest {
         getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
 
         assertEquals("X", ((GridCell) getFirstChild()).getText());
+    }
+
+    @Test
+    public void doesNotSetListenerIfCellIsPlayed() {
+        setupJFXEnvironment();
+        ui.setGame(GameMaker.makeGame(GameOption.HUMAN_ONLY, ui));
+        ui.displayBoard();
+
+        getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+
+        assertNull(getFirstChild().onMouseClickedProperty().getValue());
+    }
+
+    @Test
+    public void nothingHappensWhenClickingIntoPlayedCell() {
+        setupJFXEnvironment();
+        Game game = GameMaker.makeGame(GameOption.HUMAN_ONLY, ui);
+        ui.setGame(game);
+        ui.displayBoard();
+
+        getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+        getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+
+        assertEquals(Mark.X, game.getBoard().markAt(0));
     }
 
     private void setupJFXEnvironment() {
