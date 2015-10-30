@@ -1,6 +1,8 @@
 package kg.jarkyn.GUI.ViewComponents;
 
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import kg.jarkyn.Core.Mark;
 
@@ -10,7 +12,13 @@ public class GridCell extends StackPane {
 
     public GridCell(int position, Mark mark) {
         this.position = position;
+        style();
         setupText(mark);
+    }
+
+    private void style() {
+        setMinSize(200, 200);
+        setStyle("-fx-border-color: gray");
     }
 
     public int getPosition() {
@@ -25,6 +33,15 @@ public class GridCell extends StackPane {
         if (mark != Mark.NONE) {
             text.setText(mark.toString());
         }
+        styleText();
         getChildren().add(text);
     }
+
+    private void styleText() {
+        text.setFill(Color.GREY);
+        text.setStroke(Color.GREY);
+        text.setFont(Font.font(80));
+    }
+
+
 }

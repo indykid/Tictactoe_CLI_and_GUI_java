@@ -8,7 +8,7 @@ import javafx.scene.input.MouseEvent;
 import kg.jarkyn.Core.*;
 import kg.jarkyn.GUI.ViewComponents.GameSelectionButton;
 import kg.jarkyn.GUI.ViewComponents.GridCell;
-import kg.jarkyn.GUI.ViewComponents.MainPane;
+import kg.jarkyn.GUI.ViewComponents.MainGrid;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +25,7 @@ public class GraphicalUITest {
 
     @Before
     public void setUp() throws Exception {
-        scene = new Scene(new MainPane());
+        scene = new Scene(new MainGrid());
         ui = new GraphicalUI(scene);
     }
 
@@ -57,6 +57,16 @@ public class GraphicalUITest {
         aiFirstButton.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
 
         assertTrue(getCurrentPlayer(ui) instanceof AiPlayer);
+    }
+
+    @Test
+    public void displaysBoardOnGameSelection() {
+        setupJFXEnvironment();
+        ui.displayGameSelector();
+
+        getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+
+        assertEquals(9, getChildren(scene).size());
     }
 
     @Test

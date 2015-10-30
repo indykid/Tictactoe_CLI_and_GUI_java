@@ -4,7 +4,10 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import kg.jarkyn.Core.*;
+import javafx.scene.layout.GridPane;
+import kg.jarkyn.Core.Game;
+import kg.jarkyn.Core.GameMaker;
+import kg.jarkyn.Core.Ui;
 import kg.jarkyn.GUI.ViewComponents.GameSelectionButton;
 import kg.jarkyn.GUI.ViewComponents.MainPane;
 
@@ -35,6 +38,7 @@ public class GraphicalUI implements Ui {
             public void handle(Event event) {
                 GameSelectionButton button = (GameSelectionButton) event.getSource();
                 setupGame(button);
+                playGame();
             }
         });
     }
@@ -44,7 +48,7 @@ public class GraphicalUI implements Ui {
     }
 
     public void displayBoard() {
-        MainPane pane = WidgetMaker.makeBoardWidget(game.getBoard(), position -> {
+        GridPane pane = WidgetMaker.makeBoardWidget(game.getBoard(), position -> {
             setHumanMove(position);
             playGame();
         });

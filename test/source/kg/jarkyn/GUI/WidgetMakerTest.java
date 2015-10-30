@@ -8,6 +8,7 @@ import kg.jarkyn.Core.Board;
 import kg.jarkyn.Core.GameOption;
 import kg.jarkyn.Core.Mark;
 import kg.jarkyn.GUI.ViewComponents.GridCell;
+import kg.jarkyn.GUI.ViewComponents.MainGrid;
 import kg.jarkyn.GUI.ViewComponents.MainPane;
 import org.junit.Test;
 
@@ -35,7 +36,7 @@ public class WidgetMakerTest {
     public void makesBoardWidget() {
         Board board = new Board();
 
-        MainPane pane = WidgetMaker.makeBoardWidget(board, new PositionListenerDummy());
+        MainGrid pane = WidgetMaker.makeBoardWidget(board, new PositionListenerDummy());
 
         int boardSize = board.getSize() * board.getSize();
         assertEquals(boardSize, pane.getChildrenUnmodifiable().size());
@@ -48,7 +49,7 @@ public class WidgetMakerTest {
                         NONE, NONE, NONE};
         Board board = new Board(moves);
 
-        MainPane boardWidget = WidgetMaker.makeBoardWidget(board, new PositionListenerDummy());
+        MainGrid boardWidget = WidgetMaker.makeBoardWidget(board, new PositionListenerDummy());
 
         String cellText = ((GridCell) boardWidget.getChildren().get(0)).getText();
         assertEquals("X", cellText);
@@ -57,7 +58,7 @@ public class WidgetMakerTest {
     @Test
     public void sendsThePositionToTheListener() {
         PositionListenerSpy spy = new PositionListenerSpy();
-        MainPane pane = WidgetMaker.makeBoardWidget(new Board(), spy);
+        MainGrid pane = WidgetMaker.makeBoardWidget(new Board(), spy);
         Node firstCell = pane.getChildrenUnmodifiable().get(0);
 
         click(firstCell);
