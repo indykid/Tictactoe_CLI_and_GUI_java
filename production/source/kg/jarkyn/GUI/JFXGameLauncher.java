@@ -4,12 +4,12 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import kg.jarkyn.GUI.ViewComponents.MainGrid;
+import kg.jarkyn.GUI.JFXViewComponents.JFXGrid;
 
-public class GameLauncher extends Application{
+public class JFXGameLauncher extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
-        primaryStage.setScene(new Scene(new MainGrid(), Color.BLACK));
+        primaryStage.setScene(new Scene(new JFXGrid(), Color.BLACK));
         new GraphicalUI(primaryStage.getScene()).displayGameSelector();
         primaryStage.setResizable(false);
         primaryStage.show();

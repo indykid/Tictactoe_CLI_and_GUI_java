@@ -93,8 +93,7 @@ public class GameTest {
         game.play();
         Board board = game.getBoard();
 
-        int size = board.getSize() * board.getSize();
-        assertEquals(size, board.getAvailable().size());
+        assertEquals(board.getSize(), board.getAvailable().size());
     }
 
     @Test

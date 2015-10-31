@@ -4,12 +4,13 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import kg.jarkyn.Core.Game;
 import kg.jarkyn.Core.GameMaker;
 import kg.jarkyn.Core.Ui;
-import kg.jarkyn.GUI.ViewComponents.GameSelectionButton;
-import kg.jarkyn.GUI.ViewComponents.MainPane;
+import kg.jarkyn.GUI.JFXViewComponents.JFXGameOptionButton;
+import kg.jarkyn.GUI.JFXViewComponents.JFXBoardWidget;
+import kg.jarkyn.GUI.JFXViewComponents.JFXGameSelectionWidget;
 
 import java.util.List;
 
@@ -25,35 +26,33 @@ public class GraphicalUI implements Ui {
     }
 
     public void displayGameSelector() {
-        MainPane pane = WidgetMaker.makeGameSelectorWidget();
+        Pane pane = new JFXGameSelectionWidget();
         for (Node button : pane.getChildren()) {
-            addGameSelectionListener((GameSelectionButton) button);
+            addGameSelectionListener((JFXGameOptionButton) button);
         }
         scene.setRoot(pane);
     }
 
-    private void addGameSelectionListener(GameSelectionButton button) {
+    private void addGameSelectionListener(JFXGameOptionButton button) {
         button.setOnMouseClicked(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
-                GameSelectionButton button = (GameSelectionButton) event.getSource();
+                JFXGameOptionButton button = (JFXGameOptionButton) event.getSource();
                 setupGame(button);
                 playGame();
             }
         });
     }
 
-    private void setupGame(GameSelectionButton button) {
+    private void setupGame(JFXGameOptionButton button) {
         game = GameMaker.makeGame(button.getGameOption(), this);
     }
 
     public void displayBoard() {
-        GridPane pane = WidgetMaker.makeBoardWidget(game.getBoard(), position -> {
+        scene.setRoot(new JFXBoardWidget(game.getBoard(), position -> {
             setHumanMove(position);
             playGame();
-        });
-
-        scene.setRoot(pane);
+        }));
     }
 
     void setHumanMove(int position) {

@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Board {
-    public int size;
-    public ArrayList<Integer> available;
+    private int dimension;
+    private ArrayList<Integer> available;
     private Mark[] moves;
-    private static final int DEFAULT_SIZE = 3;
+    private static final int DEFAULT_DIMENSION = 3;
     private static final int[][] WINNING_POSITIONS = new int[][]{
         {0, 1, 2},
         {3, 4, 5},
@@ -24,7 +24,7 @@ public class Board {
     }
 
     public Board(Mark[] moves) {
-        this.size = DEFAULT_SIZE;
+        this.dimension = DEFAULT_DIMENSION;
         this.moves = moves;
         this.available = setAvailable();
     }
@@ -65,7 +65,7 @@ public class Board {
                 return line;
             }
         }
-        int[]line = new int[size];
+        int[]line = new int[dimension];
         Arrays.fill(line, -1);
         return line;
     }
@@ -78,8 +78,8 @@ public class Board {
         }
     }
 
-    public int getSize() {
-        return size;
+    public int getDimension() {
+        return dimension;
     }
 
     private boolean isWon() {
@@ -109,7 +109,7 @@ public class Board {
     }
 
     private static Mark[] setMoves() {
-        int length = (int)Math.pow(DEFAULT_SIZE, 2);
+        int length = (int)Math.pow(DEFAULT_DIMENSION, 2);
         Mark[] moves  = new Mark[length];
         Arrays.fill(moves, Mark.NONE);
         return moves;
@@ -122,5 +122,9 @@ public class Board {
             }
         }
         return true;
+    }
+
+    public int getSize() {
+        return dimension * dimension;
     }
 }

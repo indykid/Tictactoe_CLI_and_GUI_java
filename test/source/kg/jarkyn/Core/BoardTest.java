@@ -11,8 +11,13 @@ import static org.junit.Assert.*;
 public class BoardTest {
 
     @Test
-    public void hasDefaultSize() {
-        assertEquals(3, new Board().size);
+    public void hasDefaultDimension() {
+        assertEquals(3, new Board().getDimension());
+    }
+
+    @Test
+    public void knowsItsSize() {
+        assertEquals(9, new Board().getSize());
     }
 
     @Test
@@ -115,7 +120,7 @@ public class BoardTest {
                         O, X, X,
                         O, X, O};
         Board board = new Board(moves);
-        int[] expectedWinLine = new int[board.size];
+        int[] expectedWinLine = new int[board.getDimension()];
         Arrays.fill(expectedWinLine, -1);
 
         assertArrayEquals(expectedWinLine, board.winLine());

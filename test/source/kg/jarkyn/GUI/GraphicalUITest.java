@@ -6,9 +6,9 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import kg.jarkyn.Core.*;
-import kg.jarkyn.GUI.ViewComponents.GameSelectionButton;
-import kg.jarkyn.GUI.ViewComponents.GridCell;
-import kg.jarkyn.GUI.ViewComponents.MainGrid;
+import kg.jarkyn.GUI.JFXViewComponents.JFXGameOptionButton;
+import kg.jarkyn.GUI.JFXViewComponents.JFXCellWidget;
+import kg.jarkyn.GUI.JFXViewComponents.JFXGrid;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +25,7 @@ public class GraphicalUITest {
 
     @Before
     public void setUp() throws Exception {
-        scene = new Scene(new MainGrid());
+        scene = new Scene(new JFXGrid());
         ui = new GraphicalUI(scene);
     }
 
@@ -49,14 +49,25 @@ public class GraphicalUITest {
     }
 
     @Test
-    public void setsUpAiFirstGame() {
+    public void setsUpGameAccordingToTheGameSelected() {
+        setupJFXEnvironment();
+        ui.displayGameSelector();
+        Node aiSecondButton = findButton(scene, GameOption.AI_SECOND);
+
+        aiSecondButton.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+
+        assertTrue(getCurrentPlayer(ui) instanceof HumanPlayer);
+    }
+
+    @Test
+    public void aiPlaysFirstMoveWhenAiFirstGame() {
         setupJFXEnvironment();
         ui.displayGameSelector();
         Node aiFirstButton = findButton(scene, GameOption.AI_FIRST);
 
         aiFirstButton.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
 
-        assertTrue(getCurrentPlayer(ui) instanceof AiPlayer);
+        assertEquals("X", ((JFXCellWidget) getFirstChild()).getText());
     }
 
     @Test
@@ -89,7 +100,7 @@ public class GraphicalUITest {
 
         getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
 
-        assertEquals("X", ((GridCell) getFirstChild()).getText());
+        assertEquals("X", ((JFXCellWidget) getFirstChild()).getText());
     }
 
     @Test
@@ -135,7 +146,7 @@ public class GraphicalUITest {
 
     private Node findButton(Scene scene, GameOption option) {
         for (Node button : getChildren(scene)) {
-            if (((GameSelectionButton) button).getGameOption() == option) {
+            if (((JFXGameOptionButton) button).getGameOption() == option) {
                 return button;
             }
         }

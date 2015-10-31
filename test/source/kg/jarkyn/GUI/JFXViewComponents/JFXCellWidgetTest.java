@@ -1,29 +1,31 @@
-package kg.jarkyn.GUI.ViewComponents;
+package kg.jarkyn.GUI.JFXViewComponents;
 
 import kg.jarkyn.Core.Mark;
+import kg.jarkyn.GUI.JFXViewComponents.JFXCellWidget;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class GridCellTest {
+public class JFXCellWidgetTest {
     @Test
     public void noTextWhenMarkIsNone(){
-        GridCell cell = new GridCell(1, Mark.NONE);
+        JFXCellWidget cell = new JFXCellWidget(1, Mark.NONE);
 
         assertEquals("", cell.getText());
     }
 
     @Test
     public void setsUpTextForMarkX() {
-        GridCell cell = new GridCell(1, Mark.X);
+        JFXCellWidget cell = new JFXCellWidget(1, Mark.X);
 
         assertEquals("X", cell.getText());
     }
 
     @Test
     public void addsText() {
-        GridCell cell = new GridCell(1, Mark.X);
+        JFXCellWidget cell = new JFXCellWidget(1, Mark.X);
 
         assertEquals(1, cell.getChildren().size());
     }
+
 }
