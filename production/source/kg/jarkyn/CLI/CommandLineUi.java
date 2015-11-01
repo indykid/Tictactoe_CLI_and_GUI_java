@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class CommandLineUi implements Ui {
+public class CommandLineUI implements HumanInput {
     public  static final String GREETING       = "Welcome to Tictactoe!";
     public  static final String INVALID_OPTION = "Invalid input, please try again";
     public  static final String DRAW_STATUS    = "It's a draw";
@@ -15,26 +15,24 @@ public class CommandLineUi implements Ui {
     private CommandLine commandLine;
     private Game game;
 
-    public CommandLineUi(CommandLine commandLine) {
+    public CommandLineUI(CommandLine commandLine) {
         this.commandLine = commandLine;
     }
 
     public static void main(String[] args) {
-        Ui ui = new CommandLineUi(new CommandLine(System.in, System.out));
+        CommandLineUI ui = new CommandLineUI(new CommandLine(System.in, System.out));
         GameOption gameOption = GameOption.parse(ui.selectGame());
 
         ui.setGame(GameMaker.makeGame(gameOption, ui));
         ui.playGame();
     }
 
-    @Override
     public void playGame() {
         game.play();
         announceGameOver();
         announceResult();
     }
 
-    @Override
     public void setGame(Game game) {
         this.game = game;
     }
@@ -45,18 +43,15 @@ public class CommandLineUi implements Ui {
         return getValidInput(promptForMove(game.getCurrentPlayer().getMark()), offset(available)) - 1;
     }
 
-    @Override
     public int selectGame() {
         greet();
         return getValidInput(GAME_SELECTION_MESSAGE, validGameOptions());
     }
 
-    @Override
     public void announceDraw() {
         show(DRAW_STATUS);
     }
 
-    @Override
     public void announceGameOver() {
         displayBoard(game.getBoard());
         show(GAME_OVER);

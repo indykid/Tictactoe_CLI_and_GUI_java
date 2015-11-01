@@ -1,6 +1,6 @@
 package kg.jarkyn.Core;
 
-import kg.jarkyn.doubles.UiDouble;
+import kg.jarkyn.doubles.InputDouble;
 import org.junit.Test;
 
 import java.util.List;
@@ -10,8 +10,8 @@ import static org.junit.Assert.*;
 public class HumanPlayerTest {
     @Test
     public void picksPosition() {
-        Ui ui = new UiDouble(new int[]{1});
-        HumanPlayer playerX = new HumanPlayer(Mark.X, ui);
+        HumanInput input = new InputDouble(new int[]{1});
+        HumanPlayer playerX = new HumanPlayer(Mark.X, input);
         int position = playerX.pickPosition(new Board());
 
         assertEquals(0, position);
@@ -19,42 +19,25 @@ public class HumanPlayerTest {
 
     @Test
     public void hasNoMoveIfUiHasNotReceivedMove() {
-        Ui ui = new UiDummy();
-        HumanPlayer playerX = new HumanPlayer(Mark.X, ui);
+        HumanInput input = new InputDummy();
+        HumanPlayer playerX = new HumanPlayer(Mark.X, input);
 
         assertFalse(playerX.hasNextMove());
     }
 
     @Test
     public void hasMoveIfUiHasReceivedMove() {
-        Ui ui = new UiStubWithMove();
-        HumanPlayer playerX = new HumanPlayer(Mark.X, ui);
+        HumanInput input = new InputStubWithMove();
+        HumanPlayer playerX = new HumanPlayer(Mark.X, input);
 
         assertTrue(playerX.hasNextMove());
     }
 
-    private class UiDummy implements Ui {
-        @Override
-        public int selectGame() {
-            return 0;
-        }
-
-        @Override
-        public void setGame(Game game) {}
-
-        @Override
-        public void playGame() {}
-
+    private class InputDummy implements HumanInput {
         @Override
         public int getMove(List<Integer> available) {
             return 0;
         }
-
-        @Override
-        public void announceGameOver() {}
-
-        @Override
-        public void announceDraw() {}
 
         @Override
         public boolean hasHumanMove() {
@@ -62,7 +45,7 @@ public class HumanPlayerTest {
         }
     }
 
-    private class UiStubWithMove extends UiDummy {
+    private class InputStubWithMove extends InputDummy {
         @Override
         public boolean hasHumanMove() {
             return true;

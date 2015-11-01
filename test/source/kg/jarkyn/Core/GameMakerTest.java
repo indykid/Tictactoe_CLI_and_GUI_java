@@ -1,15 +1,10 @@
 package kg.jarkyn.Core;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
 public class GameMakerTest {
-
-    @Before
-    public void setup() {
-    }
 
     @Test
     public void givenAiFirstOptionAiIsPlayerXHumanIsPlayerO() {

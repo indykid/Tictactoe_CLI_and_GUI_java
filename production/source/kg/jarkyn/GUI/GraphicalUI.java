@@ -7,14 +7,14 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import kg.jarkyn.Core.Game;
 import kg.jarkyn.Core.GameMaker;
-import kg.jarkyn.Core.Ui;
+import kg.jarkyn.Core.HumanInput;
 import kg.jarkyn.GUI.JFXViewComponents.JFXGameOptionButton;
 import kg.jarkyn.GUI.JFXViewComponents.JFXBoardWidget;
 import kg.jarkyn.GUI.JFXViewComponents.JFXGameSelectionWidget;
 
 import java.util.List;
 
-public class GraphicalUI implements Ui {
+public class GraphicalUI implements HumanInput {
 
     private static final int NULL_MOVE = -1;
     private Scene scene;
@@ -59,23 +59,11 @@ public class GraphicalUI implements Ui {
         humanMove = position;
     }
 
-    @Override
-    public int selectGame() {
-        return 0;
-    }
-
-    @Override
-    public void announceDraw() {
-
-    }
-
-    @Override
     public void playGame() {
         game.play();
         displayBoard();
     }
 
-    @Override
     public void setGame(Game game) {
         this.game = game;
     }
@@ -85,11 +73,6 @@ public class GraphicalUI implements Ui {
         int position = humanMove;
         humanMove = NULL_MOVE;
         return position;
-    }
-
-    @Override
-    public void announceGameOver() {
-
     }
 
     @Override

@@ -7,16 +7,16 @@ public class GameMaker {
     private static Player playerX;
     private static Player playerO;
 
-    public static Game makeGame(GameOption gameOption, Ui ui) {
+    public static Game makeGame(GameOption gameOption, HumanInput input) {
         if (gameOption == GameOption.AI_FIRST) {
             playerX = makeAiPlayer(X);
-            playerO = makeHumanPlayer(O, ui);
+            playerO = makeHumanPlayer(O, input);
         } else if (gameOption == GameOption.AI_SECOND) {
-            playerX = new HumanPlayer(X, ui);
+            playerX = new HumanPlayer(X, input);
             playerO = new AiPlayer(O);
         } else {
-            playerX = new HumanPlayer(X, ui);
-            playerO = makeHumanPlayer(O, ui);
+            playerX = new HumanPlayer(X, input);
+            playerO = makeHumanPlayer(O, input);
         }
         return new Game(new Board(), playerX, playerO);
     }
@@ -29,7 +29,7 @@ public class GameMaker {
         return playerO;
     }
 
-    private static HumanPlayer makeHumanPlayer(Mark mark, Ui ui) {
+    private static HumanPlayer makeHumanPlayer(Mark mark, HumanInput ui) {
         return new HumanPlayer(mark, ui);
     }
 

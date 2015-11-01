@@ -3,7 +3,7 @@ package kg.jarkyn.CLI;
 import kg.jarkyn.Core.Board;
 import kg.jarkyn.Core.Game;
 import kg.jarkyn.Core.HumanPlayer;
-import kg.jarkyn.Core.Ui;
+import kg.jarkyn.Core.HumanInput;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,21 +18,21 @@ import static kg.jarkyn.Core.Mark.X;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-public class CommandLineUiTest {
+public class CommandLineUITest {
 
     private List<Integer>         validMoves;
     private ByteArrayOutputStream output;
 
-    private Game setupGame(Ui ui) {
-        return new Game(new Board(), new HumanPlayer(X, ui), new HumanPlayer(O, ui));
+    private Game setupGame(HumanInput input) {
+        return new Game(new Board(), new HumanPlayer(X, input), new HumanPlayer(O, input));
     }
 
     private ByteArrayInputStream inputStream(String userInput) {
         return new ByteArrayInputStream(userInput.getBytes());
     }
 
-    private CommandLineUi setupUi(String userInput) {
-        return new CommandLineUi(new CommandLine(inputStream(userInput), output));
+    private CommandLineUI setupUi(String userInput) {
+        return new CommandLineUI(new CommandLine(inputStream(userInput), output));
     }
 
     @Before
@@ -43,25 +43,25 @@ public class CommandLineUiTest {
 
     @Test
     public void greets() {
-        Ui ui = setupUi("1");
+        CommandLineUI ui = setupUi("1");
 
         ui.selectGame();
 
-        assertTrue(output.toString().contains(CommandLineUi.GREETING));
+        assertTrue(output.toString().contains(CommandLineUI.GREETING));
     }
 
     @Test
     public void promptsGameSelection() {
-        Ui ui = setupUi("1");
+        CommandLineUI ui = setupUi("1");
 
         ui.selectGame();
 
-        assertTrue(output.toString().contains(CommandLineUi.GAME_SELECTION_MESSAGE));
+        assertTrue(output.toString().contains(CommandLineUI.GAME_SELECTION_MESSAGE));
     }
 
     @Test
     public void receivesGameOption() {
-        Ui ui = setupUi("1");
+        CommandLineUI ui = setupUi("1");
 
         int option = ui.selectGame();
 
@@ -70,21 +70,21 @@ public class CommandLineUiTest {
 
     @Test
     public void notifiesOfInvalidGameSelectionOption() {
-        Ui ui = setupUi("invalid\n1");
+        CommandLineUI ui = setupUi("invalid\n1");
         ui.selectGame();
 
-        assertTrue(output.toString().contains(CommandLineUi.INVALID_OPTION));
+        assertTrue(output.toString().contains(CommandLineUI.INVALID_OPTION));
     }
 
     @Test
     public void getsInputUntilValid() {
-        Ui ui = setupUi("invalid\n1");
+        CommandLineUI ui = setupUi("invalid\n1");
         assertEquals(1, ui.selectGame());
     }
 
     @Test
     public void displaysBoardBeforeAskingForMove() {
-        Ui ui = setupUi("1");
+        CommandLineUI ui = setupUi("1");
         ui.setGame(setupGame(ui));
 
         ui.getMove(validMoves);
@@ -98,7 +98,7 @@ public class CommandLineUiTest {
 
     @Test
     public void asksUserForMove() {
-        Ui ui = setupUi("1");
+        CommandLineUI ui = setupUi("1");
         ui.setGame(setupGame(ui));
         ui.getMove(validMoves);
 
@@ -107,7 +107,7 @@ public class CommandLineUiTest {
 
     @Test
     public void getsMove() {
-        Ui ui = setupUi("1");
+        CommandLineUI ui = setupUi("1");
         ui.setGame(setupGame(ui));
 
         assertEquals(0, ui.getMove(validMoves));
@@ -115,7 +115,7 @@ public class CommandLineUiTest {
 
     @Test
     public void doesNotAcceptNonNumericMove() {
-        Ui ui = setupUi("a\n1");
+        CommandLineUI ui = setupUi("a\n1");
         ui.setGame(setupGame(ui));
 
         assertEquals(0, ui.getMove(validMoves));
@@ -123,7 +123,7 @@ public class CommandLineUiTest {
 
     @Test
     public void doesNotAcceptBlankInputAsMove() {
-        Ui ui = setupUi("\n1");
+        CommandLineUI ui = setupUi("\n1");
         ui.setGame(setupGame(ui));
 
         assertEquals(0, ui.getMove(validMoves));
@@ -131,27 +131,27 @@ public class CommandLineUiTest {
 
     @Test
     public void notifiesOnNonNumericInputForMove() {
-        Ui ui = setupUi("a\n1");
+        CommandLineUI ui = setupUi("a\n1");
         ui.setGame(setupGame(ui));
 
         ui.getMove(validMoves);
 
-        assertTrue(output.toString().contains(CommandLineUi.INVALID_OPTION));
+        assertTrue(output.toString().contains(CommandLineUI.INVALID_OPTION));
     }
 
     @Test
     public void notifiesOnInvalidMove() {
-        Ui ui = setupUi("10\n1");
+        CommandLineUI ui = setupUi("10\n1");
         ui.setGame(setupGame(ui));
 
         ui.getMove(validMoves);
 
-        assertTrue(output.toString().contains(CommandLineUi.INVALID_OPTION));
+        assertTrue(output.toString().contains(CommandLineUI.INVALID_OPTION));
     }
 
     @Test
     public void announcesWinner() {
-        Ui ui = setupUi("1\n4\n2\n5\n3");
+        CommandLineUI ui = setupUi("1\n4\n2\n5\n3");
         ui.setGame(setupGame(ui));
 
         ui.playGame();
@@ -161,27 +161,27 @@ public class CommandLineUiTest {
 
     @Test
     public void announcesDraw() {
-        Ui ui = setupUi("1\n2\n3\n5\n4\n6\n8\n7\n9");
+        CommandLineUI ui = setupUi("1\n2\n3\n5\n4\n6\n8\n7\n9");
         ui.setGame(setupGame(ui));
 
         ui.playGame();
 
-        assertTrue(output.toString().contains(CommandLineUi.DRAW_STATUS));
+        assertTrue(output.toString().contains(CommandLineUI.DRAW_STATUS));
     }
 
     @Test
     public void announcesGameOver() {
-        Ui ui = new CommandLineUi(new CommandLine(inputStream("1\n4\n2\n5\n3"), output));
+        CommandLineUI ui = new CommandLineUI(new CommandLine(inputStream("1\n4\n2\n5\n3"), output));
         ui.setGame(setupGame(ui));
 
         ui.playGame();
 
-        assertTrue(output.toString().contains(CommandLineUi.GAME_OVER));
+        assertTrue(output.toString().contains(CommandLineUI.GAME_OVER));
     }
 
     @Test
     public void showsBoardAtTheEnd() {
-        Ui ui = new CommandLineUi(new CommandLine(inputStream("1\n4\n2\n5\n3"), output));
+        CommandLineUI ui = new CommandLineUI(new CommandLine(inputStream("1\n4\n2\n5\n3"), output));
         ui.setGame(setupGame(ui));
 
         ui.playGame();
@@ -196,7 +196,7 @@ public class CommandLineUiTest {
 
     @Test
     public void doesNotAnnounceWinnerWhenDrawn() {
-        Ui ui = new CommandLineUi(new CommandLine(inputStream("1\n2\n3\n5\n4\n6\n8\n7\n9"), output));
+        CommandLineUI ui = new CommandLineUI(new CommandLine(inputStream("1\n2\n3\n5\n4\n6\n8\n7\n9"), output));
         ui.setGame(setupGame(ui));
 
         ui.playGame();
@@ -206,17 +206,17 @@ public class CommandLineUiTest {
 
     @Test
     public void doesNotAnnounceDrawWhenWon() {
-        Ui ui = new CommandLineUi(new CommandLine(inputStream("1\n4\n2\n5\n3"), output));
+        CommandLineUI ui = new CommandLineUI(new CommandLine(inputStream("1\n4\n2\n5\n3"), output));
         ui.setGame(setupGame(ui));
 
         ui.playGame();
 
-        assertFalse(output.toString().contains(CommandLineUi.DRAW_STATUS));
+        assertFalse(output.toString().contains(CommandLineUI.DRAW_STATUS));
     }
 
     @Test
     public void alwaysHasHumanMove() {
-        Ui ui = setupUi("irrelevant");
+        CommandLineUI ui = setupUi("irrelevant");
 
         assertTrue(ui.hasHumanMove());
     }

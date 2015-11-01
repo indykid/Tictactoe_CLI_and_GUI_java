@@ -1,26 +1,16 @@
 package kg.jarkyn.doubles;
 
-import kg.jarkyn.Core.Game;
-import kg.jarkyn.Core.Ui;
+import kg.jarkyn.Core.HumanInput;
 
 import java.util.List;
 
-public class UiDouble implements Ui {
+public class InputDouble implements HumanInput {
     private int[] inputs;
     private int moveRequestCount;
 
-    public UiDouble(int[] inputs) {
+    public InputDouble(int[] inputs) {
         this.inputs = inputs;
         this.moveRequestCount = 0;
-    }
-
-    @Override
-    public int selectGame() {
-        return getInput();
-    }
-
-    @Override
-    public void announceGameOver() {
     }
 
     @Override
@@ -29,22 +19,8 @@ public class UiDouble implements Ui {
     }
 
     @Override
-    public void announceDraw() {
-    }
-
-    @Override
-    public void setGame(Game game) {
-
-    }
-
-    @Override
     public int getMove(List<Integer> available) {
         return getInput() - 1;
-    }
-
-    @Override
-    public void playGame() {
-
     }
 
     private int getInput() {

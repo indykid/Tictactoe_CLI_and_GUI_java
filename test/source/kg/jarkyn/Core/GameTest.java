@@ -1,6 +1,6 @@
 package kg.jarkyn.Core;
 
-import kg.jarkyn.doubles.UiDouble;
+import kg.jarkyn.doubles.InputDouble;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,15 +8,15 @@ import static kg.jarkyn.Core.Mark.*;
 import static org.junit.Assert.*;
 
 public class GameTest {
-    private Ui ui;
+    private HumanInput input;
 
     private Game setupGame() {
-        return new Game(new Board(), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui));
+        return new Game(new Board(), new HumanPlayer(Mark.X, input), new HumanPlayer(Mark.O, input));
     }
 
     @Before
     public void setup() {
-        ui = new UiDouble(new int[]{});
+        input = new InputDouble(new int[]{});
     }
 
     @Test
@@ -31,7 +31,7 @@ public class GameTest {
         Mark[] moves = {X, O, X,
                         X, X, O,
                         O, X, O};
-        Game game = new Game(new Board(moves), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui));
+        Game game = new Game(new Board(moves), new HumanPlayer(Mark.X, input), new HumanPlayer(Mark.O, input));
 
         assertTrue(game.isOver());
     }
@@ -42,7 +42,7 @@ public class GameTest {
                         X, X, O,
                         O, O, X};
         Game game;
-        game = new Game(new Board(moves), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui));
+        game = new Game(new Board(moves), new HumanPlayer(Mark.X, input), new HumanPlayer(Mark.O, input));
 
         assertTrue(game.isOver());
     }
@@ -59,15 +59,15 @@ public class GameTest {
         Mark[] moves = {X, O, X,
                         X, X, O,
                         O, O, X};
-        Game game = new Game(new Board(moves), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui));
+        Game game = new Game(new Board(moves), new HumanPlayer(Mark.X, input), new HumanPlayer(Mark.O, input));
 
         assertEquals(X, game.winnerMark());
     }
 
     @Test
     public void addsMoveToTheBoard() {
-        ui = new UiDouble(new int[]{1});
-        Game game = new Game(new Board(), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui));
+        input = new InputDouble(new int[]{1});
+        Game game = new Game(new Board(), new HumanPlayer(Mark.X, input), new HumanPlayer(Mark.O, input));
 
         game.playTurn();
 
@@ -76,8 +76,8 @@ public class GameTest {
 
     @Test
     public void swapsPlayers() {
-        ui = new UiDouble(new int[]{1, 2});
-        Game game = new Game(new Board(), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui));
+        input = new InputDouble(new int[]{1, 2});
+        Game game = new Game(new Board(), new HumanPlayer(Mark.X, input), new HumanPlayer(Mark.O, input));
 
         game.playTurn();
         game.playTurn();
@@ -88,7 +88,7 @@ public class GameTest {
     @Test
     public void doesNotPlayIfNoMove() {
         Player playerX = new HumanPlayerWithoutMoveStub(Mark.X);
-        Game game = new Game(new Board(), playerX, new HumanPlayer(Mark.O, ui));
+        Game game = new Game(new Board(), playerX, new HumanPlayer(Mark.O, input));
 
         game.play();
         Board board = game.getBoard();
@@ -98,7 +98,7 @@ public class GameTest {
 
     @Test
     public void playsTillWon() {
-        Ui ui = new UiDouble(new int[]{1, 4, 2, 5, 3});
+        HumanInput ui = new InputDouble(new int[]{1, 4, 2, 5, 3});
         Game game = new Game(new Board(), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui));
 
         game.play();
@@ -108,7 +108,7 @@ public class GameTest {
 
     @Test
     public void playsTillDrawn() {
-        Ui ui = new UiDouble(new int[]{1, 2, 3, 5, 4, 6, 8, 7, 9});
+        HumanInput ui = new InputDouble(new int[]{1, 2, 3, 5, 4, 6, 8, 7, 9});
         Game game = new Game(new Board(), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui));
 
         game.play();
