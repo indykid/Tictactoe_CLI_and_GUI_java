@@ -1,160 +1,127 @@
 package kg.jarkyn.GUI;
 
-import javafx.embed.swing.JFXPanel;
-import javafx.event.Event;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.input.MouseEvent;
 import kg.jarkyn.Core.*;
-import kg.jarkyn.GUI.JFXViewComponents.JFXGameOptionButton;
-import kg.jarkyn.GUI.JFXViewComponents.JFXCellWidget;
-import kg.jarkyn.GUI.JFXViewComponents.JFXGrid;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class GraphicalUITest {
 
-    private Scene scene;
     private GraphicalUI ui;
-    private JFXVisualiser visualiser;
+    private Visualiser visualiser;
 
     @Before
     public void setUp() throws Exception {
-        scene = new Scene(new JFXGrid());
-        visualiser = new JFXVisualiser(scene);
+        visualiser = new VisualiserDummy();
         ui = new GraphicalUI(visualiser);
-        setupJFXEnvironment();
     }
 
     @Test
-    public void listenersAreSetOnGameSelectionButtons() {
+    public void setsUpGame() {
+        ui.setupGame(GameOption.AI_FIRST);
+
+        assertNotNull(ui.getGame());
+    }
+
+    @Test
+    public void displaysGameSelector() {
+        VisualiserSpy visualiser = new VisualiserSpy();
+        ui = new GraphicalUI(visualiser);
+
         ui.displayGameSelector();
 
-        assertTrue(clickListenersAreSet(getChildren(scene)));
+        assertTrue(visualiser.gameSelectionDisplayed);
     }
 
     @Test
-    public void setsUpGameOnSelection() {
-        ui.displayGameSelector();
+    public void displaysBoard() {
+        VisualiserSpy visualiser = new VisualiserSpy();
+        ui = new GraphicalUI(visualiser);
+        ui.setGame(makeGame());
 
-        getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+        ui.displayBoard();
 
-        assertTrue(isGamePresent(ui));
+        assertTrue(visualiser.boardDisplayed);
     }
 
     @Test
-    public void setsUpGameAccordingToTheGameSelected() {
-        ui.displayGameSelector();
-        Node aiSecondButton = findButton(scene, GameOption.AI_SECOND);
+    public void humanTurnIsNotPlayedWhenNoHumanMove() {
+        ui.setGame(makeGame());
 
-        aiSecondButton.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+        ui.playGame();
 
-        assertTrue(getCurrentPlayer(ui) instanceof HumanPlayer);
+        assertTrue(boardIsEmpty());
     }
 
     @Test
-    public void aiPlaysFirstMoveWhenAiFirstGame() {
-        ui.displayGameSelector();
-        Node aiFirstButton = findButton(scene, GameOption.AI_FIRST);
-
-        aiFirstButton.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
-
-        assertEquals("X", ((JFXCellWidget) getFirstChild()).getText());
-    }
-
-    @Test
-    public void displaysBoardOnGameSelection() {
-        ui.displayGameSelector();
-
-        getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
-
-        assertEquals(9, getChildren(scene).size());
-    }
-
-    @Test
-    public void playsClickedPosition() {
-        Game game = GameMaker.makeGame(GameOption.HUMAN_ONLY, ui);
+    public void humanTurnIsPlayedWhenHumanMoveIsSet() {
+        Game game = makeGame();
         ui.setGame(game);
-        ui.displayBoard();
+        ui.setHumanMove(1);
 
-        getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+        ui.playGame();
 
-        assertEquals(Mark.X, game.getBoard().markAt(0));
+        assertEquals(Mark.X, game.getBoard().markAt(1));
     }
 
     @Test
-    public void drawsMarkToTheClickedCell() {
-        ui.setGame(GameMaker.makeGame(GameOption.HUMAN_ONLY, ui));
-        ui.displayBoard();
-
-        getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
-
-        assertEquals("X", ((JFXCellWidget) getFirstChild()).getText());
-    }
-
-    @Test
-    public void doesNotSetListenerIfCellIsPlayed() {
-        ui.setGame(GameMaker.makeGame(GameOption.HUMAN_ONLY, ui));
-        ui.displayBoard();
-
-        getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
-
-        assertNull(getFirstChild().onMouseClickedProperty().getValue());
-    }
-
-    @Test
-    public void nothingHappensWhenClickingIntoPlayedCell() {
-        Game game = GameMaker.makeGame(GameOption.HUMAN_ONLY, ui);
+    public void aiTurnIsPlayed() {
+        Game game = new Game(new Board(), new AiPlayer(Mark.X), new HumanPlayer(Mark.O, ui));
         ui.setGame(game);
-        ui.displayBoard();
 
-        getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
-        getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
+        ui.playGame();
 
-        assertEquals(Mark.X, game.getBoard().markAt(0));
+        assertFalse(boardIsEmpty());
     }
 
-    private void setupJFXEnvironment() {
-        new JFXPanel();
+    @Test
+    public void boardIsDisplayedAfterHumanMove() {
+        VisualiserSpy visualiser = new VisualiserSpy();
+        ui = new GraphicalUI(visualiser);
+        Game game = makeGame();
+        ui.setGame(game);
+        ui.setHumanMove(1);
+
+        ui.playGame();
+
+        assertEquals(1, visualiser.boardDisplayCounter);
     }
 
-    private boolean clickListenersAreSet(List<Node> elements) {
-        for (Node element : elements) {
-            if (element.getOnMouseClicked() == null) {
-                return false;
-            }
+    private boolean boardIsEmpty() {
+        return ui.getGame().getBoard().isEmpty();
+    }
+
+    private Game makeGame() {
+        return new Game(new Board(), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui));
+    }
+
+    private class VisualiserDummy implements Visualiser {
+
+        @Override
+        public void displayGameSelectionWidget(GameOptionListener listener) {
         }
-        return true;
-    }
 
-    private Player getCurrentPlayer(GraphicalUI ui) {
-        return ui.getGame().getCurrentPlayer();
-    }
-
-    private Node findButton(Scene scene, GameOption option) {
-        for (Node button : getChildren(scene)) {
-            if (((JFXGameOptionButton) button).getGameOption() == option) {
-                return button;
-            }
+        @Override
+        public void displayBoardWidget(Board board, PositionListener listener) {
         }
-        return null;
     }
 
-    private boolean isGamePresent(GraphicalUI ui) {
-        return ui.getGame() != null;
-    }
+    private class VisualiserSpy implements Visualiser {
 
-    private List<Node> getChildren(Scene scene) {
-        return scene.getRoot().getChildrenUnmodifiable();
-    }
+        public boolean gameSelectionDisplayed = false;
+        public boolean boardDisplayed = false;
+        public int boardDisplayCounter = 0;
 
-    private Node getFirstChild() {
-        return getChildren(scene).get(0);
+        @Override
+        public void displayGameSelectionWidget(GameOptionListener listener) {
+            gameSelectionDisplayed = true;
+        }
+
+        @Override
+        public void displayBoardWidget(Board board, PositionListener listener) {
+            boardDisplayCounter++;
+            boardDisplayed = true;
+        }
     }
 }

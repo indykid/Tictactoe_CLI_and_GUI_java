@@ -82,6 +82,23 @@ public class BoardTest {
     }
 
     @Test
+    public void knowsWhenEmpty() {
+        Board board = new Board();
+
+        assertTrue(board.isEmpty());
+    }
+
+    @Test
+    public void knowsWhenNotEmpty() {
+        Mark[] moves = {   X, NONE, NONE,
+                        NONE, NONE, NONE,
+                        NONE, NONE, NONE};
+        Board board = new Board(moves);
+
+        assertFalse(board.isEmpty());
+    }
+
+    @Test
     public void returnsWinningRow() {
         Mark[] moves = { X,    X,    X,
                         NONE,  O,    O,

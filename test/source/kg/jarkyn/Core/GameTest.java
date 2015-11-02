@@ -93,7 +93,7 @@ public class GameTest {
         game.play();
         Board board = game.getBoard();
 
-        assertEquals(board.getSize(), board.getAvailable().size());
+        assertTrue(board.isEmpty());
     }
 
     @Test

@@ -127,4 +127,8 @@ public class Board {
     public int getSize() {
         return dimension * dimension;
     }
+
+    public boolean isEmpty() {
+        return available.size() == getSize();
+    }
 }

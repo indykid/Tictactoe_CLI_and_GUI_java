@@ -28,11 +28,6 @@ public class GraphicalUI implements HumanInput {
         });
     }
 
-    private void setupGame(GameOption gameOption) {
-        game = GameMaker.makeGame(gameOption, this);
-
-    }
-
     public void displayBoard() {
         visualiser.displayBoardWidget(game.getBoard(), new PositionListener() {
             @Override
@@ -43,17 +38,9 @@ public class GraphicalUI implements HumanInput {
         });
     }
 
-    void setHumanMove(int position) {
-        humanMove = position;
-    }
-
     public void playGame() {
         game.play();
         displayBoard();
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
     }
 
     @Override
@@ -66,6 +53,18 @@ public class GraphicalUI implements HumanInput {
     @Override
     public boolean hasHumanMove() {
         return humanMove != NULL_MOVE;
+    }
+
+    void setHumanMove(int position) {
+        humanMove = position;
+    }
+
+    void setupGame(GameOption gameOption) {
+        game = GameMaker.makeGame(gameOption, this);
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 
     Game getGame() {

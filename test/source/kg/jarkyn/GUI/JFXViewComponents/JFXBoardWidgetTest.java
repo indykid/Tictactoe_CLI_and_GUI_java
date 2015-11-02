@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import static kg.jarkyn.Core.Mark.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class JFXBoardWidgetTest {
 
@@ -33,6 +34,17 @@ public class JFXBoardWidgetTest {
 
         String cellText = ((JFXCellWidget) widget.getChildren().get(0)).getText();
         assertEquals("X", cellText);
+    }
+
+    @Test
+    public void doesNotSetListenerIfCellIsPlayed() {
+        Mark[] moves = {   X, NONE, NONE,
+                        NONE, NONE, NONE,
+                        NONE, NONE, NONE};
+        Board board = new Board(moves);
+        JFXBoardWidget widget = new JFXBoardWidget(board, new PositionListenerDummy());
+
+        assertNull(widget.getChildren().get(0).getOnMouseClicked());
     }
 
     @Test
