@@ -5,19 +5,15 @@ import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import kg.jarkyn.Core.Board;
 import kg.jarkyn.Core.Mark;
-import kg.jarkyn.GUI.JFXViewComponents.JFXBoardWidget;
-import kg.jarkyn.GUI.JFXViewComponents.JFXCellWidget;
+import kg.jarkyn.GUI.PositionListener;
+import kg.jarkyn.doubles.PositionListenerDummy;
 import org.junit.Test;
 
 import static kg.jarkyn.Core.Mark.*;
 import static org.junit.Assert.assertEquals;
 
 public class JFXBoardWidgetTest {
-    class PositionListenerDummy implements JFXBoardWidget.PositionListener {
-        @Override
-        public void positionSelected(int position) {
-        }
-    }
+
     @Test
     public void hasAsManyChildElementsAsThePositionsOnTheGivenBoard() {
         Board board = new Board();
@@ -55,7 +51,7 @@ public class JFXBoardWidgetTest {
 
     }
 
-    private class PositionListenerSpy implements JFXBoardWidget.PositionListener {
+    private class PositionListenerSpy implements PositionListener {
         public int positionReceived = -1;
 
         @Override

@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.layout.GridPane;
 import kg.jarkyn.Core.Board;
 import kg.jarkyn.Core.Mark;
+import kg.jarkyn.GUI.PositionListener;
 
 public class JFXBoardWidget extends GridPane {
     public JFXBoardWidget(Board board, PositionListener listener) {
@@ -31,7 +32,4 @@ public class JFXBoardWidget extends GridPane {
         });
     }
 
-    public interface PositionListener {
-        void positionSelected(int position);
-    }
 }

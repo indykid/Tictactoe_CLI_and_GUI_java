@@ -37,7 +37,7 @@ public class GraphicalUI implements HumanInput {
         button.setOnMouseClicked(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
-                JFXGameOptionButton button = (JFXGameOptionButton) event.getSource();
+//                JFXGameOptionButton button = (JFXGameOptionButton) event.getSource();
                 setupGame(button);
                 playGame();
             }
