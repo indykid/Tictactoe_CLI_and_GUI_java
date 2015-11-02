@@ -10,11 +10,11 @@ import java.util.List;
 public class GraphicalUI implements HumanInput {
 
     private static final int NULL_MOVE = -1;
-    private JFXVisualiser visualiser;
+    private Visualiser visualiser;
     private Game game;
     private int humanMove = NULL_MOVE;
 
-    public GraphicalUI(JFXVisualiser visualiser) {
+    public GraphicalUI(Visualiser visualiser) {
         this.visualiser = visualiser;
     }
 
