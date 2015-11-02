@@ -22,17 +22,18 @@ public class GraphicalUITest {
 
     private Scene scene;
     private GraphicalUI ui;
+    private JFXVisualiser visualiser;
 
     @Before
     public void setUp() throws Exception {
         scene = new Scene(new JFXGrid());
-        ui = new GraphicalUI(scene);
+        visualiser = new JFXVisualiser(scene);
+        ui = new GraphicalUI(visualiser);
+        setupJFXEnvironment();
     }
 
     @Test
     public void listenersAreSetOnGameSelectionButtons() {
-        setupJFXEnvironment();
-
         ui.displayGameSelector();
 
         assertTrue(clickListenersAreSet(getChildren(scene)));
@@ -40,7 +41,6 @@ public class GraphicalUITest {
 
     @Test
     public void setsUpGameOnSelection() {
-        setupJFXEnvironment();
         ui.displayGameSelector();
 
         getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
@@ -50,7 +50,6 @@ public class GraphicalUITest {
 
     @Test
     public void setsUpGameAccordingToTheGameSelected() {
-        setupJFXEnvironment();
         ui.displayGameSelector();
         Node aiSecondButton = findButton(scene, GameOption.AI_SECOND);
 
@@ -61,7 +60,6 @@ public class GraphicalUITest {
 
     @Test
     public void aiPlaysFirstMoveWhenAiFirstGame() {
-        setupJFXEnvironment();
         ui.displayGameSelector();
         Node aiFirstButton = findButton(scene, GameOption.AI_FIRST);
 
@@ -72,7 +70,6 @@ public class GraphicalUITest {
 
     @Test
     public void displaysBoardOnGameSelection() {
-        setupJFXEnvironment();
         ui.displayGameSelector();
 
         getFirstChild().fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
@@ -82,7 +79,6 @@ public class GraphicalUITest {
 
     @Test
     public void playsClickedPosition() {
-        setupJFXEnvironment();
         Game game = GameMaker.makeGame(GameOption.HUMAN_ONLY, ui);
         ui.setGame(game);
         ui.displayBoard();
@@ -94,7 +90,6 @@ public class GraphicalUITest {
 
     @Test
     public void drawsMarkToTheClickedCell() {
-        setupJFXEnvironment();
         ui.setGame(GameMaker.makeGame(GameOption.HUMAN_ONLY, ui));
         ui.displayBoard();
 
@@ -105,7 +100,6 @@ public class GraphicalUITest {
 
     @Test
     public void doesNotSetListenerIfCellIsPlayed() {
-        setupJFXEnvironment();
         ui.setGame(GameMaker.makeGame(GameOption.HUMAN_ONLY, ui));
         ui.displayBoard();
 
@@ -116,7 +110,6 @@ public class GraphicalUITest {
 
     @Test
     public void nothingHappensWhenClickingIntoPlayedCell() {
-        setupJFXEnvironment();
         Game game = GameMaker.makeGame(GameOption.HUMAN_ONLY, ui);
         ui.setGame(game);
         ui.displayBoard();
@@ -133,7 +126,7 @@ public class GraphicalUITest {
 
     private boolean clickListenersAreSet(List<Node> elements) {
         for (Node element : elements) {
-            if (element.onMouseClickedProperty().getValue() == null) {
+            if (element.getOnMouseClicked() == null) {
                 return false;
             }
         }

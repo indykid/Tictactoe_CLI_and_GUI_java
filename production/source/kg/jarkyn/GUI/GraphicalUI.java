@@ -1,58 +1,46 @@
 package kg.jarkyn.GUI;
 
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import kg.jarkyn.Core.Game;
 import kg.jarkyn.Core.GameMaker;
+import kg.jarkyn.Core.GameOption;
 import kg.jarkyn.Core.HumanInput;
-import kg.jarkyn.GUI.JFXViewComponents.JFXGameOptionButton;
-import kg.jarkyn.GUI.JFXViewComponents.JFXBoardWidget;
-import kg.jarkyn.GUI.JFXViewComponents.JFXGameSelectionWidget;
 
 import java.util.List;
 
 public class GraphicalUI implements HumanInput {
 
     private static final int NULL_MOVE = -1;
-    private Scene scene;
+    private JFXVisualiser visualiser;
     private Game game;
     private int humanMove = NULL_MOVE;
 
-    public GraphicalUI(Scene scene) {
-        this.scene = scene;
+    public GraphicalUI(JFXVisualiser visualiser) {
+        this.visualiser = visualiser;
     }
 
     public void displayGameSelector() {
-        Pane pane = new JFXGameSelectionWidget();
-        for (Node button : pane.getChildren()) {
-            addGameSelectionListener((JFXGameOptionButton) button);
-        }
-        scene.setRoot(pane);
-    }
-
-    private void addGameSelectionListener(JFXGameOptionButton button) {
-        button.setOnMouseClicked(new EventHandler<Event>() {
+        visualiser.displayGameSelectionWidget(new GameOptionListener() {
             @Override
-            public void handle(Event event) {
-//                JFXGameOptionButton button = (JFXGameOptionButton) event.getSource();
-                setupGame(button);
+            public void gameOptionSelected(GameOption gameOption) {
+                setupGame(gameOption);
                 playGame();
             }
         });
     }
 
-    private void setupGame(JFXGameOptionButton button) {
-        game = GameMaker.makeGame(button.getGameOption(), this);
+    private void setupGame(GameOption gameOption) {
+        game = GameMaker.makeGame(gameOption, this);
+
     }
 
     public void displayBoard() {
-        scene.setRoot(new JFXBoardWidget(game.getBoard(), position -> {
-            setHumanMove(position);
-            playGame();
-        }));
+        visualiser.displayBoardWidget(game.getBoard(), new PositionListener() {
+            @Override
+            public void positionSelected(int position) {
+                setHumanMove(position);
+                playGame();
+            }
+        });
     }
 
     void setHumanMove(int position) {

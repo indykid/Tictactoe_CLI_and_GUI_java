@@ -1,7 +1,6 @@
 package kg.jarkyn.GUI.JFXViewComponents;
 
 import kg.jarkyn.Core.Mark;
-import kg.jarkyn.GUI.JFXViewComponents.JFXCellWidget;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 public class JFXBoardWidgetTest {
 
     @Test
-    public void hasAsManyChildElementsAsThePositionsOnTheGivenBoard() {
+    public void hasAsManyCellsAsThePositionsOnTheGivenBoard() {
         Board board = new Board();
         JFXBoardWidget widget = new JFXBoardWidget(board, new PositionListenerDummy());
 

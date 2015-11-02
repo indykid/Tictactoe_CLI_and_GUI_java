@@ -12,12 +12,8 @@ public class JFXVisualiser {
         this.scene = scene;
     }
 
-    public Scene getScene() {
-        return scene;
-    }
-
-    public void displayGameSelectionWidget() {
-        scene.setRoot(new JFXGameSelectionWidget());
+    public void displayGameSelectionWidget(GameOptionListener listener) {
+        scene.setRoot(new JFXGameSelectionWidget(listener));
     }
 
     public void displayBoardWidget(Board board, PositionListener listener) {

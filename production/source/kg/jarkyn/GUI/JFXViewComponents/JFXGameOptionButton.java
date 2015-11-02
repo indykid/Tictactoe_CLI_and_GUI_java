@@ -21,7 +21,6 @@ public class JFXGameOptionButton extends Button {
         setTextAlignment(TextAlignment.CENTER);
         setFont(Font.font(20));
         setMinSize(200, 200);
-
         setStyle("-fx-border-color: gray");
     }
 

@@ -7,6 +7,7 @@ import javafx.scene.layout.Pane;
 import kg.jarkyn.Core.Board;
 import kg.jarkyn.GUI.JFXViewComponents.JFXBoardWidget;
 import kg.jarkyn.GUI.JFXViewComponents.JFXGameSelectionWidget;
+import kg.jarkyn.doubles.GameOptionListenerDummy;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -27,22 +28,22 @@ public class JFXVisualiserTest {
     public void showsBoardWidget() {
         visualiser.displayBoardWidget(new Board(), null);
 
-        assertTrue(visiblePartOf(scene) instanceof JFXBoardWidget);
+        assertTrue(visibleNodeOf(scene) instanceof JFXBoardWidget);
     }
 
     @Test
     public void showsGameSelector() {
         setupJFXEnvironment();
-        visualiser.displayGameSelectionWidget();
+        visualiser.displayGameSelectionWidget(new GameOptionListenerDummy());
 
-        assertTrue(visiblePartOf(scene) instanceof JFXGameSelectionWidget);
+        assertTrue(visibleNodeOf(scene) instanceof JFXGameSelectionWidget);
     }
 
     private JFXPanel setupJFXEnvironment() {
         return new JFXPanel();
     }
 
-    private Parent visiblePartOf(Scene scene) {
+    private Parent visibleNodeOf(Scene scene) {
         return scene.getRoot();
     }
 }

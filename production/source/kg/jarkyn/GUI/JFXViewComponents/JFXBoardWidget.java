@@ -2,12 +2,11 @@ package kg.jarkyn.GUI.JFXViewComponents;
 
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.scene.layout.GridPane;
 import kg.jarkyn.Core.Board;
 import kg.jarkyn.Core.Mark;
 import kg.jarkyn.GUI.PositionListener;
 
-public class JFXBoardWidget extends GridPane {
+public class JFXBoardWidget extends JFXGrid {
     public JFXBoardWidget(Board board, PositionListener listener) {
         int position = 0;
         for (int y = 0; y < board.getDimension(); y++) {
