@@ -1,51 +1,48 @@
 package kg.jarkyn.GUI;
 
-import javafx.scene.Node;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import kg.jarkyn.Core.Board;
 import kg.jarkyn.GUI.JFXViewComponents.JFXBoardWidget;
-import kg.jarkyn.doubles.PositionListenerDummy;
+import kg.jarkyn.GUI.JFXViewComponents.JFXGameSelectionWidget;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
 public class JFXVisualiserTest {
-    @Test
-    public void makesBoardWidget() {
-        JFXVisualiser visualiser = new JFXVisualiser(new Scene(new Pane()));
 
-        assertTrue(visualiser.makeBoardWidget(new Board(), null) instanceof JFXBoardWidget);
-    }
+    private Scene scene;
+    private JFXVisualiser visualiser;
 
-    @Test
-    public void assignsPositionListenersToCells() {
-        JFXVisualiser visualiser = new JFXVisualiser(new Scene(new Pane()));
-
-        JFXBoardWidget boardWidget = visualiser.makeBoardWidget(new Board(), new PositionListenerDummy());
-
-        assertTrue(clickListenersAreSet(boardWidget));
+    @Before
+    public void setUp() throws Exception {
+        scene = new Scene(new Pane());
+        visualiser = new JFXVisualiser(scene);
     }
 
     @Test
     public void showsBoardWidget() {
-        JFXVisualiser visualiser = new JFXVisualiser(new Scene(new Pane()));
-
         visualiser.displayBoardWidget(new Board(), null);
 
-        assertTrue(boardIsVisible(visualiser));
+        assertTrue(visiblePartOf(scene) instanceof JFXBoardWidget);
     }
 
-    private boolean clickListenersAreSet(JFXBoardWidget boardWidget) {
-        for (Node cell : boardWidget.getChildren()) {
-            if (cell.onMouseClickedProperty().getValue() == null) {
-                return false;
-            }
-        }
-        return true;
+    @Test
+    public void showsGameSelector() {
+        setupJFXEnvironment();
+        visualiser.displayGameSelectionWidget();
+
+        assertTrue(visiblePartOf(scene) instanceof JFXGameSelectionWidget);
     }
 
-    private boolean boardIsVisible(JFXVisualiser visualiser) {
-        return visualiser.getScene().getRoot() instanceof JFXBoardWidget;
+    private JFXPanel setupJFXEnvironment() {
+        return new JFXPanel();
+    }
+
+    private Parent visiblePartOf(Scene scene) {
+        return scene.getRoot();
     }
 }
