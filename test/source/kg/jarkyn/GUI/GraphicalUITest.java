@@ -38,7 +38,7 @@ public class GraphicalUITest {
     public void displaysBoard() {
         VisualiserSpy visualiser = new VisualiserSpy();
         ui = new GraphicalUI(visualiser);
-        ui.setGame(makeGame());
+        ui.setGame(makeHumanPlayersGame());
 
         ui.displayBoard();
 
@@ -47,7 +47,7 @@ public class GraphicalUITest {
 
     @Test
     public void humanTurnIsNotPlayedWhenNoHumanMove() {
-        ui.setGame(makeGame());
+        ui.setGame(makeHumanPlayersGame());
 
         ui.playGame();
 
@@ -56,7 +56,7 @@ public class GraphicalUITest {
 
     @Test
     public void humanTurnIsPlayedWhenHumanMoveIsSet() {
-        Game game = makeGame();
+        Game game = makeHumanPlayersGame();
         ui.setGame(game);
         ui.setHumanMove(1);
 
@@ -79,8 +79,7 @@ public class GraphicalUITest {
     public void boardIsDisplayedAfterHumanMove() {
         VisualiserSpy visualiser = new VisualiserSpy();
         ui = new GraphicalUI(visualiser);
-        Game game = makeGame();
-        ui.setGame(game);
+        ui.setGame(makeHumanPlayersGame());
         ui.setHumanMove(1);
 
         ui.playGame();
@@ -92,7 +91,7 @@ public class GraphicalUITest {
         return ui.getGame().getBoard().isEmpty();
     }
 
-    private Game makeGame() {
+    private Game makeHumanPlayersGame() {
         return new Game(new Board(), new HumanPlayer(Mark.X, ui), new HumanPlayer(Mark.O, ui));
     }
 

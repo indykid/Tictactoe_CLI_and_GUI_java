@@ -3,12 +3,11 @@ package kg.jarkyn.GUI.JFXViewComponents;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.Event;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import kg.jarkyn.Core.GameOption;
-import kg.jarkyn.GUI.GameOptionListener;
 import kg.jarkyn.doubles.GameOptionListenerDummy;
+import kg.jarkyn.doubles.GameOptionListenerSpy;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,13 +32,6 @@ public class JFXGameSelectionWidgetTest {
     }
 
     @Test
-    public void buttonsHaveCorrectDescription() {
-        Button aiFirstButton = (Button) getFirstButton();
-
-        assertEquals(GameOption.AI_FIRST.readableOption(), aiFirstButton.getText());
-    }
-
-    @Test
     public void setsClickListenersOnButtons() {
         assertTrue(clickListenersAreSet());
     }
@@ -55,21 +47,12 @@ public class JFXGameSelectionWidgetTest {
         assertEquals(GameOption.AI_FIRST, spy.gameOptionReceived);
     }
 
-    private class GameOptionListenerSpy implements GameOptionListener {
-        public GameOption gameOptionReceived;
-
-        @Override
-        public void gameOptionSelected(GameOption gameOption) {
-            gameOptionReceived = gameOption;
-        }
+    private void setupJFXEnvironment() {
+        new JFXPanel();
     }
 
     private void click(Node node) {
         node.fireEvent(new Event(MouseEvent.MOUSE_CLICKED));
-    }
-
-    private void setupJFXEnvironment() {
-        new JFXPanel();
     }
 
     private boolean clickListenersAreSet() {

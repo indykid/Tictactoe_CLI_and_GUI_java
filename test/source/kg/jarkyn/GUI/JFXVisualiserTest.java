@@ -25,18 +25,18 @@ public class JFXVisualiserTest {
     }
 
     @Test
-    public void showsBoardWidget() {
-        visualiser.displayBoardWidget(new Board(), null);
-
-        assertTrue(visibleNodeOf(scene) instanceof JFXBoardWidget);
-    }
-
-    @Test
     public void showsGameSelector() {
         setupJFXEnvironment();
         visualiser.displayGameSelectionWidget(new GameOptionListenerDummy());
 
         assertTrue(visibleNodeOf(scene) instanceof JFXGameSelectionWidget);
+    }
+
+    @Test
+    public void showsBoardWidget() {
+        visualiser.displayBoardWidget(new Board(), null);
+
+        assertTrue(visibleNodeOf(scene) instanceof JFXBoardWidget);
     }
 
     private JFXPanel setupJFXEnvironment() {
