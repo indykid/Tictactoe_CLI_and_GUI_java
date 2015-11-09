@@ -25,7 +25,7 @@ public class JFXVisualiserTest {
     }
 
     @Test
-    public void showsGameSelector() {
+    public void displaysGameSelector() {
         setupJFXEnvironment();
         visualiser.displayGameSelectionWidget(new GameOptionListenerDummy());
 
@@ -33,7 +33,7 @@ public class JFXVisualiserTest {
     }
 
     @Test
-    public void showsBoardWidget() {
+    public void displaysBoard() {
         visualiser.displayBoardWidget(new Board(), null);
 
         assertTrue(visibleNodeOf(scene) instanceof JFXBoardWidget);

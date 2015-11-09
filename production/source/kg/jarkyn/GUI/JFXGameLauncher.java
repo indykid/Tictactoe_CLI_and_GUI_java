@@ -17,10 +17,14 @@ public class JFXGameLauncher extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        setScene();
-        setupStage(primaryStage);
+        setupJFXWindow(primaryStage);
         addGameSelector();
         show();
+    }
+
+    private void setupJFXWindow(Stage primaryStage) {
+        setScene();
+        setupStage(primaryStage);
     }
 
     private void setScene() {
