@@ -24,19 +24,6 @@ public class JFXBoardWidgetTest {
     }
 
     @Test
-    public void drawsMarksOnBoard() {
-        Mark[] moves = {   X, NONE, NONE,
-                        NONE, NONE, NONE,
-                        NONE, NONE, NONE};
-        Board board = new Board(moves);
-
-        JFXBoardWidget widget = new JFXBoardWidget(board, new PositionListenerDummy());
-
-        String cellText = ((JFXCellWidget) widget.getChildren().get(0)).getText();
-        assertEquals("X", cellText);
-    }
-
-    @Test
     public void doesNotSetListenerIfCellIsPlayed() {
         Mark[] moves = {   X, NONE, NONE,
                         NONE, NONE, NONE,

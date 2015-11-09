@@ -26,5 +26,4 @@ public class JFXCellWidgetTest {
 
         assertEquals(1, cell.getChildren().size());
     }
-
 }
