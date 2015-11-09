@@ -17,6 +17,7 @@ public class SwingGameOptionButton extends JButton {
         setText(gameOption.readableOption());
 
 //        setFont(new Font("Arial", Font.PLAIN, 20));// to set font size
+        setPreferredSize(new Dimension(200, 200));
         setMinimumSize(new Dimension(200, 200));
         // set background colour and font colour
     }

@@ -4,12 +4,19 @@ import kg.jarkyn.Core.GameOption;
 import kg.jarkyn.GUI.GameOptionListener;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SwingGameSelectionWidget extends JPanel {
     public SwingGameSelectionWidget(GameOptionListener listener) {
+        super(new GridLayout(0, GameOption.values().length));
         setupButtons(listener);
+        style();
+    }
+
+    private void style() {
+        setMinimumSize(new Dimension(600, 200));
     }
 
     private void setupButtons(GameOptionListener listener) {
