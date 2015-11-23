@@ -1,20 +1,25 @@
+apply plugin: 'java'
 
-task compileJFX(type: Exec) {
-  println "Compiling JFX"
-  commandLine 'javac', '-d', 'bin', '-sourcepath', 'production/source', 'production/source/kg/jarkyn/GUI/JFXGameLauncher.java'
+sourceSets {
+  main {
+    java {
+      srcDir 'production/source'
+    }
+  }
 }
 
-task jfx(dependsOn: "compileJFX", type: Exec) {
-  println "Running JFX"
-  commandLine 'java', '-cp', 'bin', 'kg.jarkyn.GUI.JFXGameLauncher'
+task(cli, type: JavaExec) {
+  main = 'kg.jarkyn.CLI.CommandLineUI'
+  classpath = sourceSets.main.runtimeClasspath
+  standardInput = System.in
 }
 
-task compileSwing(type: Exec) {
-  println "Compiling Swing"
-  commandLine 'javac', '-d', 'bin', '-sourcepath', 'production/source', 'production/source/kg/jarkyn/GUI/SwingGameLauncher.java'
+task(jfx, type: JavaExec) {
+  main = 'kg.jarkyn.GUI.JFXGameLauncher'
+  classpath = sourceSets.main.runtimeClasspath
 }
 
-task swing(dependsOn: "compileSwing", type: Exec) {
-  println "Running Swing"
-  commandLine 'java', '-cp', 'bin', 'kg.jarkyn.GUI.SwingGameLauncher'
+task(swing, type: JavaExec) {
+  main = 'kg.jarkyn.GUI.SwingGameLauncher'
+  classpath = sourceSets.main.runtimeClasspath
 }
