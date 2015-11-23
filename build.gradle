@@ -1,0 +1,20 @@
+
+task compileJFX(type: Exec) {
+  println "Compiling JFX"
+  commandLine 'javac', '-d', 'bin', '-sourcepath', 'production/source', 'production/source/kg/jarkyn/GUI/JFXGameLauncher.java'
+}
+
+task jfx(dependsOn: "compileJFX", type: Exec) {
+  println "Running JFX"
+  commandLine 'java', '-cp', 'bin', 'kg.jarkyn.GUI.JFXGameLauncher'
+}
+
+task compileSwing(type: Exec) {
+  println "Compiling Swing"
+  commandLine 'javac', '-d', 'bin', '-sourcepath', 'production/source', 'production/source/kg/jarkyn/GUI/SwingGameLauncher.java'
+}
+
+task swing(dependsOn: "compileSwing", type: Exec) {
+  println "Running Swing"
+  commandLine 'java', '-cp', 'bin', 'kg.jarkyn.GUI.SwingGameLauncher'
+}
