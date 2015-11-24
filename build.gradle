@@ -15,24 +15,28 @@ sourceSets {
 
 repositories {
   mavenCentral()
+  flatDir {
+    dirs 'libs'
+  }
 }
 
 dependencies {
   testCompile group: 'junit', name: 'junit', version: '4.11'
+  compile name: 'TictactoeCore'
 }
 
 task(cli, type: JavaExec) {
-  main = 'kg.jarkyn.CLI.CommandLineUI'
+  main = 'kg.ui.CLI.CommandLineUI'
   classpath = sourceSets.main.runtimeClasspath
   standardInput = System.in
 }
 
 task(jfx, type: JavaExec) {
-  main = 'kg.jarkyn.GUI.JFXGameLauncher'
+  main = 'kg.ui.GUI.JFXGameLauncher'
   classpath = sourceSets.main.runtimeClasspath
 }
 
 task(swing, type: JavaExec) {
-  main = 'kg.jarkyn.GUI.SwingGameLauncher'
+  main = 'kg.ui.GUI.SwingGameLauncher'
   classpath = sourceSets.main.runtimeClasspath
 }
