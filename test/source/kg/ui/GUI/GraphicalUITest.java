@@ -1,7 +1,5 @@
 package kg.ui.GUI;
 
-//import TictactoeCore.*;
-
 import kg.jarkyn.*;
 import org.junit.Before;
 import org.junit.Test;

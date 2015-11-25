@@ -1,6 +1,9 @@
 package kg.ui.GUI;
 
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -29,6 +32,7 @@ public class JFXGameLauncher extends Application{
 
     private void setScene() {
         scene = new Scene(new JFXGrid(), Color.BLACK);
+        addSceneChangeListener();
     }
 
     private void setupStage(Stage primaryStage) {
@@ -48,5 +52,17 @@ public class JFXGameLauncher extends Application{
 
     private void show() {
         stage.show();
+    }
+
+    private void addSceneChangeListener() {
+        scene.rootProperty().addListener(new ChangeListener<Parent>() {
+            @Override
+            public void changed(ObservableValue<? extends Parent> observable, Parent oldValue, Parent newValue) {
+                if (oldValue != newValue) {
+                    stage.sizeToScene();
+                }
+
+            }
+        });
     }
 }
