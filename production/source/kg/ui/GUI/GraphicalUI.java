@@ -19,13 +19,7 @@ public class GraphicalUI implements HumanInput {
     }
 
     public void displayGameSelector() {
-        visualiser.displayGameSelectionWidget(new GameOptionListener() {
-            @Override
-            public void gameOptionSelected(GameOption gameOption) {
-                setupGame(gameOption);
-                playGame();
-            }
-        });
+        visualiser.displayGameSelectionWidget(this);
     }
 
     public void displayBoard() {
@@ -59,7 +53,7 @@ public class GraphicalUI implements HumanInput {
         humanMove = position;
     }
 
-    void setupGame(GameOption gameOption) {
+    public void setupGame(GameOption gameOption) {
         game = GameMaker.makeGame(gameOption, this);
     }
 

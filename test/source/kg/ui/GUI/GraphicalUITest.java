@@ -102,6 +102,10 @@ public class GraphicalUITest {
         }
 
         @Override
+        public void displayGameSelectionWidget(GraphicalUI ui) {
+        }
+
+        @Override
         public void displayBoardWidget(Board board, PositionListener listener) {
         }
     }
@@ -114,6 +118,10 @@ public class GraphicalUITest {
 
         @Override
         public void displayGameSelectionWidget(GameOptionListener listener) {
+        }
+
+        @Override
+        public void displayGameSelectionWidget(GraphicalUI ui) {
             gameSelectionDisplayed = true;
         }
 

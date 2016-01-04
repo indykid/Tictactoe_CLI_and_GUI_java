@@ -5,9 +5,12 @@ import javafx.event.Event;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import kg.jarkyn.Board;
 import kg.jarkyn.GameOption;
-import kg.ui.doubles.GameOptionListenerDummy;
-import kg.ui.doubles.GameOptionListenerSpy;
+import kg.ui.GUI.GameOptionListener;
+import kg.ui.GUI.GraphicalUI;
+import kg.ui.GUI.PositionListener;
+import kg.ui.GUI.Visualiser;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,11 +20,13 @@ import static org.junit.Assert.assertTrue;
 public class JFXGameSelectionWidgetTest {
 
     private Pane gameSelectionWidget;
+    private GraphicalUISpy ui;
 
     @Before
     public void setUp() throws Exception {
         setupJFXEnvironment();
-        gameSelectionWidget = new JFXGameSelectionWidget(new GameOptionListenerDummy());
+        ui = new GraphicalUISpy();
+        gameSelectionWidget = new JFXGameSelectionWidget(ui);
     }
 
     @Test
@@ -38,13 +43,12 @@ public class JFXGameSelectionWidgetTest {
 
     @Test
     public void sendsGameOptionToListener() {
-        GameOptionListenerSpy spy = new GameOptionListenerSpy();
-        gameSelectionWidget = new JFXGameSelectionWidget(spy);
+        gameSelectionWidget = new JFXGameSelectionWidget(ui);
         Node aiFirstButton = getFirstButton();
 
         click(aiFirstButton);
 
-        assertEquals(GameOption.AI_FIRST, spy.gameOptionReceived);
+        assertEquals(GameOption.AI_FIRST, ui.gameOptionReceived);
     }
 
     private void setupJFXEnvironment() {
@@ -66,5 +70,33 @@ public class JFXGameSelectionWidgetTest {
 
     private Node getFirstButton() {
         return gameSelectionWidget.getChildren().get(0);
+    }
+
+    private class GraphicalUISpy extends GraphicalUI {
+        private GameOption gameOptionReceived;
+
+        public GraphicalUISpy() {
+            super(new VisualiserDummy());
+        }
+
+        @Override
+        public void setupGame(GameOption gameOption) {
+            super.setupGame(gameOption);
+            gameOptionReceived = gameOption;
+        }
+    }
+
+    private static class VisualiserDummy implements Visualiser {
+        @Override
+        public void displayGameSelectionWidget(GameOptionListener listener) {
+        }
+
+        @Override
+        public void displayGameSelectionWidget(GraphicalUI ui) {
+        }
+
+        @Override
+        public void displayBoardWidget(Board board, PositionListener listener) {
+        }
     }
 }

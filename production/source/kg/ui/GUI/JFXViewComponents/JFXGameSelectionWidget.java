@@ -4,10 +4,11 @@ import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import kg.jarkyn.GameOption;
-import kg.ui.GUI.GameOptionListener;
+import kg.ui.GUI.GraphicalUI;
 
 public class JFXGameSelectionWidget extends JFXGrid {
-    public JFXGameSelectionWidget(GameOptionListener listener) {
+
+    public JFXGameSelectionWidget(GraphicalUI ui) {
 
         setPrefSize(600, 600);
 
@@ -17,17 +18,19 @@ public class JFXGameSelectionWidget extends JFXGrid {
         int row = 0;
         for (GameOption gameOption : GameOption.values()) {
             JFXGameOptionButton button = new JFXGameOptionButton(gameOption);
-            addGameOptionListener(listener, button);
+            addGameOptionListener(button, ui);
             add(button, column, row);
             column++;
         }
+
     }
 
-    private void addGameOptionListener(GameOptionListener listener, JFXGameOptionButton button) {
+    private void addGameOptionListener(JFXGameOptionButton button, GraphicalUI ui) {
         button.setOnMouseClicked(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
-                listener.gameOptionSelected(button.getGameOption());
+                ui.setupGame(button.getGameOption());
+                ui.playGame();
             }
         });
     }
