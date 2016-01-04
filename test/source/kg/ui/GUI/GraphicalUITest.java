@@ -1,7 +1,5 @@
 package kg.ui.GUI;
 
-//import TictactoeCore.*;
-
 import kg.jarkyn.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -104,6 +102,10 @@ public class GraphicalUITest {
         }
 
         @Override
+        public void displayGameSelectionWidget(GraphicalUI ui) {
+        }
+
+        @Override
         public void displayBoardWidget(Board board, PositionListener listener) {
         }
     }
@@ -116,6 +118,10 @@ public class GraphicalUITest {
 
         @Override
         public void displayGameSelectionWidget(GameOptionListener listener) {
+        }
+
+        @Override
+        public void displayGameSelectionWidget(GraphicalUI ui) {
             gameSelectionDisplayed = true;
         }
 

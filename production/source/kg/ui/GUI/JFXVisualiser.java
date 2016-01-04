@@ -14,7 +14,10 @@ public class JFXVisualiser implements Visualiser {
 
     @Override
     public void displayGameSelectionWidget(GameOptionListener listener) {
-        scene.setRoot(new JFXGameSelectionWidget(listener));
+    }
+
+    public void displayGameSelectionWidget(GraphicalUI ui) {
+        scene.setRoot(new JFXGameSelectionWidget(ui));
     }
 
     @Override

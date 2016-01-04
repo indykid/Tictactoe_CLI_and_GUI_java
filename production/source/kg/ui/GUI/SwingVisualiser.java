@@ -28,6 +28,11 @@ public class SwingVisualiser implements Visualiser {
     }
 
     @Override
+    public void displayGameSelectionWidget(GraphicalUI ui) {
+
+    }
+
+    @Override
     public void displayBoardWidget(Board board, PositionListener listener) {
         frame.setContentPane(new SwingBoardWidget(board, listener));
         frame.pack();
