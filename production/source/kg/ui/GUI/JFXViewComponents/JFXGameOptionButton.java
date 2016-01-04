@@ -11,6 +11,7 @@ public class JFXGameOptionButton extends Button {
 
     public JFXGameOptionButton(GameOption gameOption) {
         this.gameOption = gameOption;
+        setId(gameOption.toString());
         style();
     }
 

@@ -23,7 +23,7 @@ public class JFXGameSelectionWidget extends JFXGrid {
         }
     }
 
-    private void addGameOptionListener(final GameOptionListener listener, JFXGameOptionButton button) {
+    private void addGameOptionListener(GameOptionListener listener, JFXGameOptionButton button) {
         button.setOnMouseClicked(new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
