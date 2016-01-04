@@ -12,6 +12,7 @@ public class JFXCellWidget extends StackPane {
 
     public JFXCellWidget(int position, Mark mark) {
         this.position = position;
+        this.setId(String.valueOf(position));
         style();
         setupText(mark);
     }
